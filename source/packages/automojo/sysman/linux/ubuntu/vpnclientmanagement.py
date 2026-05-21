@@ -17,6 +17,7 @@
 
 import json
 import os
+import re
 
 from dataclasses import dataclass
 from typing import Dict, List, Optional
@@ -27,7 +28,6 @@ from automojo.interfaces.icommandrunner import ICommandRunner, RunResult
 from automojo.sysman.common.vpnactionresult import VPNActionResult
 from automojo.sysman.common.vpnactionstatus import VPNActionStatus
 from automojo.sysman.common.vpnclientmanagementbase import (
-    VERB_KIND_READ,
     VERB_KIND_WRITE,
     VPNClientManagementBase,
 )
@@ -46,11 +46,30 @@ UbuntuVPNClientQueryError = VPNClientQueryError
 _TAILSCALE_PKG = "tailscale"
 _TWINGATE_PKG = "twingate-connector"
 
+# The Twingate Connector deb ships a systemd unit whose name happens to
+# match the package name.  It is named explicitly here (rather than
+# reusing ``_TWINGATE_PKG`` directly at the call sites) so the
+# package-to-unit coupling is a documented, single-point decision.
+_TWINGATE_SYSTEMD_UNIT = "twingate-connector"
+
+# Permitted shapes for values that get interpolated into repo URLs and
+# apt argv tokens.  These are deliberately strict allow-lists: a value
+# that does not match is rejected outright rather than quoted, because
+# no legitimate channel / codename / version contains anything outside
+# this set.
+_CHANNEL_RE = re.compile(r"\A[A-Za-z0-9._-]+\Z")
+_CODENAME_RE = re.compile(r"\A[A-Za-z0-9._-]+\Z")
+_VERSION_RE = re.compile(r"\A[A-Za-z0-9.:+~_-]+\Z")
+
 _DEFAULT_TAILSCALE_CHANNEL = "stable"
 _DEFAULT_KEYRING_PATH = "/usr/share/keyrings/tailscale-archive-keyring.gpg"
 _DEFAULT_SOURCES_PATH = "/etc/apt/sources.list.d/tailscale.list"
 _DEFAULT_TWINGATE_SOURCES_PATH = "/etc/apt/sources.list.d/twingate.list"
 _DEFAULT_TWINGATE_CONFIG_PATH = "/etc/twingate/connector.conf"
+_DEFAULT_TWINGATE_KEYRING_PATH = (
+    "/usr/share/keyrings/twingate-archive-keyring.gpg"
+)
+_TWINGATE_KEYRING_URL = "https://packages.twingate.com/apt/gpg.key"
 
 
 @dataclass
@@ -82,6 +101,7 @@ class UbuntuVPNClientManagerConfig(VPNClientManagerConfig):
     sources_path: str = _DEFAULT_SOURCES_PATH
     twingate_sources_path: str = _DEFAULT_TWINGATE_SOURCES_PATH
     twingate_config_path: str = _DEFAULT_TWINGATE_CONFIG_PATH
+    twingate_keyring_path: str = _DEFAULT_TWINGATE_KEYRING_PATH
     ubuntu_codename: str = "jammy"
 
 
@@ -141,6 +161,7 @@ class UbuntuVPNClientManager(VPNClientManagementBase):
             :returns: The :class:`UbuntuVPNActionResult`.
         """
         if version is not None and len(version) > 0:
+            _validate_token(name="version", value=version, pattern=_VERSION_RE)
             install_arg = "{}={}".format(_TAILSCALE_PKG, version)
         else:
             install_arg = _TAILSCALE_PKG
@@ -207,6 +228,7 @@ class UbuntuVPNClientManager(VPNClientManagementBase):
             :returns: The :class:`UbuntuVPNActionResult`.
         """
         if version is not None and len(version) > 0:
+            _validate_token(name="version", value=version, pattern=_VERSION_RE)
             install_arg = "{}={}".format(_TWINGATE_PKG, version)
         else:
             install_arg = _TWINGATE_PKG
@@ -390,7 +412,7 @@ class UbuntuVPNClientManager(VPNClientManagementBase):
                 exit_node=exit_node,
             )
         else:
-            command = ["systemctl", "enable", "--now", _TWINGATE_PKG]
+            command = ["systemctl", "enable", "--now", _TWINGATE_SYSTEMD_UNIT]
 
         dry = self._short_circuit_dry_run(
             provider=provider,
@@ -449,7 +471,7 @@ class UbuntuVPNClientManager(VPNClientManagementBase):
         if provider == VPNProvider.TAILSCALE:
             command = ["tailscale", "down"]
         else:
-            command = ["systemctl", "stop", _TWINGATE_PKG]
+            command = ["systemctl", "stop", _TWINGATE_SYSTEMD_UNIT]
 
         dry = self._short_circuit_dry_run(
             provider=provider,
@@ -747,6 +769,12 @@ class UbuntuVPNClientManager(VPNClientManagementBase):
         keyring_path = self._ubuntu_config.keyring_path
         sources_path = self._ubuntu_config.sources_path
 
+        # Reject any channel / codename carrying shell-metacharacters or
+        # URL-altering characters before they reach a repo URL.  This
+        # closes the former ``bash -c`` injection vector at the source.
+        _validate_token(name="channel", value=channel, pattern=_CHANNEL_RE)
+        _validate_token(name="codename", value=codename, pattern=_CODENAME_RE)
+
         run_elevated = self._should_elevate(kind=VERB_KIND_WRITE)
 
         keyring_url = (
@@ -754,21 +782,38 @@ class UbuntuVPNClientManager(VPNClientManagementBase):
                 channel, codename,
             )
         )
-        keyring_command = [
-            "bash", "-c",
-            "curl -fsSL {url} | tee {path} > /dev/null".format(
-                url=keyring_url, path=keyring_path,
-            ),
-        ]
+        # The keyring is fetched and written without a shell: curl
+        # emits the key bytes on stdout, which are piped as stdin into
+        # a plain ``tee`` argv.  No ``bash -c``, no interpolated
+        # command string.
+        curl_command = ["curl", "-fsSL", keyring_url]
+        curl_result: RunResult = self._runner.run(
+            list(curl_command),
+            elevated=run_elevated,
+        )
+        if curl_result.exit_code != 0:
+            rtnval = UbuntuVPNActionResult(
+                status=VPNActionStatus.FAILED,
+                provider=VPNProvider.TAILSCALE,
+                detail="tailscale keyring fetch failed",
+                exit_code=curl_result.exit_code,
+                stdout=curl_result.stdout,
+                stderr=curl_result.stderr,
+                command=curl_command,
+            )
+            return rtnval
+
+        keyring_command = ["tee", keyring_path]
         keyring_result: RunResult = self._runner.run(
             list(keyring_command),
             elevated=run_elevated,
+            stdin=curl_result.stdout or "",
         )
         if keyring_result.exit_code != 0:
             rtnval = UbuntuVPNActionResult(
                 status=VPNActionStatus.FAILED,
                 provider=VPNProvider.TAILSCALE,
-                detail="tailscale keyring fetch failed",
+                detail="tailscale keyring write failed",
                 exit_code=keyring_result.exit_code,
                 stdout=keyring_result.stdout,
                 stderr=keyring_result.stderr,
@@ -845,11 +890,51 @@ class UbuntuVPNClientManager(VPNClientManagementBase):
                       cumulative outcome.
         """
         sources_path = self._ubuntu_config.twingate_sources_path
+        keyring_path = self._ubuntu_config.twingate_keyring_path
         run_elevated = self._should_elevate(kind=VERB_KIND_WRITE)
 
-        sources_line = (
-            "deb [trusted=yes] https://packages.twingate.com/apt/ /"
+        # Fetch and install the Twingate signing key so the apt source
+        # can use ``signed-by`` instead of disabling verification with
+        # ``[trusted=yes]`` (the former MITM / unsigned-package risk).
+        curl_command = ["curl", "-fsSL", _TWINGATE_KEYRING_URL]
+        curl_result: RunResult = self._runner.run(
+            list(curl_command),
+            elevated=run_elevated,
         )
+        if curl_result.exit_code != 0:
+            rtnval = UbuntuVPNActionResult(
+                status=VPNActionStatus.FAILED,
+                provider=VPNProvider.TWINGATE,
+                detail="twingate keyring fetch failed",
+                exit_code=curl_result.exit_code,
+                stdout=curl_result.stdout,
+                stderr=curl_result.stderr,
+                command=curl_command,
+            )
+            return rtnval
+
+        keyring_command = ["tee", keyring_path]
+        keyring_result: RunResult = self._runner.run(
+            list(keyring_command),
+            elevated=run_elevated,
+            stdin=curl_result.stdout or "",
+        )
+        if keyring_result.exit_code != 0:
+            rtnval = UbuntuVPNActionResult(
+                status=VPNActionStatus.FAILED,
+                provider=VPNProvider.TWINGATE,
+                detail="twingate keyring write failed",
+                exit_code=keyring_result.exit_code,
+                stdout=keyring_result.stdout,
+                stderr=keyring_result.stderr,
+                command=keyring_command,
+            )
+            return rtnval
+
+        sources_line = (
+            "deb [signed-by={path}] "
+            "https://packages.twingate.com/apt/ /"
+        ).format(path=keyring_path)
         sources_command = ["tee", sources_path]
         sources_result: RunResult = self._runner.run(
             list(sources_command),
@@ -931,6 +1016,26 @@ class UbuntuVPNClientManager(VPNClientManagementBase):
 # ----------------------------------------------------------------------
 
 
+def _validate_token(*, name: str, value: str, pattern: "re.Pattern[str]") -> None:
+    """
+        Validate that an externally-supplied value safe to interpolate
+        into a repo URL or an apt argv token.
+
+        :param name: Human-readable name of the value, for error text.
+        :param value: The value to validate.
+        :param pattern: The compiled allow-list pattern.
+
+        :raises ValueError: When ``value`` does not match ``pattern``.
+    """
+    if value is None or pattern.match(value) is None:
+        err_msg_lines = ["Rejected unsafe value for apt/repo interpolation."]
+        err_msg_lines.append("    FIELD: {}".format(name))
+        err_msg_lines.append("    PROVIDED: {!r}".format(value))
+        err_msg = os.linesep.join(err_msg_lines)
+        raise ValueError(err_msg)
+    return
+
+
 def _provider_pkg(*, provider: VPNProvider) -> str:
     """
         Map a :class:`VPNProvider` to its deb package name.
@@ -969,7 +1074,11 @@ def _purge_cleanup_paths(
         rtnval = [config.sources_path, config.keyring_path]
         return rtnval
     if provider == VPNProvider.TWINGATE:
-        rtnval = [config.twingate_sources_path, config.twingate_config_path]
+        rtnval = [
+            config.twingate_sources_path,
+            config.twingate_config_path,
+            config.twingate_keyring_path,
+        ]
         return rtnval
 
     err_msg_lines = ["Unsupported provider for purge cleanup."]
