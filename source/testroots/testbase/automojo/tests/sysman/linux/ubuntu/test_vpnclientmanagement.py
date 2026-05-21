@@ -845,3 +845,146 @@ def test_property_dry_run_never_invokes_runner(provider, purge):
     assert u.status == UbuntuVPNActionStatus.DRY_RUN
     assert len(runner.calls) == 0
     return
+
+
+# ----------------------------------------------------------------------
+# Audit regression tests — C1 (shell injection), C3 (authkey redaction),
+# S-H1 (version validation), S-H2 (signed-by keyring)
+# ----------------------------------------------------------------------
+
+
+import pytest
+
+
+def test_ensure_tailscale_repo_uses_no_shell():
+    """
+        C1 regression: the keyring step must never dispatch ``bash -c``;
+        curl and tee are run as separate plain argv lists.
+    """
+    runner = _MockCommandRunner()
+    _seed_dpkg_absent(runner=runner, pkg="tailscale")
+    manager = _make_manager(runner=runner)
+
+    manager.install_tailscale(
+        version=None, channel="stable", aspects=_ASPECTS,
+    )
+
+    for call in runner.calls:
+        assert call["args"][0] != "bash"
+        assert "-c" not in call["args"][:2]
+
+    curl_calls = [c for c in runner.calls if c["args"][0] == "curl"]
+    assert len(curl_calls) == 1
+    tee_calls = [c for c in runner.calls if c["args"][0] == "tee"]
+    assert len(tee_calls) >= 1
+    return
+
+
+def test_ensure_tailscale_repo_rejects_metacharacter_channel():
+    """
+        C1 regression: a channel laden with shell metacharacters is
+        rejected outright rather than interpolated into a command.
+    """
+    runner = _MockCommandRunner()
+    _seed_dpkg_absent(runner=runner, pkg="tailscale")
+    manager = _make_manager(runner=runner)
+
+    malicious = "stable; rm -rf / #"
+    with pytest.raises(ValueError):
+        manager.install_tailscale(
+            version=None, channel=malicious, aspects=_ASPECTS,
+        )
+
+    # No command must have carried the injected payload.
+    for call in runner.calls:
+        joined = " ".join(call["args"])
+        assert "rm -rf" not in joined
+    return
+
+
+def test_ensure_tailscale_repo_rejects_metacharacter_codename():
+    """
+        C1 regression: an unsafe ubuntu_codename is rejected.
+    """
+    runner = _MockCommandRunner()
+    _seed_dpkg_absent(runner=runner, pkg="tailscale")
+    config = UbuntuVPNClientManagerConfig(
+        ubuntu_codename="jammy$(touch /tmp/pwned)",
+    )
+    manager = UbuntuVPNClientManager(runner=runner, config=config)
+
+    with pytest.raises(ValueError):
+        manager.install_tailscale(
+            version=None, channel="stable", aspects=_ASPECTS,
+        )
+    return
+
+
+def test_install_tailscale_rejects_unsafe_version():
+    """
+        S-H1 regression: a version with shell metacharacters is rejected.
+    """
+    runner = _MockCommandRunner()
+    _seed_dpkg_absent(runner=runner, pkg="tailscale")
+    manager = _make_manager(runner=runner)
+
+    with pytest.raises(ValueError):
+        manager.install_tailscale(
+            version="1.0; reboot", channel="stable", aspects=_ASPECTS,
+        )
+    return
+
+
+def test_bring_up_redacts_authkey_in_command():
+    """
+        C3 regression: the Tailscale auth key must not survive into the
+        returned ``VPNActionResult.command``.
+    """
+    runner = _MockCommandRunner()
+    _seed_dpkg_installed(runner=runner, pkg="tailscale")
+    runner.results[("tailscale", "status", "--json")] = RunResult(
+        exit_code=0,
+        stdout=json.dumps({"BackendState": "Stopped"}),
+        stderr="",
+    )
+    manager = _make_manager(runner=runner)
+
+    secret = "tskey-auth-SUPERSECRETVALUE"
+    result = manager.bring_up(
+        provider=VPNProvider.TAILSCALE,
+        authkey=secret,
+        hostname=None,
+        advertise_tags=None,
+        advertise_routes=None,
+        exit_node=False,
+        aspects=_ASPECTS,
+    )
+
+    assert result.command is not None
+    joined = " ".join(result.command)
+    assert secret not in joined
+    assert "--authkey=***" in joined
+    return
+
+
+def test_twingate_repo_uses_signed_by_not_trusted_yes():
+    """
+        S-H2 regression: the Twingate apt source must use a signed-by
+        keyring, never ``[trusted=yes]``.
+    """
+    runner = _MockCommandRunner()
+    _seed_dpkg_absent(runner=runner, pkg="twingate-connector")
+    manager = _make_manager(runner=runner)
+
+    manager.install_twingate_connector(version=None, aspects=_ASPECTS)
+
+    tee_sources_calls = [
+        c for c in runner.calls
+        if c["args"][0] == "tee"
+        and c["args"][-1].endswith("twingate.list")
+    ]
+    assert len(tee_sources_calls) == 1
+    body = tee_sources_calls[0]["stdin"] or ""
+    assert "trusted=yes" not in body
+    assert "signed-by=" in body
+    return
