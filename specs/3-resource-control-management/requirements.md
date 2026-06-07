@@ -3,14 +3,14 @@
 ## Introduction
 
 The resource-control-management feature provides the
-`automojo-sysman-linux-ubuntu` package with the ability to manage
+`codecraftai-sysman-linux-ubuntu` package with the ability to manage
 named, idempotent, auditable resource ceilings for groups of
 processes on Ubuntu systems.  The implementation rides on cgroups
 v2 via systemd's `slice` unit type — the same kernel substrate
 used by the canonical
-[`automojo-sysman-linux-redhat`](../../../automojo-sysman-linux-redhat/specs/3-resource-control-management/requirements.md)
+[`codecraftai-sysman-linux-redhat`](../../../codecraftai-sysman-linux-redhat/specs/3-resource-control-management/requirements.md)
 implementation — but exposes the cross-OS verb set defined in the
-[`resource-control-management` contract](../../../automojo-sysman-common/specs/contracts/resource-control-management/contract.md).
+[`resource-control-management` contract](../../../codecraftai-sysman-common/specs/contracts/resource-control-management/contract.md).
 
 The Ubuntu manager covers:
 
@@ -51,7 +51,7 @@ bounded.
 #### Acceptance Criteria
 
 1. WHEN the coordinator calls `create_group(spec)` with
-   `spec.name == "automojo_batch"` and a populated
+   `spec.name == "ccai_batch"` and a populated
    `UbuntuResourceGroupSpec` THE SYSTEM SHALL render a slice
    unit body containing `[Unit]` and `[Slice]` sections with the
    requested `CPUQuota`, `MemoryMax`, and `IOWeight` directives.

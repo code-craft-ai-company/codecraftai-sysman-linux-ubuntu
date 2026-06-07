@@ -10,11 +10,11 @@
 from dataclasses import dataclass, field
 from typing import Callable, Optional
 
-from automojo import testbase
+from ccai import testbase
 
-from automojo.interfaces.icommandrunner import RunResult
+from ccai.interfaces.icommandrunner import RunResult
 
-from automojo.sysman.linux.ubuntu.bootloadermanagement import (
+from ccai.sysman.linux.ubuntu.bootloadermanagement import (
     UbuntuBootEntryInfo,
     UbuntuBootEntrySpec,
     UbuntuBootloaderActionStatus,
@@ -392,7 +392,7 @@ def test_add_entry_invokes_update_grub():
     testbase.assert_equal(len(tee_calls), 1)
     written = tee_calls[0]["stdin"]
     testbase.assert_equal(
-        "automojo-bootloader-management:begin rescue-kernel" in written,
+        "codecraftai-bootloader-management:begin rescue-kernel" in written,
         True,
     )
     testbase.assert_equal("menuentry 'Rescue Kernel'" in written, True)
@@ -409,11 +409,11 @@ def test_add_entry_skipped_when_present():
         present in ``/etc/grub.d/40_custom``.
     """
     existing_block = (
-        "# automojo-bootloader-management:begin rescue-kernel\n"
+        "# codecraftai-bootloader-management:begin rescue-kernel\n"
         "menuentry 'Rescue Kernel' {\n"
         "    linux /boot/vmlinuz-rescue\n"
         "}\n"
-        "# automojo-bootloader-management:end rescue-kernel\n"
+        "# codecraftai-bootloader-management:end rescue-kernel\n"
     )
     runner = _MockCommandRunner()
     runner.results[("cat", _GRUB_CUSTOM)] = _ok(stdout=existing_block)
@@ -501,11 +501,11 @@ def test_remove_entry_invokes_update_grub():
     """
     existing_block = (
         "menuentry 'Existing' { linux /boot/vmlinuz }\n"
-        "# automojo-bootloader-management:begin rescue-kernel\n"
+        "# codecraftai-bootloader-management:begin rescue-kernel\n"
         "menuentry 'Rescue Kernel' {\n"
         "    linux /boot/vmlinuz-rescue\n"
         "}\n"
-        "# automojo-bootloader-management:end rescue-kernel\n"
+        "# codecraftai-bootloader-management:end rescue-kernel\n"
     )
     runner = _MockCommandRunner()
     runner.results[("cat", _GRUB_CUSTOM)] = _ok(stdout=existing_block)
@@ -522,7 +522,7 @@ def test_remove_entry_invokes_update_grub():
     testbase.assert_equal(len(tee_calls), 1)
     rewritten = tee_calls[0]["stdin"]
     testbase.assert_equal(
-        "automojo-bootloader-management:begin rescue-kernel" in rewritten,
+        "codecraftai-bootloader-management:begin rescue-kernel" in rewritten,
         False,
     )
     testbase.assert_equal("menuentry 'Existing'" in rewritten, True)

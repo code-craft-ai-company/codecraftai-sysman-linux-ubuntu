@@ -5,7 +5,7 @@ items (`[ ]`) identify remaining work.
 
 ## Module and Models
 
-- [x] 1. Create the `automojo.sysman.linux.ubuntu.packagemanagement`
+- [x] 1. Create the `ccai.sysman.linux.ubuntu.packagemanagement`
   module
 
 - [x] 2. Define `UbuntuPackageActionStatus` enum (SUCCESS / FAILED /
@@ -187,12 +187,12 @@ items (`[ ]`) identify remaining work.
   `UbuntuPackageActionResult` / `UbuntuPackageInfo` /
   `UbuntuPackageUpdateInfo` field shapes match the cross-OS
   contract at
-  `automojo-sysman-common/specs/contracts/package-management/contract.md`
+  `codecraftai-sysman-common/specs/contracts/package-management/contract.md`
   and that `install_local` precondition semantics align with the
   contract.
 
-- [ ] 54. **automojo-* reuse check**: confirm no other feature in
-  `automojo-sysman-linux-ubuntu` invokes `apt-get` / `dpkg` /
+- [ ] 54. **codecraftai-* reuse check**: confirm no other feature in
+  `codecraftai-sysman-linux-ubuntu` invokes `apt-get` / `dpkg` /
   `apt` directly; all such calls should go through
   `UbuntuPackageManager`.
 

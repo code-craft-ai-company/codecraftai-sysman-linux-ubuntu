@@ -4,7 +4,7 @@
 
 The precision-time-management feature is implemented as a single
 module,
-`automojo.sysman.linux.ubuntu.precisiontimemanagement`, exposing a
+`ccai.sysman.linux.ubuntu.precisiontimemanagement`, exposing a
 `UbuntuPrecisionTimeManager` class that wraps either the chrony tool
 family (`chronyc`, `chronyd`, `chrony.service`) or the
 systemd-timesyncd tool family (`timedatectl`,
@@ -26,7 +26,7 @@ this package:
 
 **See Also:**
 - `3-network-configuration` — companion infrastructure feature.
-- `automojo-sysman-linux-redhat/specs/3-precision-time-management/`
+- `codecraftai-sysman-linux-redhat/specs/3-precision-time-management/`
   — the RHEL reference, which targets the IEEE 1588 PTP surface and
   is intentionally not duplicated here.
 

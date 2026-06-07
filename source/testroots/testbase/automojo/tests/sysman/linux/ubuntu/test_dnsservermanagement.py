@@ -10,11 +10,11 @@
 from dataclasses import dataclass, field
 from typing import Callable, Optional
 
-from automojo import testbase
+from ccai import testbase
 
-from automojo.interfaces.icommandrunner import RunResult
+from ccai.interfaces.icommandrunner import RunResult
 
-from automojo.sysman.linux.ubuntu.dnsservermanagement import (
+from ccai.sysman.linux.ubuntu.dnsservermanagement import (
     UbuntuDnsActionStatus,
     UbuntuDnsManagerConfig,
     UbuntuDnsQueryError,
@@ -187,9 +187,9 @@ def test_add_zone_skipped_when_present():
         name="example.com", spec=spec, zone_file_path=zone_file_path,
     )
     existing_local = (
-        "# >>> automojo-zone:example.com >>>\n"
+        "# >>> codecraftai-zone:example.com >>>\n"
         + zone_block
-        + "# <<< automojo-zone:example.com <<<\n"
+        + "# <<< codecraftai-zone:example.com <<<\n"
     )
     _seed_cat(
         runner,
@@ -267,9 +267,9 @@ def test_remove_zone_invokes_rndc():
         zone_file_path="/etc/bind/zones/db.example.com",
     )
     existing_local = (
-        "# >>> automojo-zone:example.com >>>\n"
+        "# >>> codecraftai-zone:example.com >>>\n"
         + zone_block
-        + "# <<< automojo-zone:example.com <<<\n"
+        + "# <<< codecraftai-zone:example.com <<<\n"
     )
     _seed_cat(
         runner,
@@ -356,9 +356,9 @@ def test_list_zones_parses_named_conf_local_output():
         zone_file_path="/etc/bind/zones/db.example.com",
     )
     existing_local = (
-        "# >>> automojo-zone:example.com >>>\n"
+        "# >>> codecraftai-zone:example.com >>>\n"
         + zone_block
-        + "# <<< automojo-zone:example.com <<<\n"
+        + "# <<< codecraftai-zone:example.com <<<\n"
     )
     _seed_cat(
         runner,

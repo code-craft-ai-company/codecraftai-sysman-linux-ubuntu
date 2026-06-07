@@ -6,7 +6,7 @@ Unchecked items (`[ ]`) identify out-of-scope or follow-up work.
 ## Module and Models
 
 - [x] 1. Create the `certificateissuance` module under
-  `source/packages/automojo/sysman/linux/ubuntu/`.
+  `source/packages/ccai/sysman/linux/ubuntu/`.
 
 - [x] 2. Define `UbuntuCertIssuanceActionStatus` alias to the shared
   `ActionStatus` enum.
@@ -140,7 +140,7 @@ Unchecked items (`[ ]`) identify out-of-scope or follow-up work.
 ## Out of Scope (Contract Surface Not Yet Implemented)
 
 - [ ] 40. `Credential` parameter on write verbs — defer until the
-  cross-package `automojo-credentials` integration lands.
+  cross-package `codecraftai-credentials` integration lands.
 
 - [ ] 41. `CERTMONGER` backend — Ubuntu ships `certmonger` via apt
   but the pilot scopes to `CERTBOT` + `OPENSSL`.  Add a

@@ -3,11 +3,11 @@
 ## Introduction
 
 The audit management feature provides the
-`automojo-sysman-linux-ubuntu` package with the ability to enable,
+`codecraftai-sysman-linux-ubuntu` package with the ability to enable,
 disable, query, and rule-manage the Linux Audit subsystem on
 Ubuntu hosts.  This spec implements the audit-management contract
 defined at
-`automojo-sysman-common/specs/contracts/audit-management/contract.md`
+`codecraftai-sysman-common/specs/contracts/audit-management/contract.md`
 for Ubuntu using `auditctl` for runtime rule manipulation,
 `augenrules --load` for persistent rule reload, `ausearch` for
 event-stream filtering, and `systemctl` for daemon lifecycle.
@@ -17,7 +17,7 @@ operations by calling into this feature's public verbs.  The feature
 does not decide *which* rules belong on the host — it provides the
 capability to install, remove, and observe them reliably,
 idempotently, and with full auditability.  Every system command is
-executed exclusively through the `automojo-interfaces` command-runner
+executed exclusively through the `codecraftai-interfaces` command-runner
 abstraction; rule-file I/O is dispatched via `cat` / `tee` against
 that same runner.  No `subprocess`, no direct `open`, and no direct
 `pathlib` calls are made inside the module, enabling dry-run

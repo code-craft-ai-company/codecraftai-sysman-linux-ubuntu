@@ -2,10 +2,10 @@
 
 ## Introduction
 
-The package-management feature provides the `automojo-sysman-linux-ubuntu` package
+The package-management feature provides the `codecraftai-sysman-linux-ubuntu` package
 with the ability to manage apt-managed software packages on Ubuntu systems.  This
 spec implements the package-management contract defined at
-`automojo-sysman-common/specs/contracts/package-management/contract.md` for
+`codecraftai-sysman-common/specs/contracts/package-management/contract.md` for
 Ubuntu using `apt-get` for writes and `dpkg` / `dpkg-query` for reads.  It covers
 install/remove/upgrade, upgrade-all, installed-package queries, a packaged listing,
 an upgradable listing, local `.deb` installation, and metadata refresh.

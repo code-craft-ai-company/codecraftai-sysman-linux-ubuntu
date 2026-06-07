@@ -3,13 +3,13 @@
 ## Introduction
 
 The identity management feature provides the
-`automojo-sysman-linux-ubuntu` package with the ability to enroll an
+`codecraftai-sysman-linux-ubuntu` package with the ability to enroll an
 Ubuntu host in an identity realm — FreeIPA / Red Hat Identity
 Management, Microsoft Active Directory, or a generic LDAP / Kerberos
 realm — and to resolve directory-backed users and groups against the
 local NSS stack.  This spec implements the cross-OS contract defined
 at
-`automojo-sysman-common/specs/contracts/identity-management/contract.md`
+`codecraftai-sysman-common/specs/contracts/identity-management/contract.md`
 for Ubuntu using `realm` (realmd), `sssctl` (SSSD), and `getent`
 (NSS).
 
@@ -18,7 +18,7 @@ feature's public surface.  The feature does not decide *which* realm
 the host should belong to — it provides the capability to *manipulate
 realm membership and inspect directory state* reliably, idempotently,
 and with full auditability.  Every system command is executed
-exclusively through the `automojo-interfaces` command-runner
+exclusively through the `codecraftai-interfaces` command-runner
 abstraction, enabling dry-run simulation, auditing, and test mocking
 without requiring a live system.  Administrator passwords passed to
 `join_realm` are forwarded to `realm join` via stdin and never appear

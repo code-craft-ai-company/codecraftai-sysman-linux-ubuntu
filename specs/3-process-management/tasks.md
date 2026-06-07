@@ -9,7 +9,7 @@ idempotent where the verb's nature permits; reads never elevate.
 ## Module and Models
 
 - [x] 1. Create the
-  `automojo.sysman.linux.ubuntu.processmanagement` module.
+  `ccai.sysman.linux.ubuntu.processmanagement` module.
 
 - [x] 2. Define `UbuntuProcessActionStatus` (alias of the package's
   shared `ActionStatus`: `SUCCESS / FAILED / SKIPPED / DRY_RUN`).
@@ -156,7 +156,7 @@ idempotent where the verb's nature permits; reads never elevate.
   - The contract's `ProcessSignal` is an enum; this pilot accepts
     plain `str` signal names and validates them against
     `_KNOWN_SIGNALS`.  Migrating to an enum is a one-pass change
-    once the cross-OS enum lands in `automojo-interfaces`.
+    once the cross-OS enum lands in `codecraftai-interfaces`.
   - The contract uses `start_process(spec) → ProcessStartResult`;
     this pilot collapses that into a shared
     `UbuntuProcessActionResult` with `pid` populated on success
@@ -173,7 +173,7 @@ idempotent where the verb's nature permits; reads never elevate.
   `ProcessManager` facade can wrap `UbuntuProcessManager`,
   `MacosProcessManager`, and `WindowsProcessManager` uniformly.
 
-- [ ] 44. **automojo-* reuse check**: confirm that none of the
+- [ ] 44. **codecraftai-* reuse check**: confirm that none of the
   other Layer 3 features (notably `service-management` for
   `MainPID` lookups) re-implement process-state probes that should
   delegate to `UbuntuProcessManager.get_process`.

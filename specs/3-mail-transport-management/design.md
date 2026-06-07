@@ -4,7 +4,7 @@
 
 The mail-transport-management feature is implemented as a single
 module,
-`automojo.sysman.linux.ubuntu.mailtransportmanagement`, exposing a
+`ccai.sysman.linux.ubuntu.mailtransportmanagement`, exposing a
 `UbuntuMailTransportManager` class that wraps `postconf`,
 `postqueue`, `mailq`, `newaliases`, and `sendmail` through the
 `ICommandRunner` abstraction.  It also reads and writes

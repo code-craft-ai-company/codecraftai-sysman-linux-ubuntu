@@ -3,10 +3,10 @@
 ## Overview
 
 The configuration management feature is implemented as a single module,
-`automojo.sysman.linux.ubuntu.configurationmanagement`, that exposes a
+`ccai.sysman.linux.ubuntu.configurationmanagement`, that exposes a
 `UbuntuConfigurationManager` class.  This spec implements the
 configuration-management contract defined at
-`automojo-sysman-common/specs/contracts/configuration-management/contract.md`
+`codecraftai-sysman-common/specs/contracts/configuration-management/contract.md`
 for Ubuntu.
 
 All content mutation is delegated to an `IFileOperator`.  All permission/ownership
@@ -41,7 +41,7 @@ details on local/SSH execution, reliability tracking, and aspect configuration.
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │        UbuntuConfigurationManager                           │
-│  automojo.sysman.linux.ubuntu.configurationmanagement       │
+│  ccai.sysman.linux.ubuntu.configurationmanagement       │
 │                                                             │
 │  read_setting()     write_setting()                         │
 │  remove_setting()   list_settings()                         │
@@ -81,7 +81,7 @@ details on local/SSH execution, reliability tracking, and aspect configuration.
 
 ### `UbuntuConfigurationManager`
 
-**Location:** `source/packages/automojo/sysman/linux/ubuntu/configurationmanagement.py`
+**Location:** `source/packages/ccai/sysman/linux/ubuntu/configurationmanagement.py`
 
 | Method | Signature | Description |
 |---|---|---|
@@ -191,7 +191,7 @@ class UbuntuConfigQueryError(Exception): ...
 
 ### `ICommandRunner` and `IFileOperator`
 
-Imported from `automojo-interfaces`.  The manager takes one of each in its
+Imported from `codecraftai-interfaces`.  The manager takes one of each in its
 constructor and delegates all I/O to them.
 
 ---
@@ -450,13 +450,13 @@ not be invoked for any mutating call and the result status should be `DRY_RUN`.
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 ├── __init__.py
 └── configurationmanagement.py   ← UbuntuConfigurationManager, config, models,
                                     exceptions, ValidatorRegistry
 
 source/testroots/testbase/
-└── automojo/tests/sysman/linux/ubuntu/
+└── ccai/tests/sysman/linux/ubuntu/
     └── test_configurationmanagement.py
 ```
 
@@ -467,9 +467,9 @@ source/testroots/testbase/
 ### Local Execution
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import LocalCommandRunner, LocalRunnerConfig
-from automojo.sysman.linux.ubuntu.fileoperators import LocalFileOperator
-from automojo.sysman.linux.ubuntu.configurationmanagement import (
+from ccai.sysman.linux.ubuntu.runners import LocalCommandRunner, LocalRunnerConfig
+from ccai.sysman.linux.ubuntu.fileoperators import LocalFileOperator
+from ccai.sysman.linux.ubuntu.configurationmanagement import (
     UbuntuConfigurationManager,
     UbuntuConfigurationManagerConfig,
 )
@@ -503,15 +503,15 @@ print(f"Reload: {reload_result.status}")
 ### SSH Execution with Aspects
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import SSHCommandRunner, SSHRunnerConfig
-from automojo.sysman.linux.ubuntu.aspects import (
+from ccai.sysman.linux.ubuntu.runners import SSHCommandRunner, SSHRunnerConfig
+from ccai.sysman.linux.ubuntu.aspects import (
     PersistenceAspect, PersistenceAspectConfig,
     RetryAspect, RetryAspectConfig,
     TimeoutAspect, TimeoutAspectConfig,
 )
-from automojo.sysman.linux.ubuntu.storage import SQLiteStorage
-from automojo.sysman.linux.ubuntu.fileoperators import SSHFileOperator
-from automojo.sysman.linux.ubuntu.configurationmanagement import (
+from ccai.sysman.linux.ubuntu.storage import SQLiteStorage
+from ccai.sysman.linux.ubuntu.fileoperators import SSHFileOperator
+from ccai.sysman.linux.ubuntu.configurationmanagement import (
     UbuntuConfigurationManager, UbuntuConfigurationManagerConfig,
 )
 

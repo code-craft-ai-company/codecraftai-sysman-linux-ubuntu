@@ -6,7 +6,7 @@ items (`[ ]`) identify remaining work.
 ## Module and Models
 
 - [x] 1. Create the `bootloadermanagement` module under
-  `source/packages/automojo/sysman/linux/ubuntu/`.
+  `source/packages/ccai/sysman/linux/ubuntu/`.
 
 - [x] 2. Alias `UbuntuBootloaderActionStatus = ActionStatus` so the
   package-wide outcome enum is reused.

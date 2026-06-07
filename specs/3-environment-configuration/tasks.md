@@ -6,7 +6,7 @@ items (`[ ]`) identify remaining work.
 ## Module and Models
 
 - [x] 1. Create the
-  `automojo.sysman.linux.ubuntu.environmentconfiguration` module.
+  `ccai.sysman.linux.ubuntu.environmentconfiguration` module.
   Class is named `UbuntuEnvironmentConfigurationManager` (per the
   user-instruction naming convention) rather than the contract's
   `UbuntuEnvironmentConfigurator`.
@@ -53,7 +53,7 @@ items (`[ ]`) identify remaining work.
   `_find_user_block`).
 
 - [x] 12. Implement `set_system_env(name, value)` writing to both
-  `/etc/environment` and `/etc/profile.d/automojo.sh` with
+  `/etc/environment` and `/etc/profile.d/ccai.sh` with
   drop-in creation path
 
 - [x] 13. Implement `unset_system_env(name)` with drop-in empty-
@@ -132,7 +132,7 @@ items (`[ ]`) identify remaining work.
 - [ ] 46. **Cross-OS contract conformance review**: rename the
   exception to `UbuntuEnvConfigError` (or alias) and verify the
   shipping dataclasses match the abstract names in
-  `automojo-sysman-common/specs/contracts/environment-configuration/contract.md`.
+  `codecraftai-sysman-common/specs/contracts/environment-configuration/contract.md`.
 
 - [ ] 47. **Same-user elevation suppression**: implement
   `_is_current_user` (or equivalent) so user-scope writes for
@@ -149,7 +149,7 @@ items (`[ ]`) identify remaining work.
   target `.bashrc` / `.pam_environment` in addition to the
   default `.profile`.
 
-- [ ] 50. **automojo-sysman-linux-ubuntu reuse check**: confirm that
+- [ ] 50. **codecraftai-sysman-linux-ubuntu reuse check**: confirm that
   features which need environment variables (for example, a
   future `3-locale-configuration`) delegate to
   `UbuntuEnvironmentConfigurationManager` rather than writing to

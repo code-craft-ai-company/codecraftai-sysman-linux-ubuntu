@@ -3,9 +3,9 @@
 ## Overview
 
 The package-management feature is implemented as a single module,
-`automojo.sysman.linux.ubuntu.packagemanagement`, that exposes a
+`ccai.sysman.linux.ubuntu.packagemanagement`, that exposes a
 `UbuntuPackageManager` class.  This spec implements the package-management contract
-defined at `automojo-sysman-common/specs/contracts/package-management/contract.md`
+defined at `codecraftai-sysman-common/specs/contracts/package-management/contract.md`
 for Ubuntu using `apt-get` for writes and `dpkg` / `dpkg-query` / `apt list` for
 reads.  The coordinator instantiates the manager with a command runner and a
 config, then calls install/remove/upgrade verbs plus a read-only query surface.
@@ -36,7 +36,7 @@ details on local/SSH execution, reliability tracking, and aspect configuration.
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │            UbuntuPackageManager                             │
-│  automojo.sysman.linux.ubuntu.packagemanagement             │
+│  ccai.sysman.linux.ubuntu.packagemanagement             │
 │                                                             │
 │  install_package()  remove_package()  upgrade_package()     │
 │  upgrade_all()      is_installed()                          │
@@ -57,7 +57,7 @@ details on local/SSH execution, reliability tracking, and aspect configuration.
 
 ### `UbuntuPackageManager`
 
-**Location:** `source/packages/automojo/sysman/linux/ubuntu/packagemanagement.py`
+**Location:** `source/packages/ccai/sysman/linux/ubuntu/packagemanagement.py`
 
 | Method | Signature | Description |
 |---|---|---|
@@ -134,7 +134,7 @@ class UbuntuPackageFileNotFoundError(Exception):
 
 ## Interfaces
 
-### `ICommandRunner` (from `automojo-interfaces`)
+### `ICommandRunner` (from `codecraftai-interfaces`)
 
 ```python
 class ICommandRunner(Protocol):
@@ -486,12 +486,12 @@ result has `status=DRY_RUN`.
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 ├── __init__.py
 └── packagemanagement.py       ← UbuntuPackageManager, config, models, exceptions
 
 source/testroots/testbase/
-└── automojo/tests/sysman/linux/ubuntu/
+└── ccai/tests/sysman/linux/ubuntu/
     └── test_packagemanagement.py
 ```
 
@@ -502,10 +502,10 @@ source/testroots/testbase/
 ### Local Execution (Default)
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import (
+from ccai.sysman.linux.ubuntu.runners import (
     UbuntuLocalCommandRunner, UbuntuLocalRunnerConfig,
 )
-from automojo.sysman.linux.ubuntu.packagemanagement import (
+from ccai.sysman.linux.ubuntu.packagemanagement import (
     UbuntuPackageManager, UbuntuPackageManagerConfig,
 )
 
@@ -523,10 +523,10 @@ print(f"install nginx: {result.status.value} version={result.version}")
 ### Aspect Composition (SSH)
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import (
+from ccai.sysman.linux.ubuntu.runners import (
     UbuntuSSHCommandRunner, UbuntuSSHRunnerConfig,
 )
-from automojo.sysman.linux.ubuntu.aspects import (
+from ccai.sysman.linux.ubuntu.aspects import (
     RetryAspect, RetryAspectConfig, TimeoutAspect, TimeoutAspectConfig,
 )
 

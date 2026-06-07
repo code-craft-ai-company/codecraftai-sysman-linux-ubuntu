@@ -5,11 +5,11 @@ Unchecked items (`[ ]`) identify remaining work.
 
 ## Module and Models
 
-- [x] 1. Create the `automojo.sysman.linux.ubuntu.auditmanagement`
+- [x] 1. Create the `ccai.sysman.linux.ubuntu.auditmanagement`
   module.
 
 - [x] 2. Define `UbuntuAuditActionStatus` enum (re-exported alias of
-  `automojo.sysman.linux.ubuntu.featurebase.ActionStatus`).
+  `ccai.sysman.linux.ubuntu.featurebase.ActionStatus`).
 
 - [x] 3. Define `UbuntuAuditManagerConfig` dataclass (`dry_run`,
   `elevated`, `rules_d`, `default_basename`, `service_name`).
@@ -148,7 +148,7 @@ Unchecked items (`[ ]`) identify remaining work.
 
 - [ ] 52. **Cross-OS contract conformance review**: verify that
   the shipping dataclasses match the abstract names in
-  `automojo-sysman-common/specs/contracts/audit-management/contract.md`.
+  `codecraftai-sysman-common/specs/contracts/audit-management/contract.md`.
 
 - [ ] 53. **Coordinator wiring**: confirm that the maintenance
   coordinator's audit-management facade routes through

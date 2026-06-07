@@ -2,10 +2,10 @@
 
 ## Introduction
 
-The firewall management feature provides the `automojo-sysman-linux-ubuntu` package with
+The firewall management feature provides the `codecraftai-sysman-linux-ubuntu` package with
 the ability to manage `ufw` (Uncomplicated Firewall) on Ubuntu systems.  This spec
 implements the firewall-management contract defined at
-`automojo-sysman-common/specs/contracts/firewall-management/contract.md` for Ubuntu
+`codecraftai-sysman-common/specs/contracts/firewall-management/contract.md` for Ubuntu
 using `ufw`.  It includes adding and removing services, ports, and rich rules, querying
 firewall state, and reloading the firewall to apply permanent changes to the runtime
 configuration.
@@ -14,7 +14,7 @@ A maintenance coordinator running in an external package drives all operations b
 into this feature's public interfaces.  The feature does not decide *what* firewall rules
 to apply — it provides the capability to *do it* reliably, idempotently, and with full
 auditability.  All system commands are executed exclusively through the
-`automojo-interfaces` command-runner abstraction, enabling dry-run simulation, auditing,
+`codecraftai-interfaces` command-runner abstraction, enabling dry-run simulation, auditing,
 and test mocking without requiring a live system.  Because ufw has no concept of zones,
 the abstract `zone` parameter is validated to the literal string `"default"` and any
 other value causes the operation to return `FAILED`.

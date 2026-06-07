@@ -10,11 +10,11 @@
 from dataclasses import dataclass, field
 from typing import Callable, Optional
 
-from automojo import testbase
+from ccai import testbase
 
-from automojo.interfaces.icommandrunner import RunResult
+from ccai.interfaces.icommandrunner import RunResult
 
-from automojo.sysman.linux.ubuntu.kernelparameters import (
+from ccai.sysman.linux.ubuntu.kernelparameters import (
     UbuntuKernelParameterActionStatus,
     UbuntuKernelParameterManager,
     UbuntuKernelParameterManagerConfig,
@@ -281,7 +281,7 @@ def test_set_persistent_writes_dropin_and_applies_runtime():
     """
     runner = _MockCommandRunner(default_result=_ok())
     runner.results[
-        ("cat", "/etc/sysctl.d/99-automojo.conf")
+        ("cat", "/etc/sysctl.d/99-ccai.conf")
     ] = _fail()
     runner.results[("sysctl", "-n", "vm.swappiness")] = _ok(stdout="60\n")
 
@@ -299,12 +299,12 @@ def test_set_persistent_writes_dropin_and_applies_runtime():
     tee_calls = [c for c in runner.calls if c["args"][0] == "tee"]
     testbase.assert_equal(len(tee_calls), 1)
     testbase.assert_equal(
-        tee_calls[0]["args"], ["tee", "/etc/sysctl.d/99-automojo.conf"],
+        tee_calls[0]["args"], ["tee", "/etc/sysctl.d/99-ccai.conf"],
     )
     testbase.assert_equal(tee_calls[0]["elevated"], True)
     testbase.assert_equal(
         tee_calls[0]["stdin"],
-        "# managed by automojo-sysman-linux-ubuntu\nvm.swappiness = 10\n",
+        "# managed by codecraftai-sysman-linux-ubuntu\nvm.swappiness = 10\n",
     )
 
     sysctl_w_calls = [
@@ -314,7 +314,7 @@ def test_set_persistent_writes_dropin_and_applies_runtime():
     testbase.assert_equal(
         sysctl_w_calls[0]["args"], ["sysctl", "-w", "vm.swappiness=10"],
     )
-    testbase.assert_equal(result.source, "/etc/sysctl.d/99-automojo.conf")
+    testbase.assert_equal(result.source, "/etc/sysctl.d/99-ccai.conf")
     testbase.assert_equal(result.persistent, True)
     return
 
@@ -326,9 +326,9 @@ def test_set_persistent_skipped_when_file_and_runtime_match():
     """
     runner = _MockCommandRunner()
     runner.results[
-        ("cat", "/etc/sysctl.d/99-automojo.conf")
+        ("cat", "/etc/sysctl.d/99-ccai.conf")
     ] = _ok(
-        stdout="# managed by automojo-sysman-linux-ubuntu\nvm.swappiness = 10\n",
+        stdout="# managed by codecraftai-sysman-linux-ubuntu\nvm.swappiness = 10\n",
     )
     runner.results[("sysctl", "-n", "vm.swappiness")] = _ok(stdout="10\n")
 
@@ -384,11 +384,11 @@ def test_set_persistent_partial_failure_reports_step():
     """
     runner = _MockCommandRunner()
     runner.results[
-        ("cat", "/etc/sysctl.d/99-automojo.conf")
+        ("cat", "/etc/sysctl.d/99-ccai.conf")
     ] = _fail()
     runner.results[("sysctl", "-n", "vm.swappiness")] = _ok(stdout="60\n")
     runner.results[
-        ("tee", "/etc/sysctl.d/99-automojo.conf")
+        ("tee", "/etc/sysctl.d/99-ccai.conf")
     ] = _fail(stderr="tee: permission denied")
 
     manager = UbuntuKernelParameterManager(
@@ -449,7 +449,7 @@ def test_remove_persisted_skipped_when_file_absent():
     """
     runner = _MockCommandRunner()
     runner.results[
-        ("cat", "/etc/sysctl.d/99-automojo.conf")
+        ("cat", "/etc/sysctl.d/99-ccai.conf")
     ] = _fail()
 
     manager = UbuntuKernelParameterManager(
@@ -472,10 +472,10 @@ def test_remove_persisted_rewrites_file():
     """
     runner = _MockCommandRunner(default_result=_ok())
     runner.results[
-        ("cat", "/etc/sysctl.d/99-automojo.conf")
+        ("cat", "/etc/sysctl.d/99-ccai.conf")
     ] = _ok(
         stdout=(
-            "# managed by automojo-sysman-linux-ubuntu\n"
+            "# managed by codecraftai-sysman-linux-ubuntu\n"
             "vm.swappiness = 10\n"
             "kernel.pid_max = 4194304\n"
         ),
@@ -494,7 +494,7 @@ def test_remove_persisted_rewrites_file():
     testbase.assert_equal(len(tee_calls), 1)
     testbase.assert_equal(
         tee_calls[0]["stdin"],
-        "# managed by automojo-sysman-linux-ubuntu\nkernel.pid_max = 4194304\n",
+        "# managed by codecraftai-sysman-linux-ubuntu\nkernel.pid_max = 4194304\n",
     )
     testbase.assert_equal(tee_calls[0]["elevated"], True)
     return
@@ -549,9 +549,9 @@ def test_dry_run_short_circuits_set_persistent():
     )
     testbase.assert_equal(runner.calls, [])
     testbase.assert_equal(
-        result.command, ["tee", "/etc/sysctl.d/99-automojo.conf"],
+        result.command, ["tee", "/etc/sysctl.d/99-ccai.conf"],
     )
-    testbase.assert_equal(result.source, "/etc/sysctl.d/99-automojo.conf")
+    testbase.assert_equal(result.source, "/etc/sysctl.d/99-ccai.conf")
     return
 
 

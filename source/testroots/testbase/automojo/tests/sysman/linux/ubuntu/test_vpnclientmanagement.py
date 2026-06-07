@@ -14,10 +14,10 @@ from typing import Callable, Optional
 
 from hypothesis import HealthCheck, given, settings, strategies as st
 
-from automojo.aspects.aspects import Aspects
-from automojo.interfaces.icommandrunner import RunResult
+from ccai.aspects.aspects import Aspects
+from ccai.interfaces.icommandrunner import RunResult
 
-from automojo.sysman.linux.ubuntu.vpnclientmanagement import (
+from ccai.sysman.linux.ubuntu.vpnclientmanagement import (
     UbuntuVPNActionStatus,
     UbuntuVPNClientManager,
     UbuntuVPNClientManagerConfig,

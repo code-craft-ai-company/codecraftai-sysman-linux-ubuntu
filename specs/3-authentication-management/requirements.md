@@ -3,10 +3,10 @@
 ## Introduction
 
 The authentication management feature provides the
-`automojo-sysman-linux-ubuntu` package with the ability to manage the
+`codecraftai-sysman-linux-ubuntu` package with the ability to manage the
 Pluggable Authentication Modules (PAM) stack on Ubuntu hosts. It
 implements the cross-OS authentication-management contract defined at
-`automojo-sysman-common/specs/contracts/authentication-management/contract.md`
+`codecraftai-sysman-common/specs/contracts/authentication-management/contract.md`
 for the Ubuntu / Debian-derived family.
 
 Whereas Red Hat ships the `authselect` profile manager as the canonical

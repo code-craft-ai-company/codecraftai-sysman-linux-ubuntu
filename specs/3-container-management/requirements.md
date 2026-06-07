@@ -3,12 +3,12 @@
 ## Introduction
 
 The container management feature provides the
-`automojo-sysman-linux-ubuntu` package with the ability to pull /
+`codecraftai-sysman-linux-ubuntu` package with the ability to pull /
 remove images, create / start / stop / remove containers, list and
 inspect containers, retrieve container logs, and execute commands
 inside running containers on Ubuntu systems.  This spec implements the
 container-management contract defined at
-`automojo-sysman-common/specs/contracts/container-management/contract.md`
+`codecraftai-sysman-common/specs/contracts/container-management/contract.md`
 for Ubuntu using either the `docker` CLI (default) or the `podman` CLI,
 selected at construction time via
 `UbuntuContainerManagerConfig.engine`.
@@ -20,7 +20,7 @@ images should be pulled, or *what* environment / volume / port
 configuration a container should have — it provides the capability to
 *manipulate container engine state* reliably, idempotently, and with
 full auditability.  All container engine commands are executed
-exclusively through the `automojo-interfaces` command-runner
+exclusively through the `codecraftai-interfaces` command-runner
 abstraction.
 
 Container engine installation (the `docker.io` / `docker-ce` /

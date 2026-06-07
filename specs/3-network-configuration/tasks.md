@@ -5,7 +5,7 @@ items (`[ ]`) identify remaining work.
 
 ## Module and Models
 
-- [x] 1. Create the `automojo.sysman.linux.ubuntu.networkconfiguration`
+- [x] 1. Create the `ccai.sysman.linux.ubuntu.networkconfiguration`
   module
 
 - [x] 2. Define `UbuntuNetworkActionStatus` enum (SUCCESS / FAILED /
@@ -160,10 +160,10 @@ Additional tests added beyond the original spec:
 - [ ] 50. **Cross-OS contract conformance review**: verify this
   implementation's `UbuntuNetworkActionResult` field shapes match the
   cross-OS contract at
-  `automojo-sysman-common/specs/contracts/network-configuration/contract.md`.
+  `codecraftai-sysman-common/specs/contracts/network-configuration/contract.md`.
 
-- [ ] 51. **automojo-* reuse check**: confirm that no other feature
-  in `automojo-sysman-linux-ubuntu` invokes `ip` / `netplan` /
+- [ ] 51. **codecraftai-* reuse check**: confirm that no other feature
+  in `codecraftai-sysman-linux-ubuntu` invokes `ip` / `netplan` /
   `resolvectl` directly; all such calls should go through
   `UbuntuNetworkConfigurationManager`.
 

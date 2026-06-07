@@ -5,7 +5,7 @@ items (`[ ]`) identify remaining work.
 
 ## Module and Models
 
-- [x] 1. Create the `automojo.sysman.linux.ubuntu.sshserverconfiguration`
+- [x] 1. Create the `ccai.sysman.linux.ubuntu.sshserverconfiguration`
   module
 
 - [x] 2. Define `UbuntuSshActionStatus` alias of the shared
@@ -178,6 +178,6 @@ items (`[ ]`) identify remaining work.
   upgraded to the contract's `keyword` / `path` / `user` extras.
 
 - [ ] 59. **Shared `featurebase` upstreaming**: the
-  `automojo.sysman.linux.ubuntu.featurebase` module is vendored
+  `ccai.sysman.linux.ubuntu.featurebase` module is vendored
   from RHEL.  Once the SSH manager is in place across all OSes
   the shared base can be lifted into a common package.

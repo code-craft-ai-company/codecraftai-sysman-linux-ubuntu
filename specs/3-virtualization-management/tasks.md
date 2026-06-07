@@ -5,7 +5,7 @@ All tasks below are unchecked at start; tick them in order.
 ## Module and Models
 
 - [ ] 1. Create
-  `source/packages/automojo/sysman/linux/ubuntu/virtualizationmanagement.py`
+  `source/packages/ccai/sysman/linux/ubuntu/virtualizationmanagement.py`
   with the module docstring covering backend selection, connection-URI
   rules, elevation policy, and stop semantics.
   - _Requirements: All_
@@ -111,7 +111,7 @@ All tasks below are unchecked at start; tick them in order.
 ## Tests
 
 - [ ] 32. Create
-  `source/testroots/testbase/automojo/tests/sysman/linux/ubuntu/test_virtualizationmanagement.py`
+  `source/testroots/testbase/ccai/tests/sysman/linux/ubuntu/test_virtualizationmanagement.py`
   with `_MockCommandRunner`.
 
 - [ ] 33. Tests for `list_vms` parser, `list_snapshots` parser, and

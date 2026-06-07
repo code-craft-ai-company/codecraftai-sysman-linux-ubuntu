@@ -6,7 +6,7 @@ items (`[ ]`) identify follow-ups deferred to a later iteration.
 ## Module and Models
 
 - [x] 1. Create the
-  `automojo.sysman.linux.ubuntu.precisiontimemanagement` module.
+  `ccai.sysman.linux.ubuntu.precisiontimemanagement` module.
 
 - [x] 2. Define `UbuntuPrecisionTimeActionStatus` (alias of
   `ActionStatus`).

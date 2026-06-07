@@ -2,11 +2,11 @@
 
 ## Introduction
 
-The network configuration feature provides the `automojo-sysman-linux-ubuntu`
+The network configuration feature provides the `codecraftai-sysman-linux-ubuntu`
 package with the ability to query and configure network interfaces, routes, DNS
 servers, search domains, and the system hostname on Ubuntu systems.  This spec
 implements the network-configuration contract defined at
-`automojo-sysman-common/specs/contracts/network-configuration/contract.md` for
+`codecraftai-sysman-common/specs/contracts/network-configuration/contract.md` for
 Ubuntu using `netplan` as the primary persistent surface (via transactional edits to
 `/etc/netplan/*.yaml` through an `IFileOperator`, followed by `netplan apply`),
 `iproute2` (`ip` and `ip route`) for runtime state, `systemd-resolved` / `resolvectl`
@@ -16,7 +16,7 @@ A maintenance coordinator running in an external package drives all operations b
 calling into this feature's public interfaces.  The feature does not decide *which*
 interfaces should be up or which IPs should be assigned — it provides the capability
 to *manipulate network state* reliably, idempotently, and with full auditability.
-All system commands are executed exclusively through the `automojo-interfaces`
+All system commands are executed exclusively through the `codecraftai-interfaces`
 command-runner abstraction; all file reads and writes against `/etc/netplan/*.yaml`
 flow through an `IFileOperator`.
 
@@ -73,7 +73,7 @@ the runtime state matches.
 
 1. WHEN the coordinator calls `configure_interface(name, address, netmask, gateway)`
    THE SYSTEM SHALL first update the netplan configuration by reading the managed
-   YAML file (`/etc/netplan/99-automojo.yaml` by default) via the file operator,
+   YAML file (`/etc/netplan/99-ccai.yaml` by default) via the file operator,
    replacing or inserting an `ethernets:` entry that sets `addresses:
    ["<address>/<prefixlen>"]`, `gateway4: <gateway>`, and disables DHCP for that
    interface, and writing it back atomically via the file operator with

@@ -3,11 +3,11 @@
 ## Overview
 
 This spec implements the hardware-inventory contract defined at
-`automojo-sysman-common/specs/contracts/hardware-inventory/contract.md` for
+`codecraftai-sysman-common/specs/contracts/hardware-inventory/contract.md` for
 Ubuntu using `dmidecode`, `lscpu`, `lsblk`, `ip`, `lspci`, and `lsusb`.
 
 The hardware-inventory feature is implemented as a single module,
-`automojo.sysman.linux.ubuntu.hardwareinventory`, that exposes an
+`ccai.sysman.linux.ubuntu.hardwareinventory`, that exposes an
 `UbuntuHardwareInventoryManager` class.  The coordinator instantiates
 `UbuntuHardwareInventoryManager` and calls its read verbs to query discrete
 hardware aspects.  Every verb returns a typed `Ubuntu*` dataclass, or raises
@@ -51,7 +51,7 @@ configuration.
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │        UbuntuHardwareInventoryManager                       │
-│  automojo.sysman.linux.ubuntu.hardwareinventory             │
+│  ccai.sysman.linux.ubuntu.hardwareinventory             │
 │                                                             │
 │  get_system_info()       get_cpu_info()                     │
 │  get_memory_info()       list_storage_devices()             │
@@ -90,7 +90,7 @@ configuration.
 
 ### `UbuntuHardwareInventoryManager`
 
-**Location:** `source/packages/automojo/sysman/linux/ubuntu/hardwareinventory.py`
+**Location:** `source/packages/ccai/sysman/linux/ubuntu/hardwareinventory.py`
 
 The primary public class.  Constructed with an `ICommandRunner` and an
 `UbuntuHardwareInventoryManagerConfig`.
@@ -118,7 +118,7 @@ The primary public class.  Constructed with an `ICommandRunner` and an
 ## Data Models
 
 All dataclasses live alongside the manager in
-`automojo.sysman.linux.ubuntu.hardwareinventory`.
+`ccai.sysman.linux.ubuntu.hardwareinventory`.
 
 ```python
 class UbuntuHardwareInventoryActionStatus(Enum):
@@ -234,7 +234,7 @@ class UbuntuFirmwareInfo:
 
 ## Interfaces
 
-### `ICommandRunner` (from `automojo-interfaces`)
+### `ICommandRunner` (from `codecraftai-interfaces`)
 
 ```python
 class ICommandRunner(Protocol):
@@ -253,7 +253,7 @@ class ICommandRunner(Protocol):
     ) -> RunResult: ...
 ```
 
-### `RunResult` (from `automojo-interfaces`)
+### `RunResult` (from `codecraftai-interfaces`)
 
 ```python
 @dataclass
@@ -585,10 +585,10 @@ sequence.  The feature ignores the `dry_run` flag entirely.
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 └── hardwareinventory.py                ← manager + dataclasses + parsers + exception
 
-source/testroots/testbase/automojo/tests/sysman/linux/ubuntu/
+source/testroots/testbase/ccai/tests/sysman/linux/ubuntu/
 └── test_hardwareinventory.py           ← unit tests using a MockCommandRunner
 ```
 
@@ -599,10 +599,10 @@ source/testroots/testbase/automojo/tests/sysman/linux/ubuntu/
 ### Local execution
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import (
+from ccai.sysman.linux.ubuntu.runners import (
     LocalCommandRunner, LocalRunnerConfig,
 )
-from automojo.sysman.linux.ubuntu.hardwareinventory import (
+from ccai.sysman.linux.ubuntu.hardwareinventory import (
     UbuntuHardwareInventoryManager,
     UbuntuHardwareInventoryManagerConfig,
 )
@@ -624,10 +624,10 @@ firmware = inventory.get_firmware_info()
 ### SSH execution
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import (
+from ccai.sysman.linux.ubuntu.runners import (
     SSHCommandRunner, SSHRunnerConfig,
 )
-from automojo.sysman.linux.ubuntu.hardwareinventory import (
+from ccai.sysman.linux.ubuntu.hardwareinventory import (
     UbuntuHardwareInventoryManager,
     UbuntuHardwareInventoryManagerConfig,
 )
@@ -644,11 +644,11 @@ storage = inventory.list_storage_devices()
 ### Aspect composition
 
 ```python
-from automojo.sysman.linux.ubuntu.aspects import (
+from ccai.sysman.linux.ubuntu.aspects import (
     PersistenceAspect, RetryAspect, TimeoutAspect,
     PersistenceAspectConfig, RetryAspectConfig, TimeoutAspectConfig,
 )
-from automojo.sysman.linux.ubuntu.storage import SQLiteStorage
+from ccai.sysman.linux.ubuntu.storage import SQLiteStorage
 
 runner = SSHCommandRunner(SSHRunnerConfig(host="remote-server", username="admin"))
 runner.add_aspect(PersistenceAspect(PersistenceAspectConfig(
@@ -690,7 +690,7 @@ network = inventory.list_network_devices()
 
 ### Test File
 
-`source/testroots/testbase/automojo/tests/sysman/linux/ubuntu/test_hardwareinventory.py`
+`source/testroots/testbase/ccai/tests/sysman/linux/ubuntu/test_hardwareinventory.py`
 
 ### Tests Implemented
 

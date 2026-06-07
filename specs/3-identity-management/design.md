@@ -3,10 +3,10 @@
 ## Overview
 
 The identity management feature is implemented as a single module,
-`automojo.sysman.linux.ubuntu.identitymanagement`, that exposes a
+`ccai.sysman.linux.ubuntu.identitymanagement`, that exposes a
 `UbuntuIdentityManager` class.  This spec implements the cross-OS
 identity-management contract defined at
-`automojo-sysman-common/specs/contracts/identity-management/contract.md`
+`codecraftai-sysman-common/specs/contracts/identity-management/contract.md`
 for Ubuntu using `realm` (realmd) for FreeIPA / Active Directory /
 LDAP enrollment, `sssctl` for SSSD cache control, and `getent` (NSS)
 for resolving directory-backed users and groups.
@@ -35,7 +35,7 @@ The feature works identically whether commands execute locally (via
   required by LDAPS / Kerberos-over-TLS setups.
 - `3-service-management` (when it lands on Ubuntu) for the
   `sssd.service` lifecycle.
-- `automojo-sysman-linux-redhat/specs/3-identity-management/` for the
+- `codecraftai-sysman-linux-redhat/specs/3-identity-management/` for the
   RHEL / FreeIPA reference implementation that motivated this
   cross-OS contract.
 
@@ -55,7 +55,7 @@ The feature works identically whether commands execute locally (via
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │            UbuntuIdentityManager                            │
-│  automojo.sysman.linux.ubuntu.identitymanagement            │
+│  ccai.sysman.linux.ubuntu.identitymanagement            │
 │                                                             │
 │  Writes:                                                    │
 │    join_realm()    leave_realm()    sync_users()            │
@@ -95,7 +95,7 @@ The feature works identically whether commands execute locally (via
 
 ### `UbuntuIdentityManager`
 
-**Location:** `source/packages/automojo/sysman/linux/ubuntu/identitymanagement.py`
+**Location:** `source/packages/ccai/sysman/linux/ubuntu/identitymanagement.py`
 
 | Method | Signature | Description |
 |---|---|---|
@@ -430,11 +430,11 @@ No live KDC / DC / SSSD service required.
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 └── identitymanagement.py
 
 source/testroots/testbase/
-└── automojo/tests/sysman/linux/ubuntu/
+└── ccai/tests/sysman/linux/ubuntu/
     └── test_identitymanagement.py
 ```
 

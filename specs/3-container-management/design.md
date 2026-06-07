@@ -34,7 +34,7 @@ Windows path-quoting requirement for volume mounts.
 ## Overview
 
 The container-management feature is implemented as a single module,
-`automojo.sysman.linux.ubuntu.containermanagement`, that exposes an
+`ccai.sysman.linux.ubuntu.containermanagement`, that exposes an
 `UbuntuContainerManager` class.  The coordinator instantiates
 `UbuntuContainerManager` and calls its methods to perform discrete
 container engine actions: image pull / remove / list, container
@@ -82,7 +82,7 @@ configuration.
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │            UbuntuContainerManager                           │
-│  automojo.sysman.linux.ubuntu.containermanagement           │
+│  ccai.sysman.linux.ubuntu.containermanagement           │
 │                                                             │
 │  pull_image()           remove_image()                      │
 │  list_images()                                              │
@@ -110,7 +110,7 @@ configuration.
 ### `UbuntuContainerManager`
 
 **Location:**
-`source/packages/automojo/sysman/linux/ubuntu/containermanagement.py`
+`source/packages/ccai/sysman/linux/ubuntu/containermanagement.py`
 
 | Method | Signature | Description |
 |---|---|---|
@@ -572,13 +572,13 @@ the runner's exit code and stderr.
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 ├── __init__.py
 ├── featurebase.py
 ├── containermanagement.py    ← UbuntuContainerManager + types
 └── storagemanagement.py
 
-source/testroots/testbase/automojo/tests/sysman/linux/ubuntu/
+source/testroots/testbase/ccai/tests/sysman/linux/ubuntu/
 └── test_containermanagement.py
 ```
 
@@ -589,11 +589,11 @@ source/testroots/testbase/automojo/tests/sysman/linux/ubuntu/
 ### Local Execution (Default — Docker)
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import (
+from ccai.sysman.linux.ubuntu.runners import (
     LocalCommandRunner,
     LocalRunnerConfig,
 )
-from automojo.sysman.linux.ubuntu.containermanagement import (
+from ccai.sysman.linux.ubuntu.containermanagement import (
     UbuntuContainerEngine,
     UbuntuContainerManager,
     UbuntuContainerManagerConfig,
@@ -659,17 +659,17 @@ print(result.command)   # ["docker", "rm", "-f", "web"]
 ### SSH Execution with Aspects
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import (
+from ccai.sysman.linux.ubuntu.runners import (
     SSHCommandRunner,
     SSHRunnerConfig,
 )
-from automojo.sysman.linux.ubuntu.aspects import (
+from ccai.sysman.linux.ubuntu.aspects import (
     PersistenceAspect,
     PersistenceAspectConfig,
     RetryAspect,
     RetryAspectConfig,
 )
-from automojo.sysman.linux.ubuntu.storage import SQLiteStorage
+from ccai.sysman.linux.ubuntu.storage import SQLiteStorage
 
 runner = SSHCommandRunner(
     SSHRunnerConfig(host="docker-host-1", username="admin"),

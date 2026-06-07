@@ -3,7 +3,7 @@
 ## Overview
 
 The bootloader-management feature is implemented as a single module,
-`automojo.sysman.linux.ubuntu.bootloadermanagement`, that exposes a
+`ccai.sysman.linux.ubuntu.bootloadermanagement`, that exposes a
 `UbuntuBootloaderManager` class.  The maintenance coordinator
 instantiates `UbuntuBootloaderManager` and calls its methods to
 perform discrete OS-level bootloader-configuration actions:
@@ -113,7 +113,7 @@ Comparison with sister implementations:
                        v
 +-------------------------------------------------------------+
 |                UbuntuBootloaderManager                      |
-|  automojo.sysman.linux.ubuntu.bootloadermanagement          |
+|  ccai.sysman.linux.ubuntu.bootloadermanagement          |
 |                                                             |
 |  list_entries()           get_default_entry()               |
 |  set_default_entry(id)    add_entry(spec)                   |
@@ -154,7 +154,7 @@ Comparison with sister implementations:
 
 ### `UbuntuBootloaderManager`
 
-**Location:** `source/packages/automojo/sysman/linux/ubuntu/bootloadermanagement.py`
+**Location:** `source/packages/ccai/sysman/linux/ubuntu/bootloadermanagement.py`
 
 The primary public class.  Constructed with an `ICommandRunner` and
 an `UbuntuBootloaderManagerConfig`.
@@ -355,8 +355,8 @@ boot.
 ### Property 11: Sentinel Bracketing for `add_entry` / `remove_entry`
 
 For any GRUB2 `add_entry` write, the appended block must be
-bracketed by `# automojo-bootloader-management:begin <id>` and
-`# automojo-bootloader-management:end <id>` lines.  For any
+bracketed by `# codecraftai-bootloader-management:begin <id>` and
+`# codecraftai-bootloader-management:end <id>` lines.  For any
 `remove_entry` write, the excised block must be exactly the bracketed
 range; lines outside the sentinels must remain untouched.
 
@@ -375,7 +375,7 @@ appended line must use double-quoted form.
 
 ## Interfaces
 
-### `ICommandRunner` (from `automojo-interfaces`)
+### `ICommandRunner` (from `codecraftai-interfaces`)
 
 `UbuntuBootloaderManager` depends on this interface, injected at
 construction time.
@@ -391,7 +391,7 @@ class ICommandRunner(Protocol):
     ) -> RunResult: ...
 ```
 
-### `RunResult` (from `automojo-interfaces`)
+### `RunResult` (from `codecraftai-interfaces`)
 
 ```python
 @dataclass
@@ -488,11 +488,11 @@ module:
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 +-- __init__.py
 +-- bootloadermanagement.py          (this feature)
 
-source/testroots/testbase/automojo/tests/sysman/linux/ubuntu/
+source/testroots/testbase/ccai/tests/sysman/linux/ubuntu/
 +-- test_bootloadermanagement.py
 ```
 
@@ -528,10 +528,10 @@ GRUB parser test.  Sentinel bracketing is exercised by the
 ### Local Execution (Set Default Boot Entry on a GRUB2 host)
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import (
+from ccai.sysman.linux.ubuntu.runners import (
     LocalCommandRunner, LocalRunnerConfig,
 )
-from automojo.sysman.linux.ubuntu.bootloadermanagement import (
+from ccai.sysman.linux.ubuntu.bootloadermanagement import (
     UbuntuBootloaderBackend,
     UbuntuBootloaderManager,
     UbuntuBootloaderManagerConfig,
@@ -552,10 +552,10 @@ print("set default: {}".format(result.status))
 ### SSH Execution (Add a Rescue Entry)
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import (
+from ccai.sysman.linux.ubuntu.runners import (
     SSHCommandRunner, SSHRunnerConfig,
 )
-from automojo.sysman.linux.ubuntu.bootloadermanagement import (
+from ccai.sysman.linux.ubuntu.bootloadermanagement import (
     UbuntuBootEntrySpec,
     UbuntuBootloaderManager,
     UbuntuBootloaderManagerConfig,
@@ -584,7 +584,7 @@ print("add: {} (reboot: {})".format(
 ### systemd-boot Backend
 
 ```python
-from automojo.sysman.linux.ubuntu.bootloadermanagement import (
+from ccai.sysman.linux.ubuntu.bootloadermanagement import (
     UbuntuBootloaderBackend,
     UbuntuBootloaderManager,
     UbuntuBootloaderManagerConfig,

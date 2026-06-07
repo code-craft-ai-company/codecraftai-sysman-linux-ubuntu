@@ -5,7 +5,7 @@ items (`[ ]`) identify remaining work.
 
 ## Module and Models
 
-- [x] 1. Create the `automojo.sysman.linux.ubuntu.scheduledtasks`
+- [x] 1. Create the `ccai.sysman.linux.ubuntu.scheduledtasks`
   module
 
 - [x] 2. Define `UbuntuScheduledTaskActionStatus` and
@@ -206,15 +206,15 @@ Additional tests added beyond the original spec:
   `UbuntuTaskSpec` / `UbuntuTaskInfo` /
   `UbuntuScheduledTaskActionResult` field shapes match the cross-OS
   contract at
-  `automojo-sysman-common/specs/contracts/scheduled-tasks/contract.md`
+  `codecraftai-sysman-common/specs/contracts/scheduled-tasks/contract.md`
   and that the owner-scope mapping matches the contract's Ubuntu row.
 
 - [ ] 58. **Cron-backend extension plan**: scope whether the
   `cron_backend=True` fallback belongs in this module or in a
   separate `UbuntuCronTaskManager` companion.
 
-- [ ] 59. **automojo-* reuse check**: confirm no other feature in
-  `automojo-sysman-linux-ubuntu` writes unit files or invokes
+- [ ] 59. **codecraftai-* reuse check**: confirm no other feature in
+  `codecraftai-sysman-linux-ubuntu` writes unit files or invokes
   `systemctl enable --now` directly; all such work should go
   through `UbuntuScheduledTasksManager`.
 

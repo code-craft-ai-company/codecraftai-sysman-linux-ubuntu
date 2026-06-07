@@ -19,10 +19,10 @@ all three implementations side-by-side.
 | Resiliency level | Native VG has none — layer `mdadm` underneath if redundancy is required | APFS containers can span multiple physical stores; resiliency is Apple-managed | Pool `ResiliencySettingName` (Mirror / Parity / Simple) |
 
 The Ubuntu implementation is the "canonical LVM" branch; the RHEL
-implementation in `automojo-sysman-linux-redhat` covers the same toolset
+implementation in `codecraftai-sysman-linux-redhat` covers the same toolset
 with a different naming convention.  The macOS and Windows specs
-(`automojo-sysman-macos/specs/3-storage-management/` and
-`automojo-sysman-windows/specs/3-storage-management/`) translate the
+(`codecraftai-sysman-macos/specs/3-storage-management/` and
+`codecraftai-sysman-windows/specs/3-storage-management/`) translate the
 same abstract verbs onto `diskutil apfs` / Storage-Spaces cmdlets
 respectively.
 
@@ -31,7 +31,7 @@ respectively.
 ## Overview
 
 The storage-management feature is implemented as a single module,
-`automojo.sysman.linux.ubuntu.storagemanagement`, that exposes an
+`ccai.sysman.linux.ubuntu.storagemanagement`, that exposes an
 `UbuntuStorageManager` class.  The coordinator instantiates
 `UbuntuStorageManager` and calls its methods to perform discrete
 block-level storage actions: disk enumeration, volume create / delete /
@@ -77,7 +77,7 @@ configuration.
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │            UbuntuStorageManager                             │
-│  automojo.sysman.linux.ubuntu.storagemanagement             │
+│  ccai.sysman.linux.ubuntu.storagemanagement             │
 │                                                             │
 │  list_disks()           list_volumes()                      │
 │  get_disk_info()        get_volume_info()                   │
@@ -105,7 +105,7 @@ configuration.
 ### `UbuntuStorageManager`
 
 **Location:**
-`source/packages/automojo/sysman/linux/ubuntu/storagemanagement.py`
+`source/packages/ccai/sysman/linux/ubuntu/storagemanagement.py`
 
 | Method | Signature | Description |
 |---|---|---|
@@ -593,13 +593,13 @@ runner's exit code and stderr.
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 ├── __init__.py
 ├── featurebase.py
 ├── filesystemmanagement.py
 └── storagemanagement.py        ← UbuntuStorageManager + types
 
-source/testroots/testbase/automojo/tests/sysman/linux/ubuntu/
+source/testroots/testbase/ccai/tests/sysman/linux/ubuntu/
 └── test_storagemanagement.py
 ```
 
@@ -610,11 +610,11 @@ source/testroots/testbase/automojo/tests/sysman/linux/ubuntu/
 ### Local Execution (Default)
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import (
+from ccai.sysman.linux.ubuntu.runners import (
     LocalCommandRunner,
     LocalRunnerConfig,
 )
-from automojo.sysman.linux.ubuntu.storagemanagement import (
+from ccai.sysman.linux.ubuntu.storagemanagement import (
     UbuntuPoolSpec,
     UbuntuStorageManager,
     UbuntuStorageManagerConfig,
@@ -664,17 +664,17 @@ print(result.command)  # ["lvremove", "-f", "vgdata/metrics"]
 ### SSH Execution with Aspects
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import (
+from ccai.sysman.linux.ubuntu.runners import (
     SSHCommandRunner,
     SSHRunnerConfig,
 )
-from automojo.sysman.linux.ubuntu.aspects import (
+from ccai.sysman.linux.ubuntu.aspects import (
     PersistenceAspect,
     PersistenceAspectConfig,
     RetryAspect,
     RetryAspectConfig,
 )
-from automojo.sysman.linux.ubuntu.storage import SQLiteStorage
+from ccai.sysman.linux.ubuntu.storage import SQLiteStorage
 
 runner = SSHCommandRunner(
     SSHRunnerConfig(host="ubuntu-server-1", username="admin"),

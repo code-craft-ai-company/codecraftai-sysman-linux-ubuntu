@@ -3,9 +3,9 @@
 ## Overview
 
 The firewall management feature is implemented as a single module,
-`automojo.sysman.linux.ubuntu.firewallmanagement`, that exposes a
+`ccai.sysman.linux.ubuntu.firewallmanagement`, that exposes a
 `UbuntuFirewallManager` class.  This spec implements the firewall-management contract
-defined at `automojo-sysman-common/specs/contracts/firewall-management/contract.md`
+defined at `codecraftai-sysman-common/specs/contracts/firewall-management/contract.md`
 for Ubuntu using `ufw` (Uncomplicated Firewall).  The coordinator instantiates
 `UbuntuFirewallManager` and calls its methods to perform discrete maintenance actions
 against the ufw service via the `ufw` CLI.
@@ -43,7 +43,7 @@ details on local/SSH execution, reliability tracking, and aspect configuration.
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │            UbuntuFirewallManager                            │
-│  automojo.sysman.linux.ubuntu.firewallmanagement            │
+│  ccai.sysman.linux.ubuntu.firewallmanagement            │
 │                                                             │
 │  add_service()      remove_service()                        │
 │  add_port()         remove_port()                           │
@@ -85,7 +85,7 @@ details on local/SSH execution, reliability tracking, and aspect configuration.
 
 ### `UbuntuFirewallManager`
 
-**Location:** `source/packages/automojo/sysman/linux/ubuntu/firewallmanagement.py`
+**Location:** `source/packages/ccai/sysman/linux/ubuntu/firewallmanagement.py`
 
 | Method | Signature | Description |
 |---|---|---|
@@ -158,7 +158,7 @@ class UbuntuFirewallQueryError(Exception):
 
 ## Interfaces
 
-### `ICommandRunner` (from `automojo-interfaces`)
+### `ICommandRunner` (from `codecraftai-interfaces`)
 
 ```python
 class ICommandRunner(Protocol):
@@ -490,12 +490,12 @@ with `status=FAILED`.
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 ├── __init__.py
 └── firewallmanagement.py         ← UbuntuFirewallManager, config, models, exceptions
 
 source/testroots/testbase/
-└── automojo/tests/sysman/linux/ubuntu/
+└── ccai/tests/sysman/linux/ubuntu/
     └── test_firewallmanagement.py
 ```
 
@@ -506,8 +506,8 @@ source/testroots/testbase/
 ### Local Execution (Default)
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import LocalCommandRunner, LocalRunnerConfig
-from automojo.sysman.linux.ubuntu.firewallmanagement import (
+from ccai.sysman.linux.ubuntu.runners import LocalCommandRunner, LocalRunnerConfig
+from ccai.sysman.linux.ubuntu.firewallmanagement import (
     UbuntuFirewallManager,
     UbuntuFirewallManagerConfig,
 )
@@ -548,8 +548,8 @@ print(f"Ports: {zone_info.ports}")
 ### SSH Execution with Aspects
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import SSHCommandRunner, SSHRunnerConfig
-from automojo.sysman.linux.ubuntu.aspects import (
+from ccai.sysman.linux.ubuntu.runners import SSHCommandRunner, SSHRunnerConfig
+from ccai.sysman.linux.ubuntu.aspects import (
     PersistenceAspect,
     RetryAspect,
     TimeoutAspect,
@@ -557,8 +557,8 @@ from automojo.sysman.linux.ubuntu.aspects import (
     RetryAspectConfig,
     TimeoutAspectConfig,
 )
-from automojo.sysman.linux.ubuntu.storage import SQLiteStorage
-from automojo.sysman.linux.ubuntu.firewallmanagement import (
+from ccai.sysman.linux.ubuntu.storage import SQLiteStorage
+from ccai.sysman.linux.ubuntu.firewallmanagement import (
     UbuntuFirewallManager,
     UbuntuFirewallManagerConfig,
 )

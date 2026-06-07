@@ -5,7 +5,7 @@ items (`[ ]`) identify remaining work.
 
 ## Module and Models
 
-- [x] 1. Create the `automojo.sysman.linux.ubuntu.filesystemmanagement`
+- [x] 1. Create the `ccai.sysman.linux.ubuntu.filesystemmanagement`
   module
 
 - [x] 2. Define `UbuntuFilesystemActionStatus` enum (SUCCESS / FAILED
@@ -185,10 +185,10 @@ items (`[ ]`) identify remaining work.
 - [ ] 52. **Cross-OS contract conformance review**: verify this
   implementation's `UbuntuFilesystemActionResult` field shapes match
   the cross-OS contract at
-  `automojo-sysman-common/specs/contracts/filesystem-management/contract.md`.
+  `codecraftai-sysman-common/specs/contracts/filesystem-management/contract.md`.
 
-- [ ] 53. **automojo-* reuse check**: confirm that no other feature in
-  `automojo-sysman-linux-ubuntu` invokes `mount` / `umount` / `chmod`
+- [ ] 53. **codecraftai-* reuse check**: confirm that no other feature in
+  `codecraftai-sysman-linux-ubuntu` invokes `mount` / `umount` / `chmod`
   / `chown` directly; all such calls should go through
   `UbuntuFilesystemManager`.
 

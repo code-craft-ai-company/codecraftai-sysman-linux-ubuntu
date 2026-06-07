@@ -2,11 +2,11 @@
 
 ## Introduction
 
-The vpn-client-management feature provides the `automojo-sysman-linux-ubuntu`
+The vpn-client-management feature provides the `codecraftai-sysman-linux-ubuntu`
 package with the ability to install, configure, and lifecycle the **Tailscale**
 client (`tailscaled`) and the **Twingate Connector** on Ubuntu hosts. This spec
 implements the vpn-client-management contract defined at
-`automojo-sysman-common/specs/contracts/vpn-client-management/contract.md` for
+`codecraftai-sysman-common/specs/contracts/vpn-client-management/contract.md` for
 Ubuntu using the official Tailscale and Twingate apt repositories and
 `systemctl` for service control.
 

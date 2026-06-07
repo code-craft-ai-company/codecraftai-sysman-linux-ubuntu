@@ -3,7 +3,7 @@
 ## Overview
 
 The Ubuntu nfs-server-management feature is implemented as a single
-module, `automojo.sysman.linux.ubuntu.nfsservermanagement`, exposing
+module, `ccai.sysman.linux.ubuntu.nfsservermanagement`, exposing
 a `UbuntuNfsServerManager` class that wraps Ubuntu's
 `nfs-kernel-server` exports surface (`exportfs`, `showmount`, the
 content of `/etc/exports`) through the `ICommandRunner` abstraction.
@@ -12,9 +12,9 @@ Follows the standard manager pattern; delegates service lifecycle
 to `3-service-management`.
 
 **See Also:**
-- `automojo-sysman-common/specs/contracts/nfs-server-management/contract.md`
+- `codecraftai-sysman-common/specs/contracts/nfs-server-management/contract.md`
   — the cross-OS abstract contract.
-- `automojo-sysman-linux-redhat/specs/3-nfs-server-management/`
+- `codecraftai-sysman-linux-redhat/specs/3-nfs-server-management/`
   — the canonical reference implementation that extends the
   contract with `nfs.conf` and `idmapd.conf` support.
 - `3-service-management` — `nfs-kernel-server.service` lifecycle.

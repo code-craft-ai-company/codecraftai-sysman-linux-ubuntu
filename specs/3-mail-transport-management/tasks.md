@@ -1,7 +1,7 @@
 # Implementation Plan
 
 - [x] 1. Wire the module skeleton
-  - Create `automojo/sysman/linux/ubuntu/mailtransportmanagement.py`
+  - Create `ccai/sysman/linux/ubuntu/mailtransportmanagement.py`
     with the module docstring, the verb / tool mapping table, and
     the imports of `ActionStatus`, `BaseFeatureManager`,
     `FeatureActionResult`, and `FeatureConfig` from `featurebase`.

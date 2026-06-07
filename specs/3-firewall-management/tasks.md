@@ -5,7 +5,7 @@ items (`[ ]`) identify remaining work.
 
 ## Module and Models
 
-- [x] 1. Create the `automojo.sysman.linux.ubuntu.firewallmanagement`
+- [x] 1. Create the `ccai.sysman.linux.ubuntu.firewallmanagement`
   module
 
 - [x] 2. Define `UbuntuFirewallActionStatus` enum (SUCCESS / FAILED /
@@ -112,11 +112,11 @@ items (`[ ]`) identify remaining work.
 - [ ] 46. **Cross-OS contract conformance review**: verify that this
   implementation's `FirewallActionResult` / `ZoneInfo` /
   `FirewallState` field shapes match the cross-OS contract at
-  `automojo-sysman-common/specs/contracts/firewall-management/contract.md`
+  `codecraftai-sysman-common/specs/contracts/firewall-management/contract.md`
   and that the zone-validation behaviour matches the contract's
   Ubuntu row exactly.
 
-- [ ] 47. **automojo-* reuse check**: confirm that
+- [ ] 47. **codecraftai-* reuse check**: confirm that
   `3-cockpit-management` does not invoke `ufw` directly; it should
   delegate to `UbuntuFirewallManager.add_service("cockpit", "default")`
   to avoid drift.

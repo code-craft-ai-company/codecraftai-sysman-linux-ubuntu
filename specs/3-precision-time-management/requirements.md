@@ -3,10 +3,10 @@
 ## Introduction
 
 The precision-time-management feature provides the
-`automojo-sysman-linux-ubuntu` package with the ability to query and
+`codecraftai-sysman-linux-ubuntu` package with the ability to query and
 configure the host's NTP synchronisation surface on Ubuntu systems.
 This spec implements the precision-time-management contract defined at
-`automojo-sysman-common/specs/contracts/precision-time-management/contract.md`
+`codecraftai-sysman-common/specs/contracts/precision-time-management/contract.md`
 for Ubuntu using either `chrony` (the default; `chronyc` and the
 `chrony.service` unit) or `systemd-timesyncd` (`timedatectl` and the
 `systemd-timesyncd.service` unit).  The selection between backends is
@@ -20,7 +20,7 @@ feature does not decide *which* time sources should be active or
 *whether* clock sync should be on — it provides the capability to
 *manipulate the precision-time surface* reliably, idempotently, and
 with full auditability.  All system commands flow through the
-`automojo-interfaces` command-runner abstraction.  Mutations against
+`codecraftai-interfaces` command-runner abstraction.  Mutations against
 `/etc/chrony/chrony.conf` and `/etc/systemd/timesyncd.conf` flow
 through the runner via `cat` and `tee`, matching the locked-in
 file-I/O pattern of every other Ubuntu feature in this batch.
@@ -294,7 +294,7 @@ succeed on a standard system where the process does not run as root.
 ## Out of Scope
 
 - PTP / IEEE 1588 (`ptp4l`, `phc2sys`, `pmc`) — owned by
-  `automojo-sysman-linux-redhat` for the canonical PTP surface and
+  `codecraftai-sysman-linux-redhat` for the canonical PTP surface and
   not in scope for the Ubuntu spec.
 - NTP authentication keys (`keyfile`, `keys`).
 - Per-source PPS hardware configuration.

@@ -10,11 +10,11 @@
 from dataclasses import dataclass, field
 from typing import Callable, Optional
 
-from automojo import testbase
+from ccai import testbase
 
-from automojo.interfaces.icommandrunner import RunResult
+from ccai.interfaces.icommandrunner import RunResult
 
-from automojo.sysman.linux.ubuntu.auditmanagement import (
+from ccai.sysman.linux.ubuntu.auditmanagement import (
     UbuntuAuditActionStatus,
     UbuntuAuditEvent,
     UbuntuAuditEventQuery,
@@ -85,7 +85,7 @@ def _seed_no_rules(runner: _MockCommandRunner) -> None:
     runner.results[("auditctl", "-l")] = RunResult(
         exit_code=0, stdout="No rules\n", stderr="",
     )
-    runner.results[("cat", "/etc/audit/rules.d/99-automojo.rules")] = (
+    runner.results[("cat", "/etc/audit/rules.d/99-ccai.rules")] = (
         RunResult(exit_code=1, stdout="", stderr="")
     )
     return
@@ -174,7 +174,7 @@ def test_add_rule_skipped_when_present():
         stdout="-w /etc/passwd -p wa -k passwd_changes\n",
         stderr="",
     )
-    runner.results[("cat", "/etc/audit/rules.d/99-automojo.rules")] = (
+    runner.results[("cat", "/etc/audit/rules.d/99-ccai.rules")] = (
         RunResult(exit_code=1, stdout="", stderr="")
     )
     manager = UbuntuAuditManager(
@@ -243,7 +243,7 @@ def test_persistent_rule_writes_to_rules_d():
     testbase.assert_equal(len(tee_calls), 1)
     testbase.assert_equal(
         tee_calls[0]["args"],
-        ["tee", "/etc/audit/rules.d/99-automojo.rules"],
+        ["tee", "/etc/audit/rules.d/99-ccai.rules"],
     )
     testbase.assert_true("/etc/passwd" in tee_calls[0]["stdin"])
     testbase.assert_true("passwd_changes" in tee_calls[0]["stdin"])
@@ -274,7 +274,7 @@ def test_remove_rule_invokes_auditctl():
         stdout="-w /etc/passwd -p wa -k passwd_changes\n",
         stderr="",
     )
-    runner.results[("cat", "/etc/audit/rules.d/99-automojo.rules")] = (
+    runner.results[("cat", "/etc/audit/rules.d/99-ccai.rules")] = (
         RunResult(exit_code=1, stdout="", stderr="")
     )
     runner.default_result = RunResult(exit_code=0, stdout="", stderr="")
@@ -339,7 +339,7 @@ def test_list_rules_parses_output():
         ),
         stderr="",
     )
-    runner.results[("cat", "/etc/audit/rules.d/99-automojo.rules")] = (
+    runner.results[("cat", "/etc/audit/rules.d/99-ccai.rules")] = (
         RunResult(
             exit_code=0,
             stdout=(
@@ -369,7 +369,7 @@ def test_list_rules_parses_output():
     # The drop-in-only rule has a source path.
     dropin_rule = [r for r in rules if r.key == "shadow_changes"][0]
     testbase.assert_equal(
-        dropin_rule.source, "/etc/audit/rules.d/99-automojo.rules",
+        dropin_rule.source, "/etc/audit/rules.d/99-ccai.rules",
     )
     return
 

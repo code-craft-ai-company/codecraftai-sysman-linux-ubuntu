@@ -29,7 +29,7 @@ operators reading multiple sysman packages.
 
 | Concept                   | Ubuntu (this package)                         | RHEL (canonical)                              | macOS                                          | Windows                                        |
 |---------------------------|-----------------------------------------------|-----------------------------------------------|------------------------------------------------|------------------------------------------------|
-| Group container           | systemd `<name>.slice`                        | systemd `<name>.slice`                        | launchd label `automojo-rc-<name>`             | logical record at `%ProgramData%\Automojo\rcgroups\<name>.json` |
+| Group container           | systemd `<name>.slice`                        | systemd `<name>.slice`                        | launchd label `codecraftai-rc-<name>`             | logical record at `%ProgramData%\CodeCraftAI\rcgroups\<name>.json` |
 | On-disk representation    | `/etc/systemd/system/<name>.slice`            | `/etc/systemd/system/<name>.slice`            | `/Library/LaunchDaemons/<label>.plist`         | `<group_dir>\<name>.json`                      |
 | Kernel substrate          | cgroups v2 at `/sys/fs/cgroup/<name>.slice/`  | cgroups v2 at `/sys/fs/cgroup/<name>.slice/`  | none — per-process QoS via `taskpolicy`        | Job Objects (in-memory, kernel)                |
 | CPU ceiling tool          | `systemctl set-property CPUQuota=N%`          | `systemctl set-property CPUQuota=N%`          | unsupported per-group; per-PID `taskpolicy -c` | per-PID `PriorityClass` + `ProcessorAffinity`  |
@@ -189,7 +189,7 @@ The rendered slice body is:
 
 ```ini
 [Unit]
-Description=automojo-managed resource group: <name>
+Description=codecraftai-managed resource group: <name>
 
 [Slice]
 CPUQuota=<cpu_percent>%        # only when cpu_percent set
@@ -411,7 +411,7 @@ imports them directly for parser-only tests.
 ## Test plan
 
 - 14+ pytest functions in
-  `source/testroots/testbase/automojo/tests/sysman/linux/ubuntu/test_resourcecontrolmanagement.py`.
+  `source/testroots/testbase/ccai/tests/sysman/linux/ubuntu/test_resourcecontrolmanagement.py`.
 - Every test uses a `_MockCommandRunner` that records every
   `run` call and returns pre-seeded `RunResult` values keyed by
   argv tuple.  No live `systemctl` / `tee` / `cat` runs.

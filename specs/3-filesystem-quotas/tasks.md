@@ -1,11 +1,11 @@
 # Implementation Plan — Filesystem Quotas (Ubuntu)
 
 All tasks unchecked — this is a new feature with no existing
-implementation in `automojo-sysman-linux-ubuntu`.
+implementation in `codecraftai-sysman-linux-ubuntu`.
 
 ## Module and Models
 
-- [ ] 1. Create `source/packages/automojo/sysman/linux/ubuntu/filesystemquotas.py`
+- [ ] 1. Create `source/packages/ccai/sysman/linux/ubuntu/filesystemquotas.py`
   - _Requirements: All_
 
 - [ ] 2. Define `UbuntuQuotaActionStatus` (alias `ActionStatus`)

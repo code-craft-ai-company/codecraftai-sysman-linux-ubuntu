@@ -12,14 +12,14 @@ import subprocess
 
 from unittest import mock
 
-from automojo import testbase
+from ccai import testbase
 
-from automojo.sysman.linux.ubuntu.runners.aspects.base import IUbuntuExecutionAspect
-from automojo.sysman.linux.ubuntu.runners.local import (
+from ccai.sysman.linux.ubuntu.runners.aspects.base import IUbuntuExecutionAspect
+from ccai.sysman.linux.ubuntu.runners.local import (
     UbuntuLocalCommandRunner,
     UbuntuLocalRunnerConfig,
 )
-from automojo.sysman.linux.ubuntu.runners.models import (
+from ccai.sysman.linux.ubuntu.runners.models import (
     UbuntuExecutionContext,
     UbuntuRunResult,
 )

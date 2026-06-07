@@ -3,13 +3,13 @@
 ## Introduction
 
 The storage management feature provides the
-`automojo-sysman-linux-ubuntu` package with the ability to enumerate
+`codecraftai-sysman-linux-ubuntu` package with the ability to enumerate
 disks and volumes, create / delete / resize volumes, manage Volume
 Groups (the cross-OS-contract "pool"), add and remove physical disks
 from a Volume Group, and query detailed disk and volume metadata on
 Ubuntu systems.  This spec implements the storage-management contract
 defined at
-`automojo-sysman-common/specs/contracts/storage-management/contract.md`
+`codecraftai-sysman-common/specs/contracts/storage-management/contract.md`
 for Ubuntu using the LVM2 user-space toolchain (`lsblk`, `lvs`, `vgs`,
 `pvs`, `pvcreate`, `pvremove`, `vgcreate`, `vgextend`, `vgreduce`,
 `vgremove`, `lvcreate`, `lvremove`, `lvresize`, `blkid`).
@@ -20,7 +20,7 @@ feature does not decide *which* volumes should exist, *which* disks
 should be in a pool, or *what* size a volume should have — it provides
 the capability to *manipulate LVM state* reliably, idempotently, and
 with full auditability.  All system commands are executed exclusively
-through the `automojo-interfaces` command-runner abstraction.
+through the `codecraftai-interfaces` command-runner abstraction.
 
 Filesystem creation (`mkfs.*`) and mount-table management (`/etc/fstab`)
 are NOT in scope here — they live in `filesystem-management`.  This

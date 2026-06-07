@@ -3,7 +3,7 @@
 ## Introduction
 
 The dns-server-management feature provides the
-`automojo-sysman-linux-ubuntu` package with the ability to declare,
+`codecraftai-sysman-linux-ubuntu` package with the ability to declare,
 audit, and reload BIND-9 zones on Ubuntu hosts.  It is the cross-OS
 counterpart to the RHEL-canonical `3-dns-server-management` feature
 and the macOS / Windows variants in their respective sysman
@@ -19,7 +19,7 @@ zone-data files live in `/etc/bind/zones/db.<name>` by convention.
 All system commands (`rndc reconfig`, `rndc reload <zone>`,
 `rndc zonestatus <zone>`, `named-checkconf`, `named-checkzone`,
 `tee`, `rm`, `cat`, `test -e`) are dispatched through the
-`automojo-interfaces` `ICommandRunner` abstraction.  All mutating
+`codecraftai-interfaces` `ICommandRunner` abstraction.  All mutating
 operations honour dry-run mode and config-driven elevation.
 
 This feature complements — but does not duplicate — the
@@ -30,7 +30,7 @@ DNS *server* surface (zone-data files and the
 
 The reference implementation for shape, idempotency, dry-run, and
 result mapping lives in
-`automojo-sysman-linux-redhat/specs/3-dns-server-management/`.
+`codecraftai-sysman-linux-redhat/specs/3-dns-server-management/`.
 
 ---
 

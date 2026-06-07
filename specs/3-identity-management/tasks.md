@@ -5,7 +5,7 @@ items (`[ ]`) identify remaining work tracked for follow-up batches.
 
 ## Module and Models
 
-- [x] 1. Create the `automojo.sysman.linux.ubuntu.identitymanagement`
+- [x] 1. Create the `ccai.sysman.linux.ubuntu.identitymanagement`
   module.
 
 - [x] 2. Define `UbuntuIdentityActionStatus` (SUCCESS / FAILED /

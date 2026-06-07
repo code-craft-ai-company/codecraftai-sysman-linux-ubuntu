@@ -3,9 +3,9 @@
 ## Overview
 
 The service-management feature is implemented as a single module,
-`automojo.sysman.linux.ubuntu.servicemanagement`, that exposes a
+`ccai.sysman.linux.ubuntu.servicemanagement`, that exposes a
 `UbuntuServiceManager` class.  This spec implements the service-management contract
-defined at `automojo-sysman-common/specs/contracts/service-management/contract.md`
+defined at `codecraftai-sysman-common/specs/contracts/service-management/contract.md`
 for Ubuntu using `systemctl`.  The coordinator instantiates `UbuntuServiceManager`
 with a command runner and a config, then calls its verbs to start, stop, restart,
 reload, enable, disable, mask, unmask, query status, list services, and reload the
@@ -38,7 +38,7 @@ details on local/SSH execution, reliability tracking, and aspect configuration.
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │            UbuntuServiceManager                             │
-│  automojo.sysman.linux.ubuntu.servicemanagement             │
+│  ccai.sysman.linux.ubuntu.servicemanagement             │
 │                                                             │
 │  start_service()  stop_service()  restart_service()         │
 │  reload_service() enable_service()  disable_service()       │
@@ -73,7 +73,7 @@ details on local/SSH execution, reliability tracking, and aspect configuration.
 
 ### `UbuntuServiceManager`
 
-**Location:** `source/packages/automojo/sysman/linux/ubuntu/servicemanagement.py`
+**Location:** `source/packages/ccai/sysman/linux/ubuntu/servicemanagement.py`
 
 | Method | Signature | Description |
 |---|---|---|
@@ -153,7 +153,7 @@ class UbuntuServiceQueryError(Exception):
 
 ## Interfaces
 
-### `ICommandRunner` (from `automojo-interfaces`)
+### `ICommandRunner` (from `codecraftai-interfaces`)
 
 ```python
 class ICommandRunner(Protocol):
@@ -491,12 +491,12 @@ result has `status=DRY_RUN`.
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 ├── __init__.py
 └── servicemanagement.py       ← UbuntuServiceManager, config, models, exceptions
 
 source/testroots/testbase/
-└── automojo/tests/sysman/linux/ubuntu/
+└── ccai/tests/sysman/linux/ubuntu/
     └── test_servicemanagement.py
 ```
 
@@ -507,10 +507,10 @@ source/testroots/testbase/
 ### Local Execution (Default)
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import (
+from ccai.sysman.linux.ubuntu.runners import (
     UbuntuLocalCommandRunner, UbuntuLocalRunnerConfig,
 )
-from automojo.sysman.linux.ubuntu.servicemanagement import (
+from ccai.sysman.linux.ubuntu.servicemanagement import (
     UbuntuServiceManager, UbuntuServiceManagerConfig, UbuntuServiceScope,
 )
 
@@ -528,13 +528,13 @@ print(f"active={status.active_state} enabled={status.enabled_state}")
 ### Aspect Composition (SSH)
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import (
+from ccai.sysman.linux.ubuntu.runners import (
     UbuntuSSHCommandRunner, UbuntuSSHRunnerConfig,
 )
-from automojo.sysman.linux.ubuntu.aspects import (
+from ccai.sysman.linux.ubuntu.aspects import (
     RetryAspect, RetryAspectConfig, TimeoutAspect, TimeoutAspectConfig,
 )
-from automojo.sysman.linux.ubuntu.servicemanagement import (
+from ccai.sysman.linux.ubuntu.servicemanagement import (
     UbuntuServiceManager, UbuntuServiceManagerConfig, UbuntuServiceScope,
 )
 

@@ -2,7 +2,7 @@
 
 ## Module and Types
 
-- [x] 1. Create the `automojo.sysman.linux.ubuntu.vpnclientmanagement` module.
+- [x] 1. Create the `ccai.sysman.linux.ubuntu.vpnclientmanagement` module.
 
 - [x] 2. Re-export `UbuntuVPNActionStatus`, `UbuntuVPNActionResult`,
   `UbuntuVPNClientStatus`, `UbuntuVPNClientQueryError` from the

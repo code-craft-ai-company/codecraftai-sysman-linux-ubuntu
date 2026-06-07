@@ -2,10 +2,10 @@
 
 ## Introduction
 
-The maintenance-reporting feature provides the `automojo-sysman-linux-ubuntu` package
+The maintenance-reporting feature provides the `codecraftai-sysman-linux-ubuntu` package
 with a structured, serialisable record of a maintenance session.  This spec implements
 the maintenance-reporting contract defined at
-`automojo-sysman-common/specs/contracts/maintenance-reporting/contract.md` for
+`codecraftai-sysman-common/specs/contracts/maintenance-reporting/contract.md` for
 Ubuntu using pure Python accumulation of action records and the `IFileOperator`
 abstraction (via `UbuntuLocalFileOperator` / `UbuntuSSHFileOperator`) for the single
 I/O egress point — `emit_report(path, format)`.
@@ -17,7 +17,7 @@ emitting a JSON, YAML, or Markdown file through the file operator.  The reporter
 module itself never opens a file handle outside of `IFileOperator`; every on-disk
 artefact goes through that abstraction so dry-run semantics and aspect composition
 apply uniformly.  A `_clock` callable is accepted for deterministic tests.  The
-default output directory on Ubuntu is `/var/log/automojo/maintenance/<session_id>/`,
+default output directory on Ubuntu is `/var/log/ccai/maintenance/<session_id>/`,
 which requires the file operator to elevate for writes when the calling user is not
 already root.
 
@@ -196,7 +196,7 @@ well-known location.
 #### Acceptance Criteria
 
 1. WHEN the coordinator calls `default_session_path(session_id)` THE SYSTEM SHALL
-   return the string `/var/log/automojo/maintenance/<session_id>/`.
+   return the string `/var/log/ccai/maintenance/<session_id>/`.
 2. WHEN the caller supplies `session_id=""` or `session_id=None` THE SYSTEM SHALL raise
    `ValueError` with a descriptive message.
 3. WHEN the caller wants to override the base THE SYSTEM SHALL accept a

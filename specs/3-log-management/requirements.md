@@ -2,10 +2,10 @@
 
 ## Introduction
 
-The log management feature provides the `automojo-sysman-linux-ubuntu` package with
+The log management feature provides the `codecraftai-sysman-linux-ubuntu` package with
 the ability to inspect, tail, rotate, truncate, and configure rotation of logs on
 Ubuntu systems.  This spec implements the log-management contract defined at
-`automojo-sysman-common/specs/contracts/log-management/contract.md` for Ubuntu
+`codecraftai-sysman-common/specs/contracts/log-management/contract.md` for Ubuntu
 using `journalctl` for the systemd journal, `logrotate` drop-ins under
 `/etc/logrotate.d/`, and plain-file truncation via the `IFileOperator`.
 
@@ -13,7 +13,7 @@ A maintenance coordinator running in an external package drives all operations b
 calling into this feature's public interfaces.  The feature does not decide *which*
 logs to retrieve or rotate — it provides the capability to *do it* reliably,
 idempotently, and with full auditability.  All system commands are executed exclusively
-through the `automojo-interfaces` command-runner abstraction, and all rotation drop-in
+through the `codecraftai-interfaces` command-runner abstraction, and all rotation drop-in
 file I/O is delegated to the `IFileOperator` abstraction.  No `subprocess`, no direct
 `open`, and no direct `pathlib` calls are made inside this module, enabling dry-run
 simulation, auditing, and test mocking without requiring a live system.

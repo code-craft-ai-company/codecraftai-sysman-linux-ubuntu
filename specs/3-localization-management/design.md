@@ -13,7 +13,7 @@ in) and `timedatectl` (which writes `/etc/localtime` and
 `/etc/timezone`).
 
 The module sits in
-`automojo.sysman.linux.ubuntu.localizationmanagement` and exports the
+`ccai.sysman.linux.ubuntu.localizationmanagement` and exports the
 following OS-prefixed surface:
 
 | Type | Role |
@@ -58,7 +58,7 @@ overlaps with `precision-time-management` and is not duplicated here.
 ```
 
 `UbuntuLocalizationManager` extends `BaseFeatureManager` from
-`automojo.sysman.linux.ubuntu.featurebase`, which supplies the
+`ccai.sysman.linux.ubuntu.featurebase`, which supplies the
 canonical `ActionStatus`, `FeatureConfig`, `FeatureActionResult`, and
 `_dispatch` helper. The localization module exposes its own
 `_dispatch_localization_write` helper instead of calling `_dispatch`
@@ -262,7 +262,7 @@ without needing a runner stub.
 ## Public-facing imports
 
 ```python
-from automojo.sysman.linux.ubuntu.localizationmanagement import (
+from ccai.sysman.linux.ubuntu.localizationmanagement import (
     UbuntuLocalizationManager,
     UbuntuLocalizationManagerConfig,
     UbuntuLocalizationActionStatus,

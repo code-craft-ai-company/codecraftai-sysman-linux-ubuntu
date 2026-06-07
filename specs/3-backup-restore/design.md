@@ -3,11 +3,11 @@
 ## Overview
 
 The Ubuntu backup-restore feature is implemented as a single module,
-`automojo.sysman.linux.ubuntu.backuprestore`, exposing a
+`ccai.sysman.linux.ubuntu.backuprestore`, exposing a
 `UbuntuBackupRestoreManager` class and its associated dataclasses and enum.
 The manager wraps three backend tools — `rsync`, `restic`, and `tar` — behind
 a single verb surface defined by the cross-OS contract at
-`automojo-sysman-common/specs/contracts/backup-restore/contract.md`.
+`codecraftai-sysman-common/specs/contracts/backup-restore/contract.md`.
 
 Ubuntu has no first-party backup framework analogous to Time Machine on
 macOS or `wbadmin` on Windows. The standard operator experience is to assemble
@@ -53,7 +53,7 @@ composition (persistence, retry, timeout) is transparent to the manager.
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │         UbuntuBackupRestoreManager                          │
-│  automojo.sysman.linux.ubuntu.backuprestore                 │
+│  ccai.sysman.linux.ubuntu.backuprestore                 │
 │                                                             │
 │  create_backup_job()      run_backup_now()                  │
 │  delete_backup_job()      restore_from_backup()             │
@@ -100,10 +100,10 @@ identically under local and SSH execution.
 
 | Verb                  | RSYNC backend                              | RESTIC backend                                   | TAR backend                              |
 |-----------------------|--------------------------------------------|--------------------------------------------------|------------------------------------------|
-| `create_backup_job`   | `tee /var/lib/automojo/backups/jobs/<id>.json` | `tee /var/lib/automojo/backups/jobs/<id>.json` | `tee /var/lib/automojo/backups/jobs/<id>.json` |
-| `delete_backup_job`   | `rm -f /var/lib/automojo/backups/jobs/<id>.json` | `rm -f /var/lib/automojo/backups/jobs/<id>.json` | `rm -f /var/lib/automojo/backups/jobs/<id>.json` |
+| `create_backup_job`   | `tee /var/lib/ccai/backups/jobs/<id>.json` | `tee /var/lib/ccai/backups/jobs/<id>.json` | `tee /var/lib/ccai/backups/jobs/<id>.json` |
+| `delete_backup_job`   | `rm -f /var/lib/ccai/backups/jobs/<id>.json` | `rm -f /var/lib/ccai/backups/jobs/<id>.json` | `rm -f /var/lib/ccai/backups/jobs/<id>.json` |
 | `run_backup_now`      | `rsync -aAXv --delete <src> <dst>`         | `restic backup <paths> --exclude <pat>`          | `tar -czf <archive> <paths>`             |
-| `list_backups`        | `ls -1 /var/lib/automojo/backups/jobs` + `cat <spec>` | same                                  | same                                     |
+| `list_backups`        | `ls -1 /var/lib/ccai/backups/jobs` + `cat <spec>` | same                                  | same                                     |
 | `restore_from_backup` | `rsync -aAXv --delete <dst> <target>`      | `restic restore <id> --target <target>`          | `tar -xzf <archive> -C <target>`         |
 | `verify_backup`       | best-effort `rsync -an --checksum`         | `restic check`                                   | `tar -tzf <archive>`                     |
 | `get_job_status`      | read spec; report `last_run_status`        | same                                             | same                                     |
@@ -160,7 +160,7 @@ that gets re-read does not expose the value).
 ## Job Persistence
 
 Backup-job specs are persisted as JSON files at
-`/var/lib/automojo/backups/jobs/<job_id>.json`. The on-disk schema is the
+`/var/lib/ccai/backups/jobs/<job_id>.json`. The on-disk schema is the
 JSON serialisation of `UbuntuBackupJobSpec`, with one transformation: the
 `encryption_passphrase` field is replaced by the sentinel `"***REDACTED***"`
 before serialisation.
@@ -175,7 +175,7 @@ the file.
 The job directory itself is created lazily by the first `create_backup_job`
 call: `tee` invoked on a path under a non-existent directory will fail.
 The manager does NOT pre-create the directory; instead, it documents that
-operators MUST `mkdir -p /var/lib/automojo/backups/jobs` once at host
+operators MUST `mkdir -p /var/lib/ccai/backups/jobs` once at host
 provisioning time. Pre-creating the directory is the responsibility of the
 package's installation manifest, not the runtime manager.
 
@@ -300,7 +300,7 @@ verification (e.g. an archive header that cannot be parsed at all).
 ## Test Strategy
 
 The test suite at
-`source/testroots/testbase/automojo/tests/sysman/linux/ubuntu/test_backuprestore.py`
+`source/testroots/testbase/ccai/tests/sysman/linux/ubuntu/test_backuprestore.py`
 covers, at minimum, the following surface:
 
 * Command construction: one test per write verb per backend.
@@ -329,7 +329,7 @@ pattern used by `test_dnsservermanagement.py` and `test_sambaservermanagement.py
 | Concept                | Ubuntu                                    | macOS                                         | Windows                                                |
 |------------------------|-------------------------------------------|-----------------------------------------------|--------------------------------------------------------|
 | Default backup tool    | `rsync` (selected via enum)               | Time Machine via `tmutil`                     | `wbadmin` (Windows Server) / Robocopy (client SKUs)    |
-| Job persistence        | JSON spec at `/var/lib/automojo/backups/` | JSON spec at `/var/db/automojo/backups/`      | JSON spec at `%ProgramData%\Automojo\backup\`          |
+| Job persistence        | JSON spec at `/var/lib/ccai/backups/` | JSON spec at `/var/db/ccai/backups/`      | JSON spec at `%ProgramData%\CodeCraftAI\backup\`          |
 | Repository layout      | tool-specific (rsync mirror / restic repo / tar archive) | TM volume + listing                | `wbadmin` catalogue on a backup volume                 |
 | Encryption native?     | only for `restic`                         | Time Machine encrypts at the volume layer     | `wbadmin` does not encrypt; relies on volume-level     |
 | Snapshot model         | none (full mirror or deduplicating store) | block-level (HFS+/APFS hard-link snapshot)    | block-level VHDX                                       |

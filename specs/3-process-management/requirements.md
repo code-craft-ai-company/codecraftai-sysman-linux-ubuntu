@@ -3,18 +3,18 @@
 ## Introduction
 
 This spec implements the process-management contract defined at
-`automojo-sysman-common/specs/contracts/process-management/contract.md`
+`codecraftai-sysman-common/specs/contracts/process-management/contract.md`
 for Ubuntu using `ps`, `kill`, `pkill`, `pgrep`, `renice`, and `setsid`.
 
 The process-management feature provides the
-`automojo-sysman-linux-ubuntu` package with the ability to enumerate,
+`codecraftai-sysman-linux-ubuntu` package with the ability to enumerate,
 inspect, terminate, spawn, prioritise, wait for, and search for
 arbitrary user-space processes on Ubuntu.  A maintenance coordinator
 running in an external package drives all operations by calling into
 this feature's public interfaces.  The feature does not decide *which*
 processes to manage — it provides the capability to *do it* reliably,
 idempotently, and with full auditability.  All system commands are
-executed exclusively through the `automojo-interfaces` command-runner
+executed exclusively through the `codecraftai-interfaces` command-runner
 abstraction, enabling dry-run simulation, auditing, and test mocking
 without requiring a live system.
 

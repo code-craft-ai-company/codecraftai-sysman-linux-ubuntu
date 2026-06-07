@@ -6,9 +6,9 @@
     coverage will land alongside the SSH runner backend.
 """
 
-from automojo import testbase
+from ccai import testbase
 
-from automojo.sysman.linux.ubuntu.runners.aspects import (
+from ccai.sysman.linux.ubuntu.runners.aspects import (
     UbuntuPersistenceAspect,
     UbuntuPersistenceAspectConfig,
     UbuntuRetryAspect,
@@ -16,7 +16,7 @@ from automojo.sysman.linux.ubuntu.runners.aspects import (
     UbuntuTimeoutAspect,
     UbuntuTimeoutAspectConfig,
 )
-from automojo.sysman.linux.ubuntu.runners.models import (
+from ccai.sysman.linux.ubuntu.runners.models import (
     UbuntuExecutionContext,
     UbuntuRunResult,
 )

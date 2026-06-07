@@ -2,10 +2,10 @@
 
 ## Introduction
 
-The service-management feature provides the `automojo-sysman-linux-ubuntu` package
+The service-management feature provides the `codecraftai-sysman-linux-ubuntu` package
 with the ability to manage `systemd` system and user services on Ubuntu systems.  This
 spec implements the service-management contract defined at
-`automojo-sysman-common/specs/contracts/service-management/contract.md` for Ubuntu
+`codecraftai-sysman-common/specs/contracts/service-management/contract.md` for Ubuntu
 using `systemctl`.  It covers start/stop/restart/reload, enable/disable,
 mask/unmask, status queries, service listing, and daemon-reload, with full idempotency
 and dry-run support.

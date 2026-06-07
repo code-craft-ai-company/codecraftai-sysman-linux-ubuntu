@@ -3,10 +3,10 @@
 ## Overview
 
 The security compliance feature is implemented as a single module,
-`automojo.sysman.linux.ubuntu.securitycompliance`, that exposes a
+`ccai.sysman.linux.ubuntu.securitycompliance`, that exposes a
 `UbuntuSecurityComplianceManager` class.  This spec implements the
 security-compliance contract defined at
-`automojo-sysman-common/specs/contracts/security-compliance/contract.md`
+`codecraftai-sysman-common/specs/contracts/security-compliance/contract.md`
 for Ubuntu using OpenSCAP (`oscap`) against the Ubuntu SCAP Security Guide
 datastream.
 
@@ -38,7 +38,7 @@ configuration.
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │           UbuntuSecurityComplianceManager                   │
-│  automojo.sysman.linux.ubuntu.securitycompliance            │
+│  ccai.sysman.linux.ubuntu.securitycompliance            │
 │                                                             │
 │  list_profiles()        get_profile()                       │
 │  run_compliance_profile()  remediate()                      │
@@ -74,7 +74,7 @@ configuration.
 
 ### `UbuntuSecurityComplianceManager`
 
-**Location:** `source/packages/automojo/sysman/linux/ubuntu/securitycompliance.py`
+**Location:** `source/packages/ccai/sysman/linux/ubuntu/securitycompliance.py`
 
 | Method | Signature | Description |
 |---|---|---|
@@ -93,8 +93,8 @@ configuration.
 | `dry_run` | `bool` | `False` | When `True`, no mutations dispatch |
 | `elevated` | `bool` | `False` | When `True`, remediations pass `elevated=True` |
 | `datastream_path` | `str` | `"/usr/share/xml/scap/ssg/content/ssg-ubuntu2204-ds.xml"` | OpenSCAP datastream |
-| `baseline_path` | `str` | `"/var/lib/automojo/compliance/current_baseline.json"` | Baseline JSON |
-| `results_dir` | `str` | `"/var/lib/automojo/compliance/results"` | OpenSCAP results directory |
+| `baseline_path` | `str` | `"/var/lib/ccai/compliance/current_baseline.json"` | Baseline JSON |
+| `results_dir` | `str` | `"/var/lib/ccai/compliance/results"` | OpenSCAP results directory |
 
 ---
 
@@ -186,7 +186,7 @@ class UbuntuSecurityComplianceError(Exception):
 
 ## Interfaces
 
-### `ICommandRunner` (from `automojo-interfaces`)
+### `ICommandRunner` (from `codecraftai-interfaces`)
 
 ```python
 class ICommandRunner(Protocol):
@@ -198,7 +198,7 @@ class ICommandRunner(Protocol):
     ) -> RunResult: ...
 ```
 
-### `IFileOperator` (from `automojo-interfaces`)
+### `IFileOperator` (from `codecraftai-interfaces`)
 
 ```python
 class IFileOperator(Protocol):
@@ -490,13 +490,13 @@ Per-rule check failures are captured inside the report
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 ├── __init__.py
 └── securitycompliance.py      ← UbuntuSecurityComplianceManager, config,
                                   models, exceptions
 
 source/testroots/testbase/
-└── automojo/tests/sysman/linux/ubuntu/
+└── ccai/tests/sysman/linux/ubuntu/
     └── test_securitycompliance.py
 ```
 
@@ -507,9 +507,9 @@ source/testroots/testbase/
 ### Local Execution (Default)
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import LocalCommandRunner, LocalRunnerConfig
-from automojo.sysman.linux.ubuntu.fileops import LocalFileOperator, LocalFileOperatorConfig
-from automojo.sysman.linux.ubuntu.securitycompliance import (
+from ccai.sysman.linux.ubuntu.runners import LocalCommandRunner, LocalRunnerConfig
+from ccai.sysman.linux.ubuntu.fileops import LocalFileOperator, LocalFileOperatorConfig
+from ccai.sysman.linux.ubuntu.securitycompliance import (
     UbuntuSecurityComplianceManager,
     UbuntuSecurityComplianceManagerConfig,
     UbuntuBaselineSpec,
@@ -541,9 +541,9 @@ for r in results:
 ### SSH Execution with Aspects
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import SSHCommandRunner, SSHRunnerConfig
-from automojo.sysman.linux.ubuntu.fileops import SSHFileOperator, SSHFileOperatorConfig
-from automojo.sysman.linux.ubuntu.aspects import (
+from ccai.sysman.linux.ubuntu.runners import SSHCommandRunner, SSHRunnerConfig
+from ccai.sysman.linux.ubuntu.fileops import SSHFileOperator, SSHFileOperatorConfig
+from ccai.sysman.linux.ubuntu.aspects import (
     PersistenceAspect,
     RetryAspect,
     TimeoutAspect,
@@ -551,8 +551,8 @@ from automojo.sysman.linux.ubuntu.aspects import (
     RetryAspectConfig,
     TimeoutAspectConfig,
 )
-from automojo.sysman.linux.ubuntu.storage import SQLiteStorage
-from automojo.sysman.linux.ubuntu.securitycompliance import (
+from ccai.sysman.linux.ubuntu.storage import SQLiteStorage
+from ccai.sysman.linux.ubuntu.securitycompliance import (
     UbuntuSecurityComplianceManager,
     UbuntuSecurityComplianceManagerConfig,
     UbuntuBaselineSpec,
@@ -654,10 +654,10 @@ Property-based tests are tagged as
 - **OpenSCAP as the engine.**  The contract's check types (`oval`, `ocil`,
   `script`) are honored by dispatching to OpenSCAP's native check handlers.
 - **Baseline persistence location.**  Baseline JSON lives at
-  `/var/lib/automojo/compliance/current_baseline.json`, managed via the
+  `/var/lib/ccai/compliance/current_baseline.json`, managed via the
   `IFileOperator` extension.
 - **Results directory.**  Each profile run writes result XML and an HTML
-  report under `/var/lib/automojo/compliance/results/` for auditability.
+  report under `/var/lib/ccai/compliance/results/` for auditability.
 
 ## Out of Scope
 

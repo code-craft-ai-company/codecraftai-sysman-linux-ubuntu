@@ -3,11 +3,11 @@
 ## Introduction
 
 The certificate-issuance feature provides the
-`automojo-sysman-linux-ubuntu` package with the ability to *issue*,
+`codecraftai-sysman-linux-ubuntu` package with the ability to *issue*,
 *renew*, *revoke*, *export*, *import*, *get*, and *list* X.509
 certificates on Ubuntu hosts.  This spec implements the
 certificate-issuance contract defined at
-`automojo-sysman-common/specs/contracts/certificate-issuance/contract.md`
+`codecraftai-sysman-common/specs/contracts/certificate-issuance/contract.md`
 for Ubuntu.
 
 A maintenance coordinator drives all operations by calling into this
@@ -16,7 +16,7 @@ certificates the host should hold — it provides the capability to
 *apply* a declared issuance posture reliably, idempotently, and with
 full auditability.  All system commands (`certbot`, `openssl`, `cat`,
 `tee`, `ls`, `cmp`) are executed exclusively through the
-`automojo-interfaces` command-runner abstraction.  No `subprocess`,
+`codecraftai-interfaces` command-runner abstraction.  No `subprocess`,
 no direct `open`, and no direct `pathlib` calls are made inside this
 module.
 

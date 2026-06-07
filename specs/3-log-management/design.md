@@ -3,9 +3,9 @@
 ## Overview
 
 The log management feature is implemented as a single module,
-`automojo.sysman.linux.ubuntu.logmanagement`, that exposes a `UbuntuLogManager` class.
+`ccai.sysman.linux.ubuntu.logmanagement`, that exposes a `UbuntuLogManager` class.
 This spec implements the log-management contract defined at
-`automojo-sysman-common/specs/contracts/log-management/contract.md` for Ubuntu
+`codecraftai-sysman-common/specs/contracts/log-management/contract.md` for Ubuntu
 using `journalctl` for the systemd journal, `tail`/`cat`/`stat` for plain-file logs,
 and `logrotate` with drop-ins under `/etc/logrotate.d/`.
 
@@ -38,7 +38,7 @@ details on local/SSH execution, reliability tracking, and aspect configuration.
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │            UbuntuLogManager                                 │
-│  automojo.sysman.linux.ubuntu.logmanagement                 │
+│  ccai.sysman.linux.ubuntu.logmanagement                 │
 │                                                             │
 │  get_log()              tail_log()                          │
 │  list_logs()            rotate_log()                        │
@@ -74,7 +74,7 @@ details on local/SSH execution, reliability tracking, and aspect configuration.
 
 ### `UbuntuLogManager`
 
-**Location:** `source/packages/automojo/sysman/linux/ubuntu/logmanagement.py`
+**Location:** `source/packages/ccai/sysman/linux/ubuntu/logmanagement.py`
 
 | Method | Signature | Description |
 |---|---|---|
@@ -166,7 +166,7 @@ class UbuntuLogQueryError(Exception):
 
 ## Interfaces
 
-### `ICommandRunner` (from `automojo-interfaces`)
+### `ICommandRunner` (from `codecraftai-interfaces`)
 
 ```python
 class ICommandRunner(Protocol):
@@ -175,7 +175,7 @@ class ICommandRunner(Protocol):
     def stream(self, args: list[str], elevated: bool = False) -> Iterator[str]: ...
 ```
 
-### `IFileOperator` (from `automojo-interfaces`)
+### `IFileOperator` (from `codecraftai-interfaces`)
 
 ```python
 class IFileOperator(Protocol):
@@ -487,12 +487,12 @@ operator should be invoked with `elevated=True`.
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 ├── __init__.py
 └── logmanagement.py          ← UbuntuLogManager, config, models, exceptions
 
 source/testroots/testbase/
-└── automojo/tests/sysman/linux/ubuntu/
+└── ccai/tests/sysman/linux/ubuntu/
     └── test_logmanagement.py
 ```
 
@@ -503,9 +503,9 @@ source/testroots/testbase/
 ### Local Execution
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import LocalCommandRunner, LocalRunnerConfig
-from automojo.sysman.linux.ubuntu.fileoperators import LocalFileOperator
-from automojo.sysman.linux.ubuntu.logmanagement import (
+from ccai.sysman.linux.ubuntu.runners import LocalCommandRunner, LocalRunnerConfig
+from ccai.sysman.linux.ubuntu.fileoperators import LocalFileOperator
+from ccai.sysman.linux.ubuntu.logmanagement import (
     UbuntuLogManager,
     UbuntuLogManagerConfig,
     UbuntuRotationPolicy,
@@ -542,15 +542,15 @@ print(f"Rotate: {rotate_result.status}")
 ### SSH Execution with Aspects
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import SSHCommandRunner, SSHRunnerConfig
-from automojo.sysman.linux.ubuntu.aspects import (
+from ccai.sysman.linux.ubuntu.runners import SSHCommandRunner, SSHRunnerConfig
+from ccai.sysman.linux.ubuntu.aspects import (
     PersistenceAspect, PersistenceAspectConfig,
     RetryAspect, RetryAspectConfig,
     TimeoutAspect, TimeoutAspectConfig,
 )
-from automojo.sysman.linux.ubuntu.storage import SQLiteStorage
-from automojo.sysman.linux.ubuntu.fileoperators import SSHFileOperator
-from automojo.sysman.linux.ubuntu.logmanagement import UbuntuLogManager, UbuntuLogManagerConfig
+from ccai.sysman.linux.ubuntu.storage import SQLiteStorage
+from ccai.sysman.linux.ubuntu.fileoperators import SSHFileOperator
+from ccai.sysman.linux.ubuntu.logmanagement import UbuntuLogManager, UbuntuLogManagerConfig
 
 runner = SSHCommandRunner(SSHRunnerConfig(host="remote-ubuntu", username="admin"))
 

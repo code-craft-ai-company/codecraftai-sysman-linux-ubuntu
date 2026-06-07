@@ -9,7 +9,7 @@ guards, no mutating operations.
 ## Module and Models
 
 - [x] 1. Create the `hardwareinventory` module under
-  `automojo.sysman.linux.ubuntu`.
+  `ccai.sysman.linux.ubuntu`.
 
 - [x] 2. Define `UbuntuHardwareInventoryActionStatus` with
   `SUCCESS`, `FAILED`, `SKIPPED` (no `DRY_RUN` per contract).
@@ -144,7 +144,7 @@ guards, no mutating operations.
   `HardwareSnapshot` shape, ship `collect_snapshot()` here and
   delegate per-verb partial-tolerance to the snapshot wrapper.
 
-- [ ] 41. **automojo-* reuse check**: `automojo-interop` may already
+- [ ] 41. **codecraftai-* reuse check**: `codecraftai-interop` may already
   expose generic PCI / USB enumeration helpers that would shrink
   the `_parse_lspci_output` / `_parse_lsusb_output` logic.  Audit
   before shipping the next sysman OS.

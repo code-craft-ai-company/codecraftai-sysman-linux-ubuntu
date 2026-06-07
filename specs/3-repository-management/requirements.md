@@ -2,10 +2,10 @@
 
 ## Introduction
 
-The repository management feature provides the `automojo-sysman-linux-ubuntu`
+The repository management feature provides the `codecraftai-sysman-linux-ubuntu`
 package with the ability to manage `apt` software sources on Ubuntu systems.
 This spec implements the repository-management contract defined at
-`automojo-sysman-common/specs/contracts/repository-management/contract.md`
+`codecraftai-sysman-common/specs/contracts/repository-management/contract.md`
 for Ubuntu using `apt`, `add-apt-repository`, and direct file management of
 `/etc/apt/sources.list.d/` plus `/etc/apt/keyrings/`.  It covers adding,
 removing, enabling, disabling, listing, and refreshing repositories, setting
@@ -16,8 +16,8 @@ operations by calling into this feature's public interfaces.  The feature
 does not decide *which* repositories to configure — it provides the
 capability to *do it* reliably, idempotently, and with full auditability.
 All system commands are executed exclusively through the
-`automojo-interfaces` command-runner abstraction, and all source-file /
-keyring-file mutations are executed through the `automojo-interfaces`
+`codecraftai-interfaces` command-runner abstraction, and all source-file /
+keyring-file mutations are executed through the `codecraftai-interfaces`
 file-operator abstraction, enabling dry-run simulation, auditing, and test
 mocking without requiring a live system.
 

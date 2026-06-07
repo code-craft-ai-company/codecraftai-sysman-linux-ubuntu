@@ -3,10 +3,10 @@
 ## Overview
 
 The ssh-server-configuration feature is implemented as a single
-module, `automojo.sysman.linux.ubuntu.sshserverconfiguration`, that
+module, `ccai.sysman.linux.ubuntu.sshserverconfiguration`, that
 exposes a `UbuntuSshServerConfigurationManager` class.  This spec
 implements the ssh-server-configuration contract defined at
-`automojo-sysman-common/specs/contracts/ssh-server-configuration/contract.md`
+`codecraftai-sysman-common/specs/contracts/ssh-server-configuration/contract.md`
 for Ubuntu using the stock OpenSSH server (`openssh-server`) shipped
 with current Ubuntu LTS releases.
 
@@ -41,7 +41,7 @@ configuration.
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │         UbuntuSshServerConfigurationManager                 │
-│  automojo.sysman.linux.ubuntu.sshserverconfiguration        │
+│  ccai.sysman.linux.ubuntu.sshserverconfiguration        │
 │                                                             │
 │  get_sshd_setting()       set_sshd_setting()                │
 │  remove_sshd_setting()    list_sshd_settings()              │
@@ -84,7 +84,7 @@ configuration.
 ### `UbuntuSshServerConfigurationManager`
 
 **Location:**
-`source/packages/automojo/sysman/linux/ubuntu/sshserverconfiguration.py`
+`source/packages/ccai/sysman/linux/ubuntu/sshserverconfiguration.py`
 
 | Method | Signature | Description |
 |---|---|---|
@@ -172,7 +172,7 @@ class UbuntuSshQueryError(Exception):
 
 ## Interfaces
 
-### `ICommandRunner` (from `automojo-interfaces`)
+### `ICommandRunner` (from `codecraftai-interfaces`)
 
 ```python
 class ICommandRunner(Protocol):
@@ -594,14 +594,14 @@ is invoked with `elevated=True` for the mutating command.
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 ├── __init__.py
 └── sshserverconfiguration.py   ← UbuntuSshServerConfigurationManager,
                                    config, models, exceptions, parser
                                    helpers
 
 source/testroots/testbase/
-└── automojo/tests/sysman/linux/ubuntu/
+└── ccai/tests/sysman/linux/ubuntu/
     └── test_sshserverconfiguration.py
 ```
 
@@ -612,11 +612,11 @@ source/testroots/testbase/
 ### Local Execution (Default)
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import (
+from ccai.sysman.linux.ubuntu.runners import (
     LocalCommandRunner,
     LocalRunnerConfig,
 )
-from automojo.sysman.linux.ubuntu.sshserverconfiguration import (
+from ccai.sysman.linux.ubuntu.sshserverconfiguration import (
     UbuntuSshServerConfigurationManager,
     UbuntuSshServerConfigurationManagerConfig,
 )
@@ -644,18 +644,18 @@ if test_result.status.name == "SUCCESS":
 ### SSH Execution with Aspects
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import (
+from ccai.sysman.linux.ubuntu.runners import (
     SSHCommandRunner,
     SSHRunnerConfig,
 )
-from automojo.sysman.linux.ubuntu.aspects import (
+from ccai.sysman.linux.ubuntu.aspects import (
     PersistenceAspect,
     PersistenceAspectConfig,
     RetryAspect,
     RetryAspectConfig,
 )
-from automojo.sysman.linux.ubuntu.storage import SQLiteStorage
-from automojo.sysman.linux.ubuntu.sshserverconfiguration import (
+from ccai.sysman.linux.ubuntu.storage import SQLiteStorage
+from ccai.sysman.linux.ubuntu.sshserverconfiguration import (
     UbuntuSshServerConfigurationManager,
     UbuntuSshServerConfigurationManagerConfig,
 )

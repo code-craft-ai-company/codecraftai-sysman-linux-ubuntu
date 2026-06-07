@@ -3,10 +3,10 @@
 ## Overview
 
 The certificate-trust-management feature is implemented as a single
-module, `automojo.sysman.linux.ubuntu.certificatetrustmanagement`,
+module, `ccai.sysman.linux.ubuntu.certificatetrustmanagement`,
 that exposes a `UbuntuCertificateTrustManager` class.  This spec
 implements the certificate-trust-management contract defined at
-`automojo-sysman-common/specs/contracts/certificate-trust-management/contract.md`
+`codecraftai-sysman-common/specs/contracts/certificate-trust-management/contract.md`
 for Ubuntu using the stock Debian CA-trust toolchain
 (`update-ca-certificates`) shipped with current Ubuntu LTS releases.
 
@@ -43,7 +43,7 @@ configuration.
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │         UbuntuCertificateTrustManager                       │
-│  automojo.sysman.linux.ubuntu.certificatetrustmanagement    │
+│  ccai.sysman.linux.ubuntu.certificatetrustmanagement    │
 │                                                             │
 │  add_trusted_cert()       remove_trusted_cert()             │
 │  list_trusted_certs()     get_cert_details()                │
@@ -83,7 +83,7 @@ configuration.
 ### `UbuntuCertificateTrustManager`
 
 **Location:**
-`source/packages/automojo/sysman/linux/ubuntu/certificatetrustmanagement.py`
+`source/packages/ccai/sysman/linux/ubuntu/certificatetrustmanagement.py`
 
 | Method | Signature | Description |
 |---|---|---|
@@ -280,7 +280,7 @@ elevation-dependent.
 
 ## Interfaces
 
-### `ICommandRunner` (from `automojo-interfaces`)
+### `ICommandRunner` (from `codecraftai-interfaces`)
 
 ```python
 class ICommandRunner(Protocol):
@@ -293,7 +293,7 @@ class ICommandRunner(Protocol):
     ) -> RunResult: ...
 ```
 
-### `RunResult` (from `automojo-interfaces`)
+### `RunResult` (from `codecraftai-interfaces`)
 
 ```python
 @dataclass
@@ -367,7 +367,7 @@ round-trip) so it is fast and deterministic.
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 ├── __init__.py
 └── certificatetrustmanagement.py
     ├── UbuntuCertTrustManagerConfig
@@ -383,7 +383,7 @@ source/packages/automojo/sysman/linux/ubuntu/
         - _parse_openssl_cert_text
 
 source/testroots/testbase/
-└── automojo/tests/sysman/linux/ubuntu/
+└── ccai/tests/sysman/linux/ubuntu/
     └── test_certificatetrustmanagement.py
 ```
 
@@ -428,8 +428,8 @@ source/testroots/testbase/
 ### Local Execution (Install Internal CA, Refresh)
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import LocalCommandRunner, LocalRunnerConfig
-from automojo.sysman.linux.ubuntu.certificatetrustmanagement import (
+from ccai.sysman.linux.ubuntu.runners import LocalCommandRunner, LocalRunnerConfig
+from ccai.sysman.linux.ubuntu.certificatetrustmanagement import (
     UbuntuCertificateTrustManager,
     UbuntuCertTrustManagerConfig,
 )
@@ -455,13 +455,13 @@ print(f"Refresh: {refresh_result.status}")
 ### SSH Execution with Aspects
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import SSHCommandRunner, SSHRunnerConfig
-from automojo.sysman.linux.ubuntu.aspects import (
+from ccai.sysman.linux.ubuntu.runners import SSHCommandRunner, SSHRunnerConfig
+from ccai.sysman.linux.ubuntu.aspects import (
     PersistenceAspect, RetryAspect, TimeoutAspect,
     PersistenceAspectConfig, RetryAspectConfig, TimeoutAspectConfig,
 )
-from automojo.sysman.linux.ubuntu.storage import SQLiteStorage
-from automojo.sysman.linux.ubuntu.certificatetrustmanagement import (
+from ccai.sysman.linux.ubuntu.storage import SQLiteStorage
+from ccai.sysman.linux.ubuntu.certificatetrustmanagement import (
     UbuntuCertificateTrustManager,
     UbuntuCertTrustManagerConfig,
 )
@@ -509,7 +509,7 @@ The contract enumerates `set_store_enabled` and `verify_certificate`
 verbs on the abstract surface.  Ubuntu's
 `update-ca-certificates` does not expose an enable / disable toggle
 (the consolidator is always active when installed); `verify_certificate`
-overlaps with `automojo-credentials` cert helpers and is deferred per
+overlaps with `codecraftai-credentials` cert helpers and is deferred per
 the RHEL spec's task 21 follow-up.  Both verbs are intentionally
 NOT implemented in this wave — callers needing enable/disable should
 manage the package via `repository-management` and

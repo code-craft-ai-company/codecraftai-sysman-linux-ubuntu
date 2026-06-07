@@ -2,10 +2,10 @@
 
 ## Introduction
 
-The scheduled-tasks feature provides the `automojo-sysman-linux-ubuntu` package
+The scheduled-tasks feature provides the `codecraftai-sysman-linux-ubuntu` package
 with the ability to manage periodic and calendar-triggered task execution on
 Ubuntu systems.  This spec implements the scheduled-tasks contract defined at
-`automojo-sysman-common/specs/contracts/scheduled-tasks/contract.md` for
+`codecraftai-sysman-common/specs/contracts/scheduled-tasks/contract.md` for
 Ubuntu using **systemd timers** as the primary scheduling backend (via
 `systemctl` and unit-file pairs authored through an `IFileOperator`).  Cron
 drop-ins under `/etc/cron.d/` are documented as a secondary fallback for legacy
@@ -15,8 +15,8 @@ A maintenance coordinator running in an external package drives all operations
 by calling into this feature's public interfaces.  The feature does not decide
 *which* tasks to schedule — it provides the capability to *do it* reliably,
 idempotently, and with full auditability.  All system commands are executed
-exclusively through the `automojo-interfaces` command-runner abstraction, and
-all unit-file writes/deletes are executed through the `automojo-interfaces`
+exclusively through the `codecraftai-interfaces` command-runner abstraction, and
+all unit-file writes/deletes are executed through the `codecraftai-interfaces`
 file-operator abstraction, enabling dry-run simulation, auditing, and test
 mocking without requiring a live system.
 
