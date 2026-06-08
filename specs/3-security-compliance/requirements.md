@@ -2,11 +2,11 @@
 
 ## Introduction
 
-The security compliance feature provides the `automojo-sysman-linux-ubuntu`
+The security compliance feature provides the `codecraftai-sysman-linux-ubuntu`
 package with the ability to run compliance profiles, iterate their findings,
 and remediate individual findings on Ubuntu systems.  This spec implements
 the security-compliance contract defined at
-`automojo-sysman-common/specs/contracts/security-compliance/contract.md`
+`codecraftai-sysman-common/specs/contracts/security-compliance/contract.md`
 for Ubuntu using OpenSCAP (`oscap`) with the Ubuntu SCAP Security Guide
 datastream, with optional AppArmor profile inspection as a secondary source.
 
@@ -15,8 +15,8 @@ operations by calling into this feature's public interfaces.  The feature
 does not decide *which* profile to apply — it provides the capability to
 *evaluate and remediate* reliably, idempotently, and with full auditability.
 All system commands are executed exclusively through the
-`automojo-interfaces` command-runner abstraction, and all baseline-metadata
-mutations are executed through the `automojo-interfaces` file-operator
+`codecraftai-interfaces` command-runner abstraction, and all baseline-metadata
+mutations are executed through the `codecraftai-interfaces` file-operator
 abstraction.
 
 Unlike firewall / package / service management where the verb set maps
@@ -179,7 +179,7 @@ recently applied baseline so that audits can report on active policy.
 #### Acceptance Criteria
 
 1. WHEN the coordinator calls `get_baseline()` THE SYSTEM SHALL invoke
-   `IFileOperator.read_text('/var/lib/automojo/compliance/current_baseline.json')`.
+   `IFileOperator.read_text('/var/lib/ccai/compliance/current_baseline.json')`.
 2. WHEN the file does not exist THE SYSTEM SHALL return a
    `UbuntuBaselineInfo` with `name=""`, `settings={}`, and
    `source=None`.
@@ -207,7 +207,7 @@ baseline and apply it, so that a known policy is enforced and recorded.
    `run_compliance_profile(spec.name)` to obtain the current report,
    then invoke `remediate_all(report)`, and finally write the updated
    baseline JSON to
-   `/var/lib/automojo/compliance/current_baseline.json` via the
+   `/var/lib/ccai/compliance/current_baseline.json` via the
    `IFileOperator`.
 3. WHEN the profile run OR any individual remediation fails THE SYSTEM
    SHALL return a `UbuntuSecurityComplianceActionResult` with status
@@ -215,7 +215,7 @@ baseline and apply it, so that a known policy is enforced and recorded.
    NOT write the baseline file.
 4. WHEN the baseline file write succeeds THE SYSTEM SHALL return a
    `UbuntuSecurityComplianceActionResult` with status `SUCCESS` and
-   `target=/var/lib/automojo/compliance/current_baseline.json`.
+   `target=/var/lib/ccai/compliance/current_baseline.json`.
 5. WHEN dry-run mode is active THE SYSTEM SHALL NOT invoke any
    mutation and SHALL return a
    `UbuntuSecurityComplianceActionResult` with status `DRY_RUN`.
@@ -256,7 +256,7 @@ OpenSCAP, so that protected state is inspectable and writable.
 2. WHEN invoking `list_profiles` / `get_profile` / `get_baseline` THE
    SYSTEM SHALL NOT pass `elevated=True` — those reads target
    world-readable artifacts (datastream XML, baseline JSON under
-   `/var/lib/automojo/compliance/`).
+   `/var/lib/ccai/compliance/`).
 3. WHEN the system is running as root THE SYSTEM SHALL NOT pass
    `elevated=True`.
 4. WHEN the elevation configuration is not set THE SYSTEM SHALL

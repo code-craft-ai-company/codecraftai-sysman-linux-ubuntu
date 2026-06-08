@@ -3,10 +3,10 @@
 ## Overview
 
 The kernel parameters feature is implemented as a single module,
-`automojo.sysman.linux.ubuntu.kernelparameters`, that exposes a
+`ccai.sysman.linux.ubuntu.kernelparameters`, that exposes a
 `UbuntuKernelParameterManager` class.  This spec implements the kernel-parameters
 contract defined at
-`automojo-sysman-common/specs/contracts/kernel-parameters/contract.md` for
+`codecraftai-sysman-common/specs/contracts/kernel-parameters/contract.md` for
 Ubuntu using `sysctl` at runtime and `/etc/sysctl.d/` drop-in files for persistence.
 
 The coordinator instantiates `UbuntuKernelParameterManager` and calls its methods
@@ -40,7 +40,7 @@ configuration.
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │           UbuntuKernelParameterManager                      │
-│  automojo.sysman.linux.ubuntu.kernelparameters              │
+│  ccai.sysman.linux.ubuntu.kernelparameters              │
 │                                                             │
 │  get_parameter()             set_parameter()                │
 │  list_parameters()           reload_parameters()            │
@@ -76,7 +76,7 @@ configuration.
 
 ### `UbuntuKernelParameterManager`
 
-**Location:** `source/packages/automojo/sysman/linux/ubuntu/kernelparameters.py`
+**Location:** `source/packages/ccai/sysman/linux/ubuntu/kernelparameters.py`
 
 | Method | Signature | Description |
 |---|---|---|
@@ -137,7 +137,7 @@ class UbuntuKernelParameterQueryError(Exception):
 
 ## Interfaces
 
-### `ICommandRunner` (from `automojo-interfaces`)
+### `ICommandRunner` (from `codecraftai-interfaces`)
 
 ```python
 class ICommandRunner(Protocol):
@@ -150,7 +150,7 @@ class ICommandRunner(Protocol):
     ) -> RunResult: ...
 ```
 
-### `IFileOperator` (from `automojo-interfaces`)
+### `IFileOperator` (from `codecraftai-interfaces`)
 
 ```python
 class IFileOperator(Protocol):
@@ -381,7 +381,7 @@ with `status=FAILED`.
 
 ### Property 20: Drop-in File Header Comment
 
-*For any* newly written drop-in file, the first line should be `# managed by automojo-sysman-linux-ubuntu`.
+*For any* newly written drop-in file, the first line should be `# managed by codecraftai-sysman-linux-ubuntu`.
 
 **Validates: Requirements 7.4**
 
@@ -438,13 +438,13 @@ with `status=FAILED`.
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 ├── __init__.py
 └── kernelparameters.py         ← UbuntuKernelParameterManager, config,
                                    models, exceptions
 
 source/testroots/testbase/
-└── automojo/tests/sysman/linux/ubuntu/
+└── ccai/tests/sysman/linux/ubuntu/
     └── test_kernelparameters.py
 ```
 
@@ -455,9 +455,9 @@ source/testroots/testbase/
 ### Local Execution (Default)
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import LocalCommandRunner, LocalRunnerConfig
-from automojo.sysman.linux.ubuntu.fileops import LocalFileOperator, LocalFileOperatorConfig
-from automojo.sysman.linux.ubuntu.kernelparameters import (
+from ccai.sysman.linux.ubuntu.runners import LocalCommandRunner, LocalRunnerConfig
+from ccai.sysman.linux.ubuntu.fileops import LocalFileOperator, LocalFileOperatorConfig
+from ccai.sysman.linux.ubuntu.kernelparameters import (
     UbuntuKernelParameterManager,
     UbuntuKernelParameterManagerConfig,
 )
@@ -488,9 +488,9 @@ kp_mgr.reload_parameters()
 ### SSH Execution with Aspects
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import SSHCommandRunner, SSHRunnerConfig
-from automojo.sysman.linux.ubuntu.fileops import SSHFileOperator, SSHFileOperatorConfig
-from automojo.sysman.linux.ubuntu.aspects import (
+from ccai.sysman.linux.ubuntu.runners import SSHCommandRunner, SSHRunnerConfig
+from ccai.sysman.linux.ubuntu.fileops import SSHFileOperator, SSHFileOperatorConfig
+from ccai.sysman.linux.ubuntu.aspects import (
     PersistenceAspect,
     RetryAspect,
     TimeoutAspect,
@@ -498,8 +498,8 @@ from automojo.sysman.linux.ubuntu.aspects import (
     RetryAspectConfig,
     TimeoutAspectConfig,
 )
-from automojo.sysman.linux.ubuntu.storage import SQLiteStorage
-from automojo.sysman.linux.ubuntu.kernelparameters import (
+from ccai.sysman.linux.ubuntu.storage import SQLiteStorage
+from ccai.sysman.linux.ubuntu.kernelparameters import (
     UbuntuKernelParameterManager,
     UbuntuKernelParameterManagerConfig,
 )
@@ -596,7 +596,7 @@ Property-based tests are tagged as
   message="parameter_not_supported"`.  This is permitted by the contract's
   "Unsupported parameters" clause.
 - **Drop-in file header comment.**  Every newly created file is prefixed with
-  a header `# managed by automojo-sysman-linux-ubuntu` for future auditing.
+  a header `# managed by codecraftai-sysman-linux-ubuntu` for future auditing.
 - **IFileOperator usage.**  Ubuntu uses `IFileOperator` for drop-in file
   management (contract-permitted extension; RHEL reference uses `tee` through
   the runner — both are valid contract-conformant strategies).

@@ -3,14 +3,14 @@
 ## Overview
 
 The environment configuration feature is implemented as a single module,
-`automojo.sysman.linux.ubuntu.environmentconfiguration`, that exposes a
+`ccai.sysman.linux.ubuntu.environmentconfiguration`, that exposes a
 `UbuntuEnvironmentConfigurator` class.  This spec implements the
 environment-configuration contract defined at
-`automojo-sysman-common/specs/contracts/environment-configuration/contract.md`
+`codecraftai-sysman-common/specs/contracts/environment-configuration/contract.md`
 for Ubuntu.
 
 All file reads and writes go through the `IFileOperator` abstraction from
-`automojo-interfaces`.  User home directory resolution is the only place where
+`codecraftai-interfaces`.  User home directory resolution is the only place where
 `pwd.getpwnam` is called directly, isolated in a private helper.  No subprocess
 calls are made; no direct `open`/`write` calls touch the filesystem outside the
 file operator.  This keeps the module compatible with both local and SSH file
@@ -36,7 +36,7 @@ configuration.
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │        UbuntuEnvironmentConfigurator                        │
-│  automojo.sysman.linux.ubuntu.environmentconfiguration      │
+│  ccai.sysman.linux.ubuntu.environmentconfiguration      │
 │                                                             │
 │  set_system_env()    unset_system_env()                     │
 │  get_system_env()    list_system_env()                      │
@@ -68,7 +68,7 @@ configuration.
 
 ### `UbuntuEnvironmentConfigurator`
 
-**Location:** `source/packages/automojo/sysman/linux/ubuntu/environmentconfiguration.py`
+**Location:** `source/packages/ccai/sysman/linux/ubuntu/environmentconfiguration.py`
 
 | Method | Signature | Description |
 |---|---|---|
@@ -130,7 +130,7 @@ class UbuntuEnvConfigError(Exception):
 
 ### `IFileOperator`
 
-Imported from `automojo-interfaces`.  The configurator holds a single instance
+Imported from `codecraftai-interfaces`.  The configurator holds a single instance
 and delegates all file I/O to it.
 
 ---
@@ -139,7 +139,7 @@ and delegates all file I/O to it.
 
 | Abstract | Ubuntu backing storage |
 |---|---|
-| `SYSTEM` | `/etc/environment` (bare `KEY=VALUE`) AND `/etc/profile.d/automojo.sh` (`export KEY=VALUE`) |
+| `SYSTEM` | `/etc/environment` (bare `KEY=VALUE`) AND `/etc/profile.d/ccai.sh` (`export KEY=VALUE`) |
 | `USER` | `<home>/.profile` by default, with `<home>/.bashrc` and `<home>/.pam_environment` opt-in via `rc_file` |
 
 ---
@@ -153,7 +153,7 @@ and delegates all file I/O to it.
 - Values containing `"` are escaped as `\"`.
 - Lines not matching the target `NAME=` are preserved verbatim.
 
-### `/etc/profile.d/automojo.sh`
+### `/etc/profile.d/ccai.sh`
 
 - `#!/usr/bin/env bash` shebang on first line when the file is created.
 - Each managed variable is exactly one line `export NAME="value"`.
@@ -284,7 +284,7 @@ valid executions of the system.*
 ### Property 1: `set_system_env` Writes Both Files
 *For any* `(name, value)`, `set_system_env` should write the value as a bare
 `KEY=VALUE` line in `/etc/environment` AND as an `export KEY=VALUE` line in
-`/etc/profile.d/automojo.sh`.
+`/etc/profile.d/ccai.sh`.
 **Validates: Requirements 1.1**
 
 ### Property 2: `set_system_env` Idempotency
@@ -293,7 +293,7 @@ valid executions of the system.*
 **Validates: Requirements 1.2**
 
 ### Property 3: `set_system_env` Creates Missing Drop-In
-*For any* `(name, value)` where `/etc/profile.d/automojo.sh` does not exist,
+*For any* `(name, value)` where `/etc/profile.d/ccai.sh` does not exist,
 `set_system_env` should create it with a `#!/usr/bin/env bash` shebang plus
 the export line.
 **Validates: Requirements 1.3**
@@ -319,7 +319,7 @@ rewrite the file with the matching line removed.
 **Validates: Requirements 2.2**
 
 ### Property 8: `unset_system_env` Drop-In Rewrite
-*For any* name present in `/etc/profile.d/automojo.sh`, `unset_system_env`
+*For any* name present in `/etc/profile.d/ccai.sh`, `unset_system_env`
 should rewrite the file with the matching line removed.
 **Validates: Requirements 2.3**
 
@@ -437,13 +437,13 @@ still be invoked so that `SKIPPED` vs `DRY_RUN` can be distinguished.
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 ├── __init__.py
 └── environmentconfiguration.py   ← UbuntuEnvironmentConfigurator, config,
                                      models, exceptions
 
 source/testroots/testbase/
-└── automojo/tests/sysman/linux/ubuntu/
+└── ccai/tests/sysman/linux/ubuntu/
     └── test_environmentconfiguration.py
 ```
 
@@ -454,9 +454,9 @@ source/testroots/testbase/
 ### Local Execution
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import LocalCommandRunner, LocalRunnerConfig
-from automojo.sysman.linux.ubuntu.fileoperators import LocalFileOperator
-from automojo.sysman.linux.ubuntu.environmentconfiguration import (
+from ccai.sysman.linux.ubuntu.runners import LocalCommandRunner, LocalRunnerConfig
+from ccai.sysman.linux.ubuntu.fileoperators import LocalFileOperator
+from ccai.sysman.linux.ubuntu.environmentconfiguration import (
     UbuntuEnvironmentConfigurator,
     UbuntuEnvironmentConfiguratorConfig,
 )
@@ -482,15 +482,15 @@ print(f"User vars: {user_vars}")
 ### SSH Execution with Aspects
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import SSHCommandRunner, SSHRunnerConfig
-from automojo.sysman.linux.ubuntu.aspects import (
+from ccai.sysman.linux.ubuntu.runners import SSHCommandRunner, SSHRunnerConfig
+from ccai.sysman.linux.ubuntu.aspects import (
     PersistenceAspect, PersistenceAspectConfig,
     RetryAspect, RetryAspectConfig,
     TimeoutAspect, TimeoutAspectConfig,
 )
-from automojo.sysman.linux.ubuntu.storage import SQLiteStorage
-from automojo.sysman.linux.ubuntu.fileoperators import SSHFileOperator
-from automojo.sysman.linux.ubuntu.environmentconfiguration import (
+from ccai.sysman.linux.ubuntu.storage import SQLiteStorage
+from ccai.sysman.linux.ubuntu.fileoperators import SSHFileOperator
+from ccai.sysman.linux.ubuntu.environmentconfiguration import (
     UbuntuEnvironmentConfigurator, UbuntuEnvironmentConfiguratorConfig,
 )
 
@@ -550,7 +550,7 @@ assert result.status == UbuntuEnvActionStatus.DRY_RUN
 
 | Abstract | Ubuntu |
 |---|---|
-| `SYSTEM` | `/etc/environment` + `/etc/profile.d/automojo.sh` |
+| `SYSTEM` | `/etc/environment` + `/etc/profile.d/ccai.sh` |
 | `USER` | `~<user>/.profile` (default) or `.bashrc` / `.pam_environment` (opt-in) |
 
 ---
@@ -558,7 +558,7 @@ assert result.status == UbuntuEnvActionStatus.DRY_RUN
 ## Extensions Beyond the Contract
 
 - **Dual-file SYSTEM scope.**  Writes to both `/etc/environment` (for
-  non-login services that read it directly) and `/etc/profile.d/automojo.sh`
+  non-login services that read it directly) and `/etc/profile.d/ccai.sh`
   (for login shells).  Either source alone would miss one of the two common
   consumer populations.
 - **`.pam_environment` opt-in.**  Callers can request the PAM-based

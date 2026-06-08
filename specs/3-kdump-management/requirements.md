@@ -2,11 +2,11 @@
 
 ## Introduction
 
-The kdump-management feature provides the `automojo-sysman-linux-ubuntu`
+The kdump-management feature provides the `codecraftai-sysman-linux-ubuntu`
 package with the ability to manage the kernel-crash-dump capture subsystem
 on Ubuntu / Debian-family hosts. It implements the cross-OS contract
 defined at
-`automojo-sysman-common/specs/contracts/kdump-management/contract.md`.
+`codecraftai-sysman-common/specs/contracts/kdump-management/contract.md`.
 
 A maintenance coordinator running in an external package drives all
 operations by calling into this feature's public interface. The feature
@@ -14,7 +14,7 @@ does not decide *whether* a host should have kdump enabled — it provides
 the capability to *do it* reliably, idempotently, and with full
 auditability. All system commands (`systemctl`, `kdump-config`, `find`,
 `ls`, `cat`, `tee`, `stat`) are executed through the
-`automojo-interfaces` command-runner abstraction. All reads and writes
+`codecraftai-interfaces` command-runner abstraction. All reads and writes
 against `/etc/default/kdump-tools` flow through the same runner. All
 mutating operations respect dry-run mode.
 

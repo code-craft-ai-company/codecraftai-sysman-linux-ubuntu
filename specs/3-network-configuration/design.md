@@ -3,10 +3,10 @@
 ## Overview
 
 The network configuration feature is implemented as a single module,
-`automojo.sysman.linux.ubuntu.networkconfiguration`, that exposes a
+`ccai.sysman.linux.ubuntu.networkconfiguration`, that exposes a
 `UbuntuNetworkConfigurationManager` class.  This spec implements the
 network-configuration contract defined at
-`automojo-sysman-common/specs/contracts/network-configuration/contract.md` for
+`codecraftai-sysman-common/specs/contracts/network-configuration/contract.md` for
 Ubuntu using `netplan` as the primary persistent surface (edited via an
 `IFileOperator` and applied via `netplan apply`), `iproute2` (`ip` and `ip route`)
 for runtime state, `systemd-resolved` / `resolvectl` for DNS, and `hostnamectl` for
@@ -39,7 +39,7 @@ for details on local/SSH execution, reliability tracking, and aspect configurati
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │     UbuntuNetworkConfigurationManager                       │
-│  automojo.sysman.linux.ubuntu.networkconfiguration          │
+│  ccai.sysman.linux.ubuntu.networkconfiguration          │
 │                                                             │
 │  get_interfaces()    get_interface()                        │
 │  configure_interface()                                      │
@@ -70,7 +70,7 @@ for details on local/SSH execution, reliability tracking, and aspect configurati
 
 ### `UbuntuNetworkConfigurationManager`
 
-**Location:** `source/packages/automojo/sysman/linux/ubuntu/networkconfiguration.py`
+**Location:** `source/packages/ccai/sysman/linux/ubuntu/networkconfiguration.py`
 
 | Method | Signature | Description |
 |---|---|---|
@@ -94,7 +94,7 @@ for details on local/SSH execution, reliability tracking, and aspect configurati
 |---|---|---|---|
 | `dry_run` | `bool` | `False` | When `True`, no commands / file writes are dispatched |
 | `elevated` | `bool` | `False` | When `True`, writes pass `elevated=True` |
-| `netplan_path` | `str` | `/etc/netplan/99-automojo.yaml` | Managed netplan config |
+| `netplan_path` | `str` | `/etc/netplan/99-ccai.yaml` | Managed netplan config |
 | `persist_dns` | `bool` | `True` | When `True`, DNS edits update netplan + runtime |
 
 ---
@@ -173,7 +173,7 @@ surface.
 Writes reach both runtime and persistent state:
 
 - **Runtime:** `ip addr`, `ip link`, `ip route`, `resolvectl`.
-- **Persistent:** `/etc/netplan/99-automojo.yaml` (rewritten via `IFileOperator`),
+- **Persistent:** `/etc/netplan/99-ccai.yaml` (rewritten via `IFileOperator`),
   then `netplan apply` which re-renders `/run/systemd/network/` and reconciles with
   `networkd`.
 
@@ -191,7 +191,7 @@ flag; this is deferred and not enabled by default.
 
 | Operation | Command / File operation |
 |---|---|
-| configure_interface | read `/etc/netplan/99-automojo.yaml` → modify → `IFileOperator.write_text(..., atomic=True)` → `netplan apply` |
+| configure_interface | read `/etc/netplan/99-ccai.yaml` → modify → `IFileOperator.write_text(..., atomic=True)` → `netplan apply` |
 | enable_interface | `ip link set <name> up` |
 | disable_interface | `ip link set <name> down` |
 | add_route | `ip route add <dest> via <gateway> [dev <iface>]` |
@@ -276,7 +276,7 @@ The parser strips whitespace and returns the single-line string.
 
 ### Netplan YAML shape
 
-The manager's managed file `/etc/netplan/99-automojo.yaml` has the following
+The manager's managed file `/etc/netplan/99-ccai.yaml` has the following
 canonical shape:
 
 ```yaml
@@ -494,13 +494,13 @@ apply-then-persist sequence only partially succeeds.
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 ├── __init__.py
 └── networkconfiguration.py      ← UbuntuNetworkConfigurationManager, config,
                                     models, exceptions
 
 source/testroots/testbase/
-└── automojo/tests/sysman/linux/ubuntu/
+└── ccai/tests/sysman/linux/ubuntu/
     └── test_networkconfiguration.py
 ```
 
@@ -511,9 +511,9 @@ source/testroots/testbase/
 ### Local Execution (Default)
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import LocalCommandRunner, LocalRunnerConfig
-from automojo.sysman.linux.ubuntu.fileoperators import LocalFileOperator
-from automojo.sysman.linux.ubuntu.networkconfiguration import (
+from ccai.sysman.linux.ubuntu.runners import LocalCommandRunner, LocalRunnerConfig
+from ccai.sysman.linux.ubuntu.fileoperators import LocalFileOperator
+from ccai.sysman.linux.ubuntu.networkconfiguration import (
     UbuntuNetworkConfigurationManager,
     UbuntuNetworkConfigurationManagerConfig,
 )
@@ -541,14 +541,14 @@ for iface in net_mgr.get_interfaces():
 ### SSH Execution with Aspects
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import SSHCommandRunner, SSHRunnerConfig
-from automojo.sysman.linux.ubuntu.fileoperators import SSHFileOperator
-from automojo.sysman.linux.ubuntu.aspects import (
+from ccai.sysman.linux.ubuntu.runners import SSHCommandRunner, SSHRunnerConfig
+from ccai.sysman.linux.ubuntu.fileoperators import SSHFileOperator
+from ccai.sysman.linux.ubuntu.aspects import (
     PersistenceAspect, RetryAspect, TimeoutAspect,
     PersistenceAspectConfig, RetryAspectConfig, TimeoutAspectConfig,
 )
-from automojo.sysman.linux.ubuntu.storage import SQLiteStorage
-from automojo.sysman.linux.ubuntu.networkconfiguration import (
+from ccai.sysman.linux.ubuntu.storage import SQLiteStorage
+from ccai.sysman.linux.ubuntu.networkconfiguration import (
     UbuntuNetworkConfigurationManager, UbuntuNetworkConfigurationManagerConfig,
 )
 

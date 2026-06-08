@@ -3,7 +3,7 @@
 ## Source Module
 
 - [x] Create `aclmanagement.py` under
-      `source/packages/automojo/sysman/linux/ubuntu/`.
+      `source/packages/ccai/sysman/linux/ubuntu/`.
 - [x] Module docstring covering the verb catalogue, file-I/O policy,
       elevation policy, and idempotency policy.
 - [x] Module-level binary / flag constants (`_GETFACL`, `_SETFACL`,
@@ -83,7 +83,7 @@
 ## Test Module
 
 - [x] Create `test_aclmanagement.py` under
-      `source/testroots/testbase/automojo/tests/sysman/linux/ubuntu/`.
+      `source/testroots/testbase/ccai/tests/sysman/linux/ubuntu/`.
 - [x] `_MockCommandRunner` recorder.
 - [x] `_getfacl_full_payload()` fixture (named user / group / mask /
       default ACEs).

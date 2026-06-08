@@ -2,11 +2,11 @@
 
 ## Introduction
 
-The environment configuration feature provides the `automojo-sysman-linux-ubuntu`
+The environment configuration feature provides the `codecraftai-sysman-linux-ubuntu`
 package with the ability to set, unset, and query system-wide and per-user
 environment variables on Ubuntu systems.  This spec implements the
 environment-configuration contract defined at
-`automojo-sysman-common/specs/contracts/environment-configuration/contract.md`
+`codecraftai-sysman-common/specs/contracts/environment-configuration/contract.md`
 for Ubuntu using `/etc/environment`, `/etc/profile.d/*.sh`, per-user
 `~/.profile`/`~/.bashrc`, and optionally `~/.pam_environment`.
 
@@ -21,7 +21,7 @@ by the module and is isolated in a private helper.  No `subprocess`, no direct
 The abstract `EnvScope` on Ubuntu maps to:
 
 - **SYSTEM**: `/etc/environment` for bare `KEY=VALUE` lines plus
-  `/etc/profile.d/automojo.sh` for `export KEY=VALUE` lines.
+  `/etc/profile.d/ccai.sh` for `export KEY=VALUE` lines.
 - **USER**: `~<user>/.profile` by default (or `~<user>/.bashrc` /
   `~<user>/.pam_environment` at caller request).
 
@@ -38,11 +38,11 @@ environment variable, so that the value is visible to every login on the host.
 
 1. WHEN the coordinator calls `set_system_env(name, value)` THE SYSTEM SHALL
    write the variable as a `KEY=VALUE` line in `/etc/environment` and as an
-   `export KEY=VALUE` line in `/etc/profile.d/automojo.sh`.
+   `export KEY=VALUE` line in `/etc/profile.d/ccai.sh`.
 2. WHEN either file already has an identical value THE SYSTEM SHALL return
    `status=SKIPPED` for that file's role; the overall return value SHALL be
    `SKIPPED` only if BOTH files are already correct, otherwise `SUCCESS`.
-3. WHEN `/etc/profile.d/automojo.sh` does not exist THE SYSTEM SHALL create it
+3. WHEN `/etc/profile.d/ccai.sh` does not exist THE SYSTEM SHALL create it
    with a `#!/usr/bin/env bash` shebang followed by the export statement.
 4. WHEN `dry_run=True` THE SYSTEM SHALL NOT call `IFileOperator.write_text` or
    `delete` and SHALL return `status=DRY_RUN`.
@@ -61,13 +61,13 @@ environment variable, so that future logins no longer see it.
 #### Acceptance Criteria
 
 1. WHEN the coordinator calls `unset_system_env(name)` and the variable is not
-   present in either `/etc/environment` or `/etc/profile.d/automojo.sh` THE
+   present in either `/etc/environment` or `/etc/profile.d/ccai.sh` THE
    SYSTEM SHALL return `status=SKIPPED`.
 2. WHEN the variable is present in `/etc/environment` THE SYSTEM SHALL rewrite
    the file with the matching line removed.
-3. WHEN the variable is present in `/etc/profile.d/automojo.sh` THE SYSTEM
+3. WHEN the variable is present in `/etc/profile.d/ccai.sh` THE SYSTEM
    SHALL rewrite the file with the matching `export` line removed.
-4. WHEN removing the last managed variable from `/etc/profile.d/automojo.sh`
+4. WHEN removing the last managed variable from `/etc/profile.d/ccai.sh`
    leaves the file with only the shebang and blank lines THE SYSTEM SHALL
    delete the file via `IFileOperator.delete`.
 5. WHEN `dry_run=True` THE SYSTEM SHALL NOT call `write_text` or `delete` and
@@ -84,7 +84,7 @@ system-scope variable, so that I can check its current value.
 #### Acceptance Criteria
 
 1. WHEN the coordinator calls `get_system_env(name)` THE SYSTEM SHALL read
-   `/etc/environment` and `/etc/profile.d/automojo.sh` via
+   `/etc/environment` and `/etc/profile.d/ccai.sh` via
    `IFileOperator.read_text` and parse them in pure Python.
 2. WHEN the variable is present in either file THE SYSTEM SHALL return a
    `UbuntuEnvValue` with `scope=SYSTEM` and `source` equal to the file it came
@@ -105,7 +105,7 @@ variable, so that I can enumerate the full environment.
 #### Acceptance Criteria
 
 1. WHEN the coordinator calls `list_system_env()` THE SYSTEM SHALL parse both
-   `/etc/environment` and `/etc/profile.d/automojo.sh` and merge the results
+   `/etc/environment` and `/etc/profile.d/ccai.sh` and merge the results
    into a `dict[str, str]`.
 2. WHEN a variable appears in both files with identical values THE SYSTEM
    SHALL emit one entry.

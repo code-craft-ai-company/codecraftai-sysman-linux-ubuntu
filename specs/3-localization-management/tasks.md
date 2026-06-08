@@ -3,7 +3,7 @@
 This task list maps the Ubuntu localization-management implementation
 to the requirements in `requirements.md` and the design in
 `design.md`. Every task is exercised by at least one test in
-`source/testroots/testbase/automojo/tests/sysman/linux/ubuntu/test_localizationmanagement.py`.
+`source/testroots/testbase/ccai/tests/sysman/linux/ubuntu/test_localizationmanagement.py`.
 
 ---
 
@@ -12,7 +12,7 @@ to the requirements in `requirements.md` and the design in
 ### 1. Module skeleton and exports
 
 - [x] Create
-      `source/packages/automojo/sysman/linux/ubuntu/localizationmanagement.py`.
+      `source/packages/ccai/sysman/linux/ubuntu/localizationmanagement.py`.
 - [x] Export `UbuntuLocalizationManager`,
       `UbuntuLocalizationManagerConfig`,
       `UbuntuLocalizationActionStatus`,

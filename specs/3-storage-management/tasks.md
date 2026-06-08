@@ -5,7 +5,7 @@ items (`[ ]`) identify remaining work.
 
 ## Module and Models
 
-- [x] 1. Create the `automojo.sysman.linux.ubuntu.storagemanagement`
+- [x] 1. Create the `ccai.sysman.linux.ubuntu.storagemanagement`
   module.
 
 - [x] 2. Define `UbuntuStorageActionStatus` (aliased to the shared
@@ -130,10 +130,10 @@ items (`[ ]`) identify remaining work.
 
 - [ ] 48. **Cross-OS contract conformance review**: verify
   `UbuntuStorageActionResult` field shapes match the cross-OS contract
-  at `automojo-sysman-common/specs/contracts/storage-management/contract.md`.
+  at `codecraftai-sysman-common/specs/contracts/storage-management/contract.md`.
 
-- [ ] 49. **automojo-* reuse check**: confirm that no other feature in
-  `automojo-sysman-linux-ubuntu` invokes `lvcreate` / `vgcreate` /
+- [ ] 49. **codecraftai-* reuse check**: confirm that no other feature in
+  `codecraftai-sysman-linux-ubuntu` invokes `lvcreate` / `vgcreate` /
   `pvcreate` directly; all such calls should go through
   `UbuntuStorageManager`.
 

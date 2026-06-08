@@ -35,7 +35,7 @@ verb.
 ## Overview
 
 The encryption-management feature is implemented as a single module,
-`automojo.sysman.linux.ubuntu.encryptionmanagement`, that exposes an
+`ccai.sysman.linux.ubuntu.encryptionmanagement`, that exposes an
 `UbuntuEncryptionManager` class.  The coordinator instantiates
 `UbuntuEncryptionManager` and calls its methods to perform discrete
 LUKS actions: enable / disable encryption, query status, list
@@ -71,7 +71,7 @@ for details on local/SSH execution, reliability tracking, and aspect
 configuration.  See `3-storage-management` for partitioning and LVM,
 `3-filesystem-management` for mkfs / mount, and the cross-OS
 contract at
-`automojo-sysman-common/specs/contracts/encryption-management/contract.md`.
+`codecraftai-sysman-common/specs/contracts/encryption-management/contract.md`.
 
 ---
 
@@ -90,7 +90,7 @@ contract at
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │            UbuntuEncryptionManager                          │
-│  automojo.sysman.linux.ubuntu.encryptionmanagement          │
+│  ccai.sysman.linux.ubuntu.encryptionmanagement          │
 │                                                             │
 │  enable_encryption()       disable_encryption()             │
 │  get_encryption_status()                                    │
@@ -121,7 +121,7 @@ contract at
 ### `UbuntuEncryptionManager`
 
 **Location:**
-`source/packages/automojo/sysman/linux/ubuntu/encryptionmanagement.py`
+`source/packages/ccai/sysman/linux/ubuntu/encryptionmanagement.py`
 
 | Method | Signature | Description |
 |---|---|---|
@@ -412,11 +412,11 @@ runner call is made.
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 └── encryptionmanagement.py
 
 source/testroots/testbase/
-└── automojo/tests/sysman/linux/ubuntu/
+└── ccai/tests/sysman/linux/ubuntu/
     └── test_encryptionmanagement.py
 ```
 
@@ -431,4 +431,4 @@ source/testroots/testbase/
 | Boot-time unlock (`/etc/crypttab`, initramfs) | `3-boot-management` (extension) | This feature does NOT touch `/etc/crypttab`; coordinators that need boot-time unlock wire it from a boot-management extension |
 | TPM2 / Clevis (NBDE) | RHEL canonical (`3-encryption-management`) | Reserved as Ubuntu extension; the Ubuntu Wave-2.2 surface ships passphrase-only |
 | Package install (`cryptsetup`) | `3-package-management` | This feature assumes the binary is on PATH; missing binary surfaces as FAILED on first call |
-| Credential / passphrase routing | `automojo-credentials` | Caller passes the passphrase string into the verbs; bytes flow on `stdin` to the runner |
+| Credential / passphrase routing | `codecraftai-credentials` | Caller passes the passphrase string into the verbs; bytes flow on `stdin` to the runner |

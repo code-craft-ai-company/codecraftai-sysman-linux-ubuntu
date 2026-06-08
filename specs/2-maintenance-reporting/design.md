@@ -3,10 +3,10 @@
 ## Overview
 
 The maintenance-reporting feature is implemented as a single module,
-`automojo.sysman.linux.ubuntu.maintenancereporting`, that exposes a
+`ccai.sysman.linux.ubuntu.maintenancereporting`, that exposes a
 `UbuntuMaintenanceReport` class.  This spec implements the maintenance-reporting
 contract defined at
-`automojo-sysman-common/specs/contracts/maintenance-reporting/contract.md` for
+`codecraftai-sysman-common/specs/contracts/maintenance-reporting/contract.md` for
 Ubuntu using pure Python accumulation of action records and a single I/O egress point
 — `emit_report(path, format)` — that delegates to `IFileOperator`.
 
@@ -17,7 +17,7 @@ formats: JSON (standard library `json`), plain text (string formatting), YAML (v
 `PyYAML`), and Markdown (string formatting).  When `PyYAML` is not importable the
 reporter surfaces a typed failure on `emit_report(path, YAML)` rather than raising.
 
-Ubuntu's default session output base is `/var/log/automojo/maintenance/<session_id>/`,
+Ubuntu's default session output base is `/var/log/ccai/maintenance/<session_id>/`,
 which requires the file operator to run with `elevated=True` when the calling user
 is not root.  The reporter never embeds elevation policy; the caller configures the
 file operator with whatever policy fits the run.
@@ -44,7 +44,7 @@ details on local/SSH execution, reliability tracking, and aspect configuration.
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │          UbuntuMaintenanceReport                            │
-│  automojo.sysman.linux.ubuntu.maintenancereporting          │
+│  ccai.sysman.linux.ubuntu.maintenancereporting          │
 │                                                             │
 │  begin_session()    add_action()                            │
 │  record_query()     record_error()                          │
@@ -85,7 +85,7 @@ details on local/SSH execution, reliability tracking, and aspect configuration.
 
 ### `UbuntuMaintenanceReport`
 
-**Location:** `source/packages/automojo/sysman/linux/ubuntu/maintenancereporting.py`
+**Location:** `source/packages/ccai/sysman/linux/ubuntu/maintenancereporting.py`
 
 | Method | Signature | Description |
 |---|---|---|
@@ -107,7 +107,7 @@ details on local/SSH execution, reliability tracking, and aspect configuration.
 | Field | Type | Default | Description |
 |---|---|---|---|
 | `dry_run` | `bool` | `False` | When `True`, `emit_report` never writes |
-| `output_base` | `str` | `"/var/log/automojo/maintenance"` | Base directory for default session paths |
+| `output_base` | `str` | `"/var/log/ccai/maintenance"` | Base directory for default session paths |
 | `default_json_indent` | `int \| None` | `2` | Indent used by `to_json` and JSON emission |
 
 ---
@@ -173,7 +173,7 @@ class UbuntuMaintenanceSession:
 
 ## Interfaces
 
-### `IFileOperator` (from `automojo-interfaces`)
+### `IFileOperator` (from `codecraftai-interfaces`)
 
 ```python
 class IFileOperator(Protocol):
@@ -193,12 +193,12 @@ class IFileOperator(Protocol):
 
 | Situation | Path |
 |---|---|
-| Default base | `/var/log/automojo/maintenance/` |
-| Per-session directory | `/var/log/automojo/maintenance/<session_id>/` |
-| JSON report | `/var/log/automojo/maintenance/<session_id>/report.json` |
-| Text report | `/var/log/automojo/maintenance/<session_id>/report.txt` |
-| YAML report | `/var/log/automojo/maintenance/<session_id>/report.yaml` |
-| Markdown report | `/var/log/automojo/maintenance/<session_id>/report.md` |
+| Default base | `/var/log/ccai/maintenance/` |
+| Per-session directory | `/var/log/ccai/maintenance/<session_id>/` |
+| JSON report | `/var/log/ccai/maintenance/<session_id>/report.json` |
+| Text report | `/var/log/ccai/maintenance/<session_id>/report.txt` |
+| YAML report | `/var/log/ccai/maintenance/<session_id>/report.yaml` |
+| Markdown report | `/var/log/ccai/maintenance/<session_id>/report.md` |
 
 The default base is overrideable via `UbuntuMaintenanceReportConfig.output_base`.  On
 Ubuntu, writing to `/var/log` requires either running as root or passing
@@ -578,7 +578,7 @@ member, the result has `success=False` and the file operator is not invoked.
 ### Property 30: Default Session Path Shape
 
 *For any* `default_session_path(session_id)` call, the returned string equals
-`/var/log/automojo/maintenance/<session_id>/` (or the overridden base followed by
+`/var/log/ccai/maintenance/<session_id>/` (or the overridden base followed by
 `session_id` with a trailing slash).
 
 **Validates: Requirements 8.1, 8.3**
@@ -601,12 +601,12 @@ member, the result has `success=False` and the file operator is not invoked.
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 ├── __init__.py
 └── maintenancereporting.py      ← UbuntuMaintenanceReport, models, config, enums
 
 source/testroots/testbase/
-└── automojo/tests/sysman/linux/ubuntu/
+└── ccai/tests/sysman/linux/ubuntu/
     └── test_maintenancereporting.py
 ```
 
@@ -617,11 +617,11 @@ source/testroots/testbase/
 ### Local Execution (Default)
 
 ```python
-from automojo.sysman.linux.ubuntu.fileoperators import (
+from ccai.sysman.linux.ubuntu.fileoperators import (
     UbuntuLocalFileOperator,
     UbuntuLocalFileOperatorConfig,
 )
-from automojo.sysman.linux.ubuntu.maintenancereporting import (
+from ccai.sysman.linux.ubuntu.maintenancereporting import (
     UbuntuMaintenanceReport,
     UbuntuMaintenanceReportConfig,
     UbuntuActionRecord,
@@ -657,11 +657,11 @@ if result.success:
 ### SSH Execution with Aspects
 
 ```python
-from automojo.sysman.linux.ubuntu.fileoperators import (
+from ccai.sysman.linux.ubuntu.fileoperators import (
     UbuntuSSHFileOperator,
     UbuntuSSHFileOperatorConfig,
 )
-from automojo.sysman.linux.ubuntu.aspects import (
+from ccai.sysman.linux.ubuntu.aspects import (
     PersistenceAspect,
     RetryAspect,
     TimeoutAspect,
@@ -669,7 +669,7 @@ from automojo.sysman.linux.ubuntu.aspects import (
     RetryAspectConfig,
     TimeoutAspectConfig,
 )
-from automojo.sysman.linux.ubuntu.storage import SQLiteStorage
+from ccai.sysman.linux.ubuntu.storage import SQLiteStorage
 
 fileop = UbuntuSSHFileOperator(
     UbuntuSSHFileOperatorConfig(host="ubuntu-prod-01", username="ops"),
@@ -690,7 +690,7 @@ report.begin_session(run_id="ssh-001", host="ubuntu-prod-01", description=None)
 report.record_error(feature="service-management", operation="restart",
                     error="Unit nginx.service not found")
 report.end_session()
-report.emit_report(path="/var/log/automojo/maintenance/ssh-001/report.yaml",
+report.emit_report(path="/var/log/ccai/maintenance/ssh-001/report.yaml",
                    format=UbuntuReportFormat.YAML)
 ```
 

@@ -3,10 +3,10 @@
 ## Overview
 
 The certificate-issuance feature is implemented as a single module,
-`automojo.sysman.linux.ubuntu.certificateissuance`, that exposes a
+`ccai.sysman.linux.ubuntu.certificateissuance`, that exposes a
 `UbuntuCertificateIssuanceManager` class.  This spec implements the
 certificate-issuance contract defined at
-`automojo-sysman-common/specs/contracts/certificate-issuance/contract.md`
+`codecraftai-sysman-common/specs/contracts/certificate-issuance/contract.md`
 for Ubuntu using two interchangeable backends:
 
 - **certbot** — ACME issuance via the system `certbot` binary, the
@@ -48,7 +48,7 @@ The feature works identically whether commands execute locally (via
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │       UbuntuCertificateIssuanceManager                      │
-│  automojo.sysman.linux.ubuntu.certificateissuance           │
+│  ccai.sysman.linux.ubuntu.certificateissuance           │
 │                                                             │
 │  request_certificate()    renew_certificate()               │
 │  revoke_certificate()     get_certificate()                 │
@@ -85,7 +85,7 @@ The feature works identically whether commands execute locally (via
 ### `UbuntuCertificateIssuanceManager`
 
 **Location:**
-`source/packages/automojo/sysman/linux/ubuntu/certificateissuance.py`
+`source/packages/ccai/sysman/linux/ubuntu/certificateissuance.py`
 
 | Method | Signature | Description |
 |---|---|---|
@@ -302,7 +302,7 @@ SHALL be `FAILED` with `exit_code`, `stdout`, `stderr`, and
 
 ## Interfaces
 
-### `ICommandRunner` (from `automojo-interfaces`)
+### `ICommandRunner` (from `codecraftai-interfaces`)
 
 ```python
 class ICommandRunner(Protocol):
@@ -315,7 +315,7 @@ class ICommandRunner(Protocol):
     ) -> RunResult: ...
 ```
 
-### `RunResult` (from `automojo-interfaces`)
+### `RunResult` (from `codecraftai-interfaces`)
 
 ```python
 @dataclass
@@ -389,7 +389,7 @@ destination paths.  Match -> `SKIPPED`.
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 ├── __init__.py
 └── certificateissuance.py
     ├── UbuntuCertIssuanceActionStatus       (alias to ActionStatus)
@@ -411,7 +411,7 @@ source/packages/automojo/sysman/linux/ubuntu/
         - _format_san_args
 
 source/testroots/testbase/
-└── automojo/tests/sysman/linux/ubuntu/
+└── ccai/tests/sysman/linux/ubuntu/
     └── test_certificateissuance.py
 ```
 
@@ -459,7 +459,7 @@ verb.  The Ubuntu pilot does not yet thread credentials through the
 public surface — `certbot` reads its account credentials from
 `/etc/letsencrypt/accounts/`, and self-signed openssl flows use
 `-nodes` (no key passphrase).  Threading
-`automojo-credentials.Credential` into the verb signatures is
+`codecraftai-credentials.Credential` into the verb signatures is
 deferred to the cross-package credential follow-up tracked in the
 RHEL `3-certificate-issuance` task list.
 

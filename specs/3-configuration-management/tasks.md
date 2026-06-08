@@ -6,7 +6,7 @@ items (`[ ]`) identify remaining work.
 ## Module and Models
 
 - [x] 1. Create the
-  `automojo.sysman.linux.ubuntu.configurationmanagement` module
+  `ccai.sysman.linux.ubuntu.configurationmanagement` module
 
 - [x] 2. Define `UbuntuConfigActionStatus` enum
 
@@ -198,7 +198,7 @@ items (`[ ]`) identify remaining work.
   `target_path` from the backup name when an extension matches
   `backup_extension`.
 
-- [ ] 56. **automojo-sysman-linux-ubuntu reuse check**: confirm
+- [ ] 56. **codecraftai-sysman-linux-ubuntu reuse check**: confirm
   that every other feature which touches `/etc/*` delegates to
   `UbuntuConfigurationManager.write_setting` rather than writing
   directly through `tee`.

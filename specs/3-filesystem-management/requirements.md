@@ -2,12 +2,12 @@
 
 ## Introduction
 
-The filesystem management feature provides the `automojo-sysman-linux-ubuntu` package
+The filesystem management feature provides the `codecraftai-sysman-linux-ubuntu` package
 with the ability to mount and unmount devices, manage persistent mount-table entries,
 create and remove directories and symbolic links, change ownership and permissions, and
 inspect file / disk metadata on Ubuntu systems.  This spec implements the
 filesystem-management contract defined at
-`automojo-sysman-common/specs/contracts/filesystem-management/contract.md` for
+`codecraftai-sysman-common/specs/contracts/filesystem-management/contract.md` for
 Ubuntu using the standard POSIX tooling (`mount`, `umount`, `findmnt`, `stat`, `df`,
 `mkdir`, `rm`, `ln`, `chmod`, `chown`) and an `IFileOperator` to edit `/etc/fstab`
 transactionally.
@@ -16,7 +16,7 @@ A maintenance coordinator running in an external package drives all operations b
 calling into this feature's public interfaces.  The feature does not decide *which*
 paths should be mounted or which permissions are correct — it provides the capability
 to *manipulate filesystem state* reliably, idempotently, and with full auditability.
-All system commands are executed exclusively through the `automojo-interfaces`
+All system commands are executed exclusively through the `codecraftai-interfaces`
 command-runner abstraction; all file reads and writes against `/etc/fstab` flow through
 an `IFileOperator` so that dry-run simulation and test mocking do not require a live
 system.

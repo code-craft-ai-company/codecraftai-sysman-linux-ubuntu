@@ -3,10 +3,10 @@
 ## Overview
 
 The audit-management feature is implemented as a single module,
-`automojo.sysman.linux.ubuntu.auditmanagement`, that exposes an
+`ccai.sysman.linux.ubuntu.auditmanagement`, that exposes an
 `UbuntuAuditManager` class.  This spec implements the
 audit-management contract defined at
-`automojo-sysman-common/specs/contracts/audit-management/contract.md`
+`codecraftai-sysman-common/specs/contracts/audit-management/contract.md`
 for Ubuntu using `auditctl` for runtime rule manipulation,
 `augenrules --load` for persistent rule reload, `ausearch` for
 event-stream filtering, and `systemctl` for daemon lifecycle.
@@ -64,7 +64,7 @@ idempotency and removal.
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │            UbuntuAuditManager                               │
-│  automojo.sysman.linux.ubuntu.auditmanagement               │
+│  ccai.sysman.linux.ubuntu.auditmanagement               │
 │                                                             │
 │  add_rule()             remove_rule()                       │
 │  list_rules()           enable_auditing()                   │
@@ -99,7 +99,7 @@ idempotency and removal.
 ### `UbuntuAuditManager`
 
 **Location:**
-`source/packages/automojo/sysman/linux/ubuntu/auditmanagement.py`
+`source/packages/ccai/sysman/linux/ubuntu/auditmanagement.py`
 
 | Method | Signature | Description |
 |---|---|---|
@@ -118,7 +118,7 @@ idempotency and removal.
 | `dry_run` | `bool` | `False` | When `True`, writes short-circuit to `DRY_RUN`. |
 | `elevated` | `bool` | `False` | When `True`, writes pass `elevated=True` to the runner. |
 | `rules_d` | `str` | `/etc/audit/rules.d` | Directory holding audit rule drop-ins. |
-| `default_basename` | `str` | `99-automojo.rules` | File basename for the manager-owned drop-in. |
+| `default_basename` | `str` | `99-ccai.rules` | File basename for the manager-owned drop-in. |
 | `service_name` | `str` | `auditd` | systemd unit name for the audit daemon. |
 
 ---
@@ -135,7 +135,7 @@ class UbuntuAuditActionStatus(Enum):
     DRY_RUN = "dry_run"
 ```
 
-This is `automojo.sysman.linux.ubuntu.featurebase.ActionStatus`
+This is `ccai.sysman.linux.ubuntu.featurebase.ActionStatus`
 re-exported under the OS-prefixed name to keep the contract's type
 table honest.
 

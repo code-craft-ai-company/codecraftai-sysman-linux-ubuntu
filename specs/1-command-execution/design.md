@@ -3,12 +3,12 @@
 ## Overview
 
 The command-execution feature is implemented as a single module,
-`automojo.sysman.linux.ubuntu.commandexecution`, that exposes a `UbuntuCommandExecutor`
+`ccai.sysman.linux.ubuntu.commandexecution`, that exposes a `UbuntuCommandExecutor`
 class.  This spec implements the command-execution contract defined at
-`automojo-sysman-common/specs/contracts/command-execution/contract.md` for Ubuntu
+`codecraftai-sysman-common/specs/contracts/command-execution/contract.md` for Ubuntu
 using `subprocess.run` (wrapped inside `UbuntuLocalCommandRunner`) for local execution
 and `paramiko` (wrapped inside `UbuntuSSHCommandRunner`, which lives in
-`automojo-protocol-ssh`) for remote execution.  The coordinator instantiates the
+`codecraftai-protocol-ssh`) for remote execution.  The coordinator instantiates the
 executor with a runner and a config, then calls `run`, `run_sequence`, or `run_script`
 to dispatch work.
 
@@ -46,7 +46,7 @@ details on local/SSH execution, reliability tracking, and aspect configuration.
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │            UbuntuCommandExecutor                            │
-│  automojo.sysman.linux.ubuntu.commandexecution              │
+│  ccai.sysman.linux.ubuntu.commandexecution              │
 │                                                             │
 │  run()           run_sequence()                             │
 │  run_script()                                               │
@@ -84,7 +84,7 @@ details on local/SSH execution, reliability tracking, and aspect configuration.
 
 ### `UbuntuCommandExecutor`
 
-**Location:** `source/packages/automojo/sysman/linux/ubuntu/commandexecution.py`
+**Location:** `source/packages/ccai/sysman/linux/ubuntu/commandexecution.py`
 
 | Method | Signature | Description |
 |---|---|---|
@@ -158,7 +158,7 @@ class UbuntuSequenceResult:
 
 ## Interfaces
 
-### `ICommandRunner` (from `automojo-interfaces`)
+### `ICommandRunner` (from `codecraftai-interfaces`)
 
 ```python
 class ICommandRunner(Protocol):
@@ -174,7 +174,7 @@ class ICommandRunner(Protocol):
     ) -> RunResult: ...
 ```
 
-### `RunResult` (from `automojo-interfaces`)
+### `RunResult` (from `codecraftai-interfaces`)
 
 ```python
 @dataclass
@@ -562,12 +562,12 @@ returned `success` equals `True`; `args`, `elevated`, and `dry_run` are preserve
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 ├── __init__.py
 └── commandexecution.py      ← UbuntuCommandExecutor, config, spec, results, enum
 
 source/testroots/testbase/
-└── automojo/tests/sysman/linux/ubuntu/
+└── ccai/tests/sysman/linux/ubuntu/
     └── test_commandexecution.py
 ```
 
@@ -578,11 +578,11 @@ source/testroots/testbase/
 ### Local Execution (Default)
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import (
+from ccai.sysman.linux.ubuntu.runners import (
     UbuntuLocalCommandRunner,
     UbuntuLocalRunnerConfig,
 )
-from automojo.sysman.linux.ubuntu.commandexecution import (
+from ccai.sysman.linux.ubuntu.commandexecution import (
     UbuntuCommandExecutor,
     UbuntuCommandExecutorConfig,
     UbuntuCommandSpec,
@@ -624,11 +624,11 @@ print(f"all_succeeded={seq_result.all_succeeded} failed_at={seq_result.failed_at
 ### SSH with Aspects
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import (
+from ccai.sysman.linux.ubuntu.runners import (
     UbuntuSSHCommandRunner,
     UbuntuSSHRunnerConfig,
 )
-from automojo.sysman.linux.ubuntu.aspects import (
+from ccai.sysman.linux.ubuntu.aspects import (
     PersistenceAspect,
     RetryAspect,
     TimeoutAspect,
@@ -636,7 +636,7 @@ from automojo.sysman.linux.ubuntu.aspects import (
     RetryAspectConfig,
     TimeoutAspectConfig,
 )
-from automojo.sysman.linux.ubuntu.storage import SQLiteStorage
+from ccai.sysman.linux.ubuntu.storage import SQLiteStorage
 
 runner = UbuntuSSHCommandRunner(
     UbuntuSSHRunnerConfig(host="ubuntu-prod-01", username="deploy"),

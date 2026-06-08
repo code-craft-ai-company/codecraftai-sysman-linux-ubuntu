@@ -3,10 +3,10 @@
 ## Overview
 
 The repository management feature is implemented as a single module,
-`automojo.sysman.linux.ubuntu.repositorymanagement`, that exposes a
+`ccai.sysman.linux.ubuntu.repositorymanagement`, that exposes a
 `UbuntuRepositoryManager` class.  This spec implements the
 repository-management contract defined at
-`automojo-sysman-common/specs/contracts/repository-management/contract.md`
+`codecraftai-sysman-common/specs/contracts/repository-management/contract.md`
 for Ubuntu using `apt` tooling plus direct file management of
 `/etc/apt/sources.list.d/`, `/etc/apt/keyrings/`, and
 `/etc/apt/preferences.d/`.
@@ -43,7 +43,7 @@ configuration.
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │           UbuntuRepositoryManager                           │
-│  automojo.sysman.linux.ubuntu.repositorymanagement          │
+│  ccai.sysman.linux.ubuntu.repositorymanagement          │
 │                                                             │
 │  add_repository()       remove_repository()                 │
 │  enable_repository()    disable_repository()                │
@@ -81,7 +81,7 @@ configuration.
 
 ### `UbuntuRepositoryManager`
 
-**Location:** `source/packages/automojo/sysman/linux/ubuntu/repositorymanagement.py`
+**Location:** `source/packages/ccai/sysman/linux/ubuntu/repositorymanagement.py`
 
 | Method | Signature | Description |
 |---|---|---|
@@ -166,7 +166,7 @@ class UbuntuRepositoryKeyFileNotFoundError(Exception):
 
 ## Interfaces
 
-### `ICommandRunner` (from `automojo-interfaces`)
+### `ICommandRunner` (from `codecraftai-interfaces`)
 
 ```python
 class ICommandRunner(Protocol):
@@ -179,7 +179,7 @@ class ICommandRunner(Protocol):
     ) -> RunResult: ...
 ```
 
-### `IFileOperator` (from `automojo-interfaces`)
+### `IFileOperator` (from `codecraftai-interfaces`)
 
 ```python
 class IFileOperator(Protocol):
@@ -518,13 +518,13 @@ All other write failures are surfaced as
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 ├── __init__.py
 └── repositorymanagement.py    ← UbuntuRepositoryManager, config,
                                   models, exceptions
 
 source/testroots/testbase/
-└── automojo/tests/sysman/linux/ubuntu/
+└── ccai/tests/sysman/linux/ubuntu/
     └── test_repositorymanagement.py
 ```
 
@@ -535,9 +535,9 @@ source/testroots/testbase/
 ### Local Execution (Default)
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import LocalCommandRunner, LocalRunnerConfig
-from automojo.sysman.linux.ubuntu.fileops import LocalFileOperator, LocalFileOperatorConfig
-from automojo.sysman.linux.ubuntu.repositorymanagement import (
+from ccai.sysman.linux.ubuntu.runners import LocalCommandRunner, LocalRunnerConfig
+from ccai.sysman.linux.ubuntu.fileops import LocalFileOperator, LocalFileOperatorConfig
+from ccai.sysman.linux.ubuntu.repositorymanagement import (
     UbuntuRepositoryManager,
     UbuntuRepositoryManagerConfig,
     UbuntuRepositorySpec,
@@ -589,9 +589,9 @@ for info in repo_mgr.list_repositories():
 ### SSH Execution with Aspects
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import SSHCommandRunner, SSHRunnerConfig
-from automojo.sysman.linux.ubuntu.fileops import SSHFileOperator, SSHFileOperatorConfig
-from automojo.sysman.linux.ubuntu.aspects import (
+from ccai.sysman.linux.ubuntu.runners import SSHCommandRunner, SSHRunnerConfig
+from ccai.sysman.linux.ubuntu.fileops import SSHFileOperator, SSHFileOperatorConfig
+from ccai.sysman.linux.ubuntu.aspects import (
     PersistenceAspect,
     RetryAspect,
     TimeoutAspect,
@@ -599,8 +599,8 @@ from automojo.sysman.linux.ubuntu.aspects import (
     RetryAspectConfig,
     TimeoutAspectConfig,
 )
-from automojo.sysman.linux.ubuntu.storage import SQLiteStorage
-from automojo.sysman.linux.ubuntu.repositorymanagement import (
+from ccai.sysman.linux.ubuntu.storage import SQLiteStorage
+from ccai.sysman.linux.ubuntu.repositorymanagement import (
     UbuntuRepositoryManager,
     UbuntuRepositoryManagerConfig,
 )

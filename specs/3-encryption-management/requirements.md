@@ -3,13 +3,13 @@
 ## Introduction
 
 The encryption management feature provides the
-`automojo-sysman-linux-ubuntu` package with the ability to enable /
+`codecraftai-sysman-linux-ubuntu` package with the ability to enable /
 disable LUKS encryption on a block device, query encryption status,
 list encrypted volumes, rotate passphrases, back up the LUKS header
 (the "recovery key"), and unlock an encrypted volume by attaching it
 to a `/dev/mapper/<name>` mapping.  This spec implements the
 encryption-management contract defined at
-`automojo-sysman-common/specs/contracts/encryption-management/contract.md`
+`codecraftai-sysman-common/specs/contracts/encryption-management/contract.md`
 for Ubuntu by wrapping the `cryptsetup` user-space toolchain plus
 `lsblk` for volume enumeration.
 
@@ -20,7 +20,7 @@ passphrases should be used, or *whether* a recovery-key backup should
 be archived to off-host storage — it provides the capability to
 *manipulate LUKS state* reliably, idempotently, and with full
 auditability.  All `cryptsetup` and `lsblk` commands are executed
-exclusively through the `automojo-interfaces` command-runner
+exclusively through the `codecraftai-interfaces` command-runner
 abstraction; passphrase bytes flow on runner `stdin` and never appear
 on argv.
 

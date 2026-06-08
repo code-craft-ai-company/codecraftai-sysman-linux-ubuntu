@@ -3,12 +3,12 @@
 ## Introduction
 
 The ssh-server-configuration feature provides the
-`automojo-sysman-linux-ubuntu` package with the ability to manage the
+`codecraftai-sysman-linux-ubuntu` package with the ability to manage the
 OpenSSH server configuration on Ubuntu hosts: top-level `sshd_config`
 keywords, `Match` blocks, configuration validation, daemon reload, and
 per-user `authorized_keys` entries.  This spec implements the
 ssh-server-configuration contract defined at
-`automojo-sysman-common/specs/contracts/ssh-server-configuration/contract.md`
+`codecraftai-sysman-common/specs/contracts/ssh-server-configuration/contract.md`
 for Ubuntu.
 
 A maintenance coordinator running in an external package drives all
@@ -16,7 +16,7 @@ operations by calling into this feature's public interfaces.  The
 feature does not decide *what* policy the server enforces — it provides
 the capability to *apply* policy reliably, idempotently, and with full
 auditability.  All system commands (`sshd`, `systemctl`, `cat`, `tee`)
-are executed exclusively through the `automojo-interfaces`
+are executed exclusively through the `codecraftai-interfaces`
 command-runner abstraction.  No `subprocess`, no direct `open`, and no
 direct `pathlib` calls are made inside this module.
 

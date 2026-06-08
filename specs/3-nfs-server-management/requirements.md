@@ -3,14 +3,14 @@
 ## Introduction
 
 The nfs-server-management feature provides the
-`automojo-sysman-linux-ubuntu` package with the ability to manage a
+`codecraftai-sysman-linux-ubuntu` package with the ability to manage a
 local NFS v3/v4 server on Ubuntu hosts.  Ubuntu's stock NFS-server
 implementation ships in the `nfs-kernel-server` package; the daemon
 is exposed under systemd as `nfs-kernel-server.service` (Debian
 derivatives use the package name as the unit name rather than
 `nfs-server.service`).  This spec implements the cross-OS
 nfs-server-management contract defined at
-`automojo-sysman-common/specs/contracts/nfs-server-management/contract.md`
+`codecraftai-sysman-common/specs/contracts/nfs-server-management/contract.md`
 for Ubuntu, scoped to the `nfs-kernel-server` daemon and the
 `/etc/exports` configuration surface.
 
@@ -20,7 +20,7 @@ feature does not decide *what* exports policy the server enforces — it
 provides the capability to *apply* policy reliably, idempotently, and
 with full auditability.  All system commands (`exportfs`, `showmount`,
 `cat`, `tee`, `rm`) are executed exclusively through the
-`automojo-interfaces` command-runner abstraction.  No `subprocess`, no
+`codecraftai-interfaces` command-runner abstraction.  No `subprocess`, no
 direct `open`, and no direct `pathlib` calls are made inside this
 module.
 

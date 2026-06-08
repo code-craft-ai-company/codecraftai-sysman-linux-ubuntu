@@ -3,9 +3,9 @@
 ## Overview
 
 The user and group management feature is implemented as a single module,
-`automojo.sysman.linux.ubuntu.usergroupmanagement`, that exposes a
+`ccai.sysman.linux.ubuntu.usergroupmanagement`, that exposes a
 `UbuntuUserGroupManager` class.  This spec implements the user-group-management contract
-defined at `automojo-sysman-common/specs/contracts/user-group-management/contract.md`
+defined at `codecraftai-sysman-common/specs/contracts/user-group-management/contract.md`
 for Ubuntu using the standard `shadow-utils` tooling (`useradd`, `userdel`, `usermod`,
 `groupadd`, `groupdel`, `gpasswd`, `passwd`, `chpasswd`) together with the name-service
 query tool `getent`.
@@ -40,7 +40,7 @@ details on local/SSH execution, reliability tracking, and aspect configuration.
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │            UbuntuUserGroupManager                           │
-│  automojo.sysman.linux.ubuntu.usergroupmanagement           │
+│  ccai.sysman.linux.ubuntu.usergroupmanagement           │
 │                                                             │
 │  create_user()    delete_user()    modify_user()            │
 │  get_user()       list_users()     set_password()           │
@@ -82,7 +82,7 @@ details on local/SSH execution, reliability tracking, and aspect configuration.
 
 ### `UbuntuUserGroupManager`
 
-**Location:** `source/packages/automojo/sysman/linux/ubuntu/usergroupmanagement.py`
+**Location:** `source/packages/ccai/sysman/linux/ubuntu/usergroupmanagement.py`
 
 | Method | Signature | Description |
 |---|---|---|
@@ -196,7 +196,7 @@ class UbuntuUserGroupQueryError(Exception):
 
 ## Interfaces
 
-### `ICommandRunner` (from `automojo-interfaces`)
+### `ICommandRunner` (from `codecraftai-interfaces`)
 
 ```python
 class ICommandRunner(Protocol):
@@ -546,12 +546,12 @@ any field of `UbuntuUserGroupActionResult`.
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 ├── __init__.py
 └── usergroupmanagement.py        ← UbuntuUserGroupManager, config, models, exceptions
 
 source/testroots/testbase/
-└── automojo/tests/sysman/linux/ubuntu/
+└── ccai/tests/sysman/linux/ubuntu/
     └── test_usergroupmanagement.py
 ```
 
@@ -562,8 +562,8 @@ source/testroots/testbase/
 ### Local Execution (Default)
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import LocalCommandRunner, LocalRunnerConfig
-from automojo.sysman.linux.ubuntu.usergroupmanagement import (
+from ccai.sysman.linux.ubuntu.runners import LocalCommandRunner, LocalRunnerConfig
+from ccai.sysman.linux.ubuntu.usergroupmanagement import (
     UbuntuUserGroupManager,
     UbuntuUserGroupManagerConfig,
     UbuntuUserSpec,
@@ -603,8 +603,8 @@ print(f"locked: {user_info.locked}")
 ### SSH Execution with Aspects
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import SSHCommandRunner, SSHRunnerConfig
-from automojo.sysman.linux.ubuntu.aspects import (
+from ccai.sysman.linux.ubuntu.runners import SSHCommandRunner, SSHRunnerConfig
+from ccai.sysman.linux.ubuntu.aspects import (
     PersistenceAspect,
     RetryAspect,
     TimeoutAspect,
@@ -612,8 +612,8 @@ from automojo.sysman.linux.ubuntu.aspects import (
     RetryAspectConfig,
     TimeoutAspectConfig,
 )
-from automojo.sysman.linux.ubuntu.storage import SQLiteStorage
-from automojo.sysman.linux.ubuntu.usergroupmanagement import (
+from ccai.sysman.linux.ubuntu.storage import SQLiteStorage
+from ccai.sysman.linux.ubuntu.usergroupmanagement import (
     UbuntuUserGroupManager,
     UbuntuUserGroupManagerConfig,
 )

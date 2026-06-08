@@ -3,12 +3,12 @@
 ## Introduction
 
 The samba-server-management feature provides the
-`automojo-sysman-linux-ubuntu` package with the ability to manage a
+`codecraftai-sysman-linux-ubuntu` package with the ability to manage a
 local Samba (SMB/CIFS) file server on Ubuntu hosts.  Ubuntu's stock
 Samba implementation ships in the `samba` package; the daemon is
 exposed under systemd as `smbd.service`.  This spec implements the
 cross-OS samba-server-management contract defined at
-`automojo-sysman-common/specs/contracts/samba-server-management/contract.md`
+`codecraftai-sysman-common/specs/contracts/samba-server-management/contract.md`
 for Ubuntu, scoped to the `smbd` daemon and the
 `/etc/samba/smb.conf` configuration surface.
 
@@ -18,7 +18,7 @@ feature does not decide *what* share policy the server enforces — it
 provides the capability to *apply* policy reliably, idempotently,
 and with full auditability.  All system commands (`smbcontrol`,
 `smbpasswd`, `pdbedit`, `cat`, `tee`) are executed exclusively
-through the `automojo-interfaces` command-runner abstraction.  No
+through the `codecraftai-interfaces` command-runner abstraction.  No
 `subprocess`, no direct `open`, and no direct `pathlib` calls are
 made inside this module.
 

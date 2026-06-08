@@ -10,11 +10,11 @@
 from dataclasses import dataclass, field
 from typing import Callable, Optional
 
-from automojo import testbase
+from ccai import testbase
 
-from automojo.interfaces.icommandrunner import RunResult
+from ccai.interfaces.icommandrunner import RunResult
 
-from automojo.sysman.linux.ubuntu.environmentconfiguration import (
+from ccai.sysman.linux.ubuntu.environmentconfiguration import (
     UbuntuEnvActionStatus,
     UbuntuEnvironmentConfigurationManager,
     UbuntuEnvironmentManagerConfig,
@@ -108,7 +108,7 @@ def test_set_system_env_writes_both_files():
     """
     runner = _MockCommandRunner(default_result=_ok())
     runner.results[("cat", "/etc/environment")] = _fail()
-    runner.results[("cat", "/etc/profile.d/automojo.sh")] = _fail()
+    runner.results[("cat", "/etc/profile.d/ccai.sh")] = _fail()
 
     manager = UbuntuEnvironmentConfigurationManager(
         runner=runner,
@@ -126,7 +126,7 @@ def test_set_system_env_writes_both_files():
         'JAVA_HOME="/opt/java"\n',
     )
     testbase.assert_equal(
-        by_path["/etc/profile.d/automojo.sh"]["stdin"],
+        by_path["/etc/profile.d/ccai.sh"]["stdin"],
         '#!/usr/bin/env bash\nexport JAVA_HOME="/opt/java"\n',
     )
     for call in tee_calls:
@@ -147,7 +147,7 @@ def test_set_system_env_skipped_when_both_files_current():
     runner.results[("cat", "/etc/environment")] = _ok(
         stdout='JAVA_HOME="/opt/java"\n',
     )
-    runner.results[("cat", "/etc/profile.d/automojo.sh")] = _ok(
+    runner.results[("cat", "/etc/profile.d/ccai.sh")] = _ok(
         stdout='#!/usr/bin/env bash\nexport JAVA_HOME="/opt/java"\n',
     )
 
@@ -169,7 +169,7 @@ def test_set_system_env_dry_run_makes_no_writes():
     """
     runner = _MockCommandRunner()
     runner.results[("cat", "/etc/environment")] = _fail()
-    runner.results[("cat", "/etc/profile.d/automojo.sh")] = _fail()
+    runner.results[("cat", "/etc/profile.d/ccai.sh")] = _fail()
 
     manager = UbuntuEnvironmentConfigurationManager(
         runner=runner,
@@ -195,7 +195,7 @@ def test_unset_system_env_skipped_when_absent():
     """
     runner = _MockCommandRunner()
     runner.results[("cat", "/etc/environment")] = _ok(stdout="OTHER=1\n")
-    runner.results[("cat", "/etc/profile.d/automojo.sh")] = _fail()
+    runner.results[("cat", "/etc/profile.d/ccai.sh")] = _fail()
 
     manager = UbuntuEnvironmentConfigurationManager(
         runner=runner,
@@ -220,7 +220,7 @@ def test_unset_system_env_rewrites_environment_file():
     runner.results[("cat", "/etc/environment")] = _ok(
         stdout='JAVA_HOME="/opt/java"\nKEEP="value"\n',
     )
-    runner.results[("cat", "/etc/profile.d/automojo.sh")] = _fail()
+    runner.results[("cat", "/etc/profile.d/ccai.sh")] = _fail()
 
     manager = UbuntuEnvironmentConfigurationManager(
         runner=runner,
@@ -243,7 +243,7 @@ def test_unset_system_env_deletes_dropin_when_only_shebang():
     """
     runner = _MockCommandRunner(default_result=_ok())
     runner.results[("cat", "/etc/environment")] = _fail()
-    runner.results[("cat", "/etc/profile.d/automojo.sh")] = _ok(
+    runner.results[("cat", "/etc/profile.d/ccai.sh")] = _ok(
         stdout='#!/usr/bin/env bash\nexport JAVA_HOME="/opt/java"\n',
     )
 
@@ -257,7 +257,7 @@ def test_unset_system_env_deletes_dropin_when_only_shebang():
     rm_calls = [c for c in runner.calls if c["args"][0] == "rm"]
     testbase.assert_equal(len(rm_calls), 1)
     testbase.assert_equal(
-        rm_calls[0]["args"], ["rm", "-f", "/etc/profile.d/automojo.sh"],
+        rm_calls[0]["args"], ["rm", "-f", "/etc/profile.d/ccai.sh"],
     )
     testbase.assert_equal(rm_calls[0]["elevated"], True)
     return
@@ -278,7 +278,7 @@ def test_get_system_env_prefers_environment_file():
     runner.results[("cat", "/etc/environment")] = _ok(
         stdout='LANG="en_US.UTF-8"\n',
     )
-    runner.results[("cat", "/etc/profile.d/automojo.sh")] = _ok(
+    runner.results[("cat", "/etc/profile.d/ccai.sh")] = _ok(
         stdout='#!/usr/bin/env bash\nexport LANG="C.UTF-8"\n',
     )
 
@@ -302,7 +302,7 @@ def test_list_system_env_merges_both_files():
     runner.results[("cat", "/etc/environment")] = _ok(
         stdout='LANG="en_US.UTF-8"\n',
     )
-    runner.results[("cat", "/etc/profile.d/automojo.sh")] = _ok(
+    runner.results[("cat", "/etc/profile.d/ccai.sh")] = _ok(
         stdout='#!/usr/bin/env bash\nexport JAVA_HOME="/opt/java"\nexport LANG="C.UTF-8"\n',
     )
 
@@ -324,7 +324,7 @@ def test_list_system_env_empty_when_both_missing():
     """
     runner = _MockCommandRunner()
     runner.results[("cat", "/etc/environment")] = _fail()
-    runner.results[("cat", "/etc/profile.d/automojo.sh")] = _fail()
+    runner.results[("cat", "/etc/profile.d/ccai.sh")] = _fail()
 
     manager = UbuntuEnvironmentConfigurationManager(
         runner=runner, config=UbuntuEnvironmentManagerConfig(),
@@ -368,9 +368,9 @@ def test_set_user_env_creates_block_in_missing_profile():
     testbase.assert_equal(
         tee_calls[0]["stdin"],
         (
-            "# --- automojo env start ---\n"
+            "# --- ccai env start ---\n"
             'export NODE_ENV="production"\n'
-            "# --- automojo env end ---\n"
+            "# --- ccai env end ---\n"
         ),
     )
     testbase.assert_equal(result.user, "appuser")
@@ -411,9 +411,9 @@ def test_set_user_env_skipped_when_block_already_matches():
     runner.results[("cat", "/home/appuser/.profile")] = _ok(
         stdout=(
             "# user content above\n"
-            "# --- automojo env start ---\n"
+            "# --- ccai env start ---\n"
             'export NODE_ENV="production"\n'
-            "# --- automojo env end ---\n"
+            "# --- ccai env end ---\n"
         ),
     )
 
@@ -466,10 +466,10 @@ def test_unset_user_env_rewrites_block():
     runner.results[("cat", "/home/appuser/.profile")] = _ok(
         stdout=(
             "user_top_line=keep\n"
-            "# --- automojo env start ---\n"
+            "# --- ccai env start ---\n"
             'export NODE_ENV="production"\n'
             'export OTHER="1"\n'
-            "# --- automojo env end ---\n"
+            "# --- ccai env end ---\n"
         ),
     )
 
@@ -486,9 +486,9 @@ def test_unset_user_env_rewrites_block():
         tee_calls[0]["stdin"],
         (
             "user_top_line=keep\n"
-            "# --- automojo env start ---\n"
+            "# --- ccai env start ---\n"
             'export OTHER="1"\n'
-            "# --- automojo env end ---\n"
+            "# --- ccai env end ---\n"
         ),
     )
     testbase.assert_equal(tee_calls[0]["elevated"], True)
@@ -506,7 +506,7 @@ def test_reads_never_elevate():
     """
     runner = _MockCommandRunner()
     runner.results[("cat", "/etc/environment")] = _ok(stdout="LANG=\"X\"\n")
-    runner.results[("cat", "/etc/profile.d/automojo.sh")] = _fail()
+    runner.results[("cat", "/etc/profile.d/ccai.sh")] = _fail()
 
     manager = UbuntuEnvironmentConfigurationManager(
         runner=runner,
@@ -547,7 +547,7 @@ def test_failed_runner_surfaces_stderr_on_set_system_env():
     """
     runner = _MockCommandRunner()
     runner.results[("cat", "/etc/environment")] = _fail()
-    runner.results[("cat", "/etc/profile.d/automojo.sh")] = _fail()
+    runner.results[("cat", "/etc/profile.d/ccai.sh")] = _fail()
     runner.results[
         ("tee", "/etc/environment")
     ] = _fail(stderr="tee: permission denied")

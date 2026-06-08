@@ -3,7 +3,7 @@
 ## Overview
 
 The authentication management feature is implemented as a single
-module, `automojo.sysman.linux.ubuntu.authenticationmanagement`,
+module, `ccai.sysman.linux.ubuntu.authenticationmanagement`,
 exposing an `UbuntuAuthenticationManager` class that wraps
 `pam-auth-update`, the per-service files under `/etc/pam.d/`, and
 pure-Python parsers for the PAM stack syntax through the
@@ -72,7 +72,7 @@ documented seam):
                              v
 +--------------------------------------------------------------+
 |            UbuntuAuthenticationManager                       |
-|  automojo.sysman.linux.ubuntu.authenticationmanagement       |
+|  ccai.sysman.linux.ubuntu.authenticationmanagement       |
 |                                                              |
 |  Reads:                                                      |
 |    get_auth_config(subsystem)                                |
@@ -103,7 +103,7 @@ documented seam):
 
 ### `UbuntuAuthenticationManager`
 
-**Location:** `source/packages/automojo/sysman/linux/ubuntu/authenticationmanagement.py`
+**Location:** `source/packages/ccai/sysman/linux/ubuntu/authenticationmanagement.py`
 
 | Method | Verb kind | Tool | Elevation |
 |---|---|---|---|
@@ -417,11 +417,11 @@ No live system or `sudo` access required.
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 └── authenticationmanagement.py        ← UbuntuAuthenticationManager + models
 
 source/testroots/testbase/
-└── automojo/tests/sysman/linux/ubuntu/
+└── ccai/tests/sysman/linux/ubuntu/
     └── test_authenticationmanagement.py
 ```
 

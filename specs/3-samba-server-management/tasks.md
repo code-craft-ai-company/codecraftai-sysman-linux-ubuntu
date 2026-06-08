@@ -4,7 +4,7 @@ All tasks are unchecked — new feature.
 
 ## Module and Models
 
-- [ ] 1. Create `source/packages/automojo/sysman/linux/ubuntu/sambaservermanagement.py`
+- [ ] 1. Create `source/packages/ccai/sysman/linux/ubuntu/sambaservermanagement.py`
 - [ ] 2. Define module-level constants (`_CAT`, `_TEE`, `_SMBCONTROL`,
   `_SMBPASSWD`, `_PDBEDIT`, default smb.conf path, default service
   name, reserved section names).
@@ -88,7 +88,7 @@ All tasks are unchecked — new feature.
 ## Tests
 
 - [ ] 31. Create
-  `source/testroots/testbase/automojo/tests/sysman/linux/ubuntu/test_sambaservermanagement.py`
+  `source/testroots/testbase/ccai/tests/sysman/linux/ubuntu/test_sambaservermanagement.py`
   with `_MockCommandRunner` + `_seed_cat` helpers.
 - [ ] 32. Add `test_add_share_invokes_smbcontrol`.
 - [ ] 33. Add `test_add_share_skipped_when_present`.

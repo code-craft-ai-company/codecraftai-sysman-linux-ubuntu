@@ -56,7 +56,7 @@ intentionally exposes only the four POSIX-native types.
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/aclmanagement.py
+source/packages/ccai/sysman/linux/ubuntu/aclmanagement.py
 ```
 
 Contents (top-to-bottom):
@@ -320,7 +320,7 @@ spec exposes:
 
 The drift is intentional and is documented here for the per-OS
 implementer's reference.  Cross-OS callers that need the contract's
-names will see them in the `automojo-interfaces` adapter layer when
+names will see them in the `codecraftai-interfaces` adapter layer when
 that layer materialises; the per-OS managers favour names that
 align with the rest of their package.
 
@@ -339,7 +339,7 @@ from the per-OS verb signatures.  The rationale:
   a tree is potentially O(N) `getfacl` invocations and demands a
   caller-visible progress / partial-failure shape that the per-path
   result type does not carry.
-* The `automojo-sysman-linux-redhat` reference impl ships
+* The `codecraftai-sysman-linux-redhat` reference impl ships
   recursion as a flag, but its broader scope (extended attributes,
   file capabilities) carries a richer result shape that this Ubuntu
   spec does not duplicate.

@@ -9,7 +9,7 @@ tracked under a separate "Runner Subpackage" section appended at the bottom.
 
 ## Module and Models
 
-- [ ] 1. Create the `automojo.sysman.linux.ubuntu.commandexecution` module
+- [ ] 1. Create the `ccai.sysman.linux.ubuntu.commandexecution` module
 
 - [ ] 2. Define `UbuntuCommandExecutionStatus` enum (SUCCESS / FAILED / SKIPPED /
   DRY_RUN)
@@ -104,7 +104,7 @@ tracked under a separate "Runner Subpackage" section appended at the bottom.
 - [ ] 37. **Cross-OS contract conformance review**: verify that
   `UbuntuCommandResult` / `UbuntuSequenceResult` / `UbuntuCommandSpec` field shapes
   match the cross-OS contract at
-  `automojo-sysman-common/specs/contracts/command-execution/contract.md` exactly,
+  `codecraftai-sysman-common/specs/contracts/command-execution/contract.md` exactly,
   including the Ubuntu-specific `sudo -n -E` elevation path.
 
 - [ ] 38. **Runner-coupling review**: confirm that `UbuntuLocalCommandRunner` and
@@ -114,12 +114,12 @@ tracked under a separate "Runner Subpackage" section appended at the bottom.
 ## Runner Subpackage — Implemented in this batch
 
 The runner subpackage at
-`source/packages/automojo/sysman/linux/ubuntu/runners/` and its accompanying
+`source/packages/ccai/sysman/linux/ubuntu/runners/` and its accompanying
 tests at
-`source/testroots/testbase/automojo/tests/sysman/linux/ubuntu/test_localcommandrunner.py`
+`source/testroots/testbase/ccai/tests/sysman/linux/ubuntu/test_localcommandrunner.py`
 landed as the foundation for the executor work above.
 
-- [x] R1. Create the `automojo.sysman.linux.ubuntu.runners` subpackage layout
+- [x] R1. Create the `ccai.sysman.linux.ubuntu.runners` subpackage layout
   (`__init__.py`, `models.py`, `local.py`, `ssh.py`, `aspects/`).
 
 - [x] R2. Define `UbuntuRunResult`, `UbuntuExecutionContext`,

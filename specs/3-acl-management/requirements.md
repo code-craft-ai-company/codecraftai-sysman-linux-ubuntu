@@ -3,10 +3,10 @@
 ## Introduction
 
 The ACL management feature provides the
-`automojo-sysman-linux-ubuntu` package with the ability to query and
+`codecraftai-sysman-linux-ubuntu` package with the ability to query and
 mutate POSIX Access Control Lists (ACLs) on individual filesystem
 paths.  This spec implements the ACL-management contract defined at
-`automojo-sysman-common/specs/contracts/acl-management/contract.md`
+`codecraftai-sysman-common/specs/contracts/acl-management/contract.md`
 for Ubuntu using `getfacl` (read) and `setfacl` (write) — the
 canonical POSIX ACL tools shipped in the `acl` package on Debian and
 Ubuntu.
@@ -16,7 +16,7 @@ operations by calling into this feature's public verbs.  The feature
 does not decide which ACL a path should carry — it provides the
 capability to apply, observe, and idempotently re-apply ACLs reliably
 and with full auditability.  Every system command is executed
-exclusively through the `automojo-interfaces` command-runner
+exclusively through the `codecraftai-interfaces` command-runner
 abstraction; this module does not import `subprocess`, does not call
 `open`, and does not consume an `IFileOperator`.  Persistence is
 owned by `setfacl` itself (extended attributes on the underlying ext4

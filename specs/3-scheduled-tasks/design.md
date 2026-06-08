@@ -3,10 +3,10 @@
 ## Overview
 
 The scheduled-tasks feature is implemented as a single module,
-`automojo.sysman.linux.ubuntu.scheduledtasks`, that exposes a
+`ccai.sysman.linux.ubuntu.scheduledtasks`, that exposes a
 `UbuntuScheduledTaskManager` class.  This spec implements the scheduled-tasks
 contract defined at
-`automojo-sysman-common/specs/contracts/scheduled-tasks/contract.md` for
+`codecraftai-sysman-common/specs/contracts/scheduled-tasks/contract.md` for
 Ubuntu using systemd timers as the primary scheduling backend and cron
 drop-ins as an optional fallback.  The coordinator instantiates
 `UbuntuScheduledTaskManager` with a command runner, a file operator, and a
@@ -41,7 +41,7 @@ configuration.
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │            UbuntuScheduledTaskManager                       │
-│  automojo.sysman.linux.ubuntu.scheduledtasks                │
+│  ccai.sysman.linux.ubuntu.scheduledtasks                │
 │                                                             │
 │  create_task()   delete_task()                              │
 │  enable_task()   disable_task()   run_task_now()            │
@@ -76,7 +76,7 @@ configuration.
 
 ### `UbuntuScheduledTaskManager`
 
-**Location:** `source/packages/automojo/sysman/linux/ubuntu/scheduledtasks.py`
+**Location:** `source/packages/ccai/sysman/linux/ubuntu/scheduledtasks.py`
 
 | Method | Signature | Description |
 |---|---|---|
@@ -504,12 +504,12 @@ the failing step.
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 ├── __init__.py
 └── scheduledtasks.py    ← UbuntuScheduledTaskManager, models, config, exception
 
 source/testroots/testbase/
-└── automojo/tests/sysman/linux/ubuntu/
+└── ccai/tests/sysman/linux/ubuntu/
     └── test_scheduledtasks.py
 ```
 
@@ -520,11 +520,11 @@ source/testroots/testbase/
 ### Local Execution (Default)
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import (
+from ccai.sysman.linux.ubuntu.runners import (
     UbuntuLocalCommandRunner, UbuntuLocalRunnerConfig,
     UbuntuLocalFileOperator, UbuntuLocalFileOperatorConfig,
 )
-from automojo.sysman.linux.ubuntu.scheduledtasks import (
+from ccai.sysman.linux.ubuntu.scheduledtasks import (
     UbuntuScheduledTaskManager,
     UbuntuScheduledTaskManagerConfig,
     UbuntuTaskSpec,
@@ -553,14 +553,14 @@ print(f"create_task: {result.status.value}")
 ### SSH Execution With Aspects
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import (
+from ccai.sysman.linux.ubuntu.runners import (
     UbuntuSSHCommandRunner, UbuntuSSHRunnerConfig,
 )
-from automojo.sysman.linux.ubuntu.aspects import (
+from ccai.sysman.linux.ubuntu.aspects import (
     PersistenceAspect, RetryAspect, TimeoutAspect,
     PersistenceAspectConfig, RetryAspectConfig, TimeoutAspectConfig,
 )
-from automojo.sysman.linux.ubuntu.storage import SQLiteStorage
+from ccai.sysman.linux.ubuntu.storage import SQLiteStorage
 
 runner = UbuntuSSHCommandRunner(
     UbuntuSSHRunnerConfig(host="ubuntu-prod-01", username="ops"),

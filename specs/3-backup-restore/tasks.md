@@ -8,13 +8,13 @@ to a single file and a single concern.
 
 ## Module Skeleton
 
-- [ ] T1. Create `source/packages/automojo/sysman/linux/ubuntu/backuprestore.py`
+- [ ] T1. Create `source/packages/ccai/sysman/linux/ubuntu/backuprestore.py`
       with the module docstring describing the verb-to-tool mapping, the
       backend dispatch table, and the schedule-delegation note.
 - [ ] T2. Add the module-level constants for the backend tool names
       (`_RSYNC`, `_RESTIC`, `_TAR`), the helper tools (`_TEE`, `_CAT`, `_RM`,
       `_LS`, `_TEST`), and the default job directory path
-      (`_DEFAULT_JOB_DIR = "/var/lib/automojo/backups/jobs"`).
+      (`_DEFAULT_JOB_DIR = "/var/lib/ccai/backups/jobs"`).
 - [ ] T3. Add the `UbuntuBackupActionStatus = ActionStatus` re-export so
       callers can refer to a feature-prefixed status without importing
       `featurebase`.
@@ -93,7 +93,7 @@ to a single file and a single concern.
 ## Tests
 
 - [ ] T27. Create
-      `source/testroots/testbase/automojo/tests/sysman/linux/ubuntu/test_backuprestore.py`
+      `source/testroots/testbase/ccai/tests/sysman/linux/ubuntu/test_backuprestore.py`
       with a `_MockCommandRunner` matching the pattern in
       `test_dnsservermanagement.py`.
 - [ ] T28. `test_create_backup_job_persists_spec` — drives the happy
@@ -135,7 +135,7 @@ to a single file and a single concern.
 ## Documentation
 
 - [ ] T42. Update the package-level `Agents.md` entry for
-      `automojo-sysman-linux-ubuntu` to point at the
+      `codecraftai-sysman-linux-ubuntu` to point at the
       `specs/3-backup-restore/` directory.
 - [ ] T43. Note in the manager's module docstring that schedule wiring
       is delegated to `scheduled-tasks` and that the

@@ -12,7 +12,7 @@ contract conformance follow-up below.
 
 ## Module and Models
 
-- [x] 1. Create the `automojo.sysman.linux.ubuntu.maintenancereporting` module
+- [x] 1. Create the `ccai.sysman.linux.ubuntu.maintenancereporting` module
 
 - [x] 2. Define `UbuntuActionStatus` and `UbuntuReportFormat` enums
 
@@ -82,7 +82,7 @@ contract conformance follow-up below.
 ## Tests — Implemented
 
 The test names below describe the spec's intent.  The landed test file at
-`source/testroots/testbase/automojo/tests/sysman/linux/ubuntu/test_maintenancereporting.py`
+`source/testroots/testbase/ccai/tests/sysman/linux/ubuntu/test_maintenancereporting.py`
 covers the equivalent behaviour under the runner-mediated I/O model with
 slightly different test names (e.g.
 `test_emit_json_report_writes_file` covers item 35 by inspecting the
@@ -132,5 +132,5 @@ slightly different test names (e.g.
   the same result shapes, including the `record_query` alias.
 
 - [ ] 45. **Default-base documentation**: confirm that the chosen default base
-  `/var/log/automojo/maintenance` is compatible with AppArmor / ubuntu-advantage
+  `/var/log/ccai/maintenance` is compatible with AppArmor / ubuntu-advantage
   policies and document the required profile allowances.

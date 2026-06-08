@@ -5,7 +5,7 @@ items (`[ ]`) identify remaining work.
 
 ## Module and Models
 
-- [x] 1. Create the `automojo.sysman.linux.ubuntu.logmanagement` module
+- [x] 1. Create the `ccai.sysman.linux.ubuntu.logmanagement` module
 
 - [x] 2. Define `UbuntuLogActionStatus` enum (SUCCESS / FAILED / SKIPPED
   / DRY_RUN)
@@ -125,8 +125,8 @@ items (`[ ]`) identify remaining work.
 
 - [ ] 46. **Cross-OS contract conformance review**: verify that the
   shipping dataclasses match the abstract names in
-  `automojo-sysman-common/specs/contracts/log-management/contract.md`.
+  `codecraftai-sysman-common/specs/contracts/log-management/contract.md`.
 
-- [ ] 47. **automojo-sysman-linux-ubuntu reuse check**: confirm that
+- [ ] 47. **codecraftai-sysman-linux-ubuntu reuse check**: confirm that
   `3-remote-log-forwarding` does not call `journalctl` directly; it
   should delegate to `UbuntuLogManager.get_log` for read paths.

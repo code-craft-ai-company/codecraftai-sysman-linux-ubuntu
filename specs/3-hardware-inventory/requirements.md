@@ -3,10 +3,10 @@
 ## Introduction
 
 This spec implements the hardware-inventory contract defined at
-`automojo-sysman-common/specs/contracts/hardware-inventory/contract.md` for
+`codecraftai-sysman-common/specs/contracts/hardware-inventory/contract.md` for
 Ubuntu using `dmidecode`, `lscpu`, `lsblk`, `ip`, `lspci`, and `lsusb`.
 
-The hardware-inventory feature provides the `automojo-sysman-linux-ubuntu` package
+The hardware-inventory feature provides the `codecraftai-sysman-linux-ubuntu` package
 with the ability to query, classify, and aggregate hardware and platform identity
 information on Ubuntu systems: DMI/SMBIOS identity, CPU topology, memory
 (aggregate plus per-DIMM detail), block-storage devices, network link-layer
@@ -16,7 +16,7 @@ A maintenance coordinator drives every operation by calling into this feature's
 public interfaces.  The feature does not decide *what* to inventory — it provides
 the capability to *do it* reliably and safely from a coordinator that has only
 read intent.  All system commands are executed exclusively through the
-`automojo-interfaces` command-runner abstraction, enabling auditing, tracing, and
+`codecraftai-interfaces` command-runner abstraction, enabling auditing, tracing, and
 test mocking without requiring a live system.
 
 This feature is **strictly read-only**.  Every verb is inherently idempotent and

@@ -5,13 +5,13 @@
 ### 1. Module Skeleton
 
 - [ ] Create
-  `source/packages/automojo/sysman/linux/ubuntu/authenticationmanagement.py`.
+  `source/packages/ccai/sysman/linux/ubuntu/authenticationmanagement.py`.
 - [ ] Add module-level constants for `cat`, `tee`,
   `pam-auth-update`, the default `/etc/pam.d` directory, and the
   default `/usr/share/pam-configs/` directory.
 - [ ] Import `ActionStatus`, `BaseFeatureManager`,
   `FeatureActionResult`, `FeatureConfig` from
-  `automojo.sysman.linux.ubuntu.featurebase`.
+  `ccai.sysman.linux.ubuntu.featurebase`.
 
 ---
 
@@ -108,7 +108,7 @@
 ### 8. Tests
 
 - [ ] Create
-  `source/testroots/testbase/automojo/tests/sysman/linux/ubuntu/test_authenticationmanagement.py`.
+  `source/testroots/testbase/ccai/tests/sysman/linux/ubuntu/test_authenticationmanagement.py`.
 - [ ] Add the `_MockCommandRunner` shape used in
   `test_sshserverconfiguration.py`.
 - [ ] `test_get_auth_config_parses_cat_output`.

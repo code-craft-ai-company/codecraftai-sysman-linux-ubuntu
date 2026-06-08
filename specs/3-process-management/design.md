@@ -3,11 +3,11 @@
 ## Overview
 
 This spec implements the process-management contract defined at
-`automojo-sysman-common/specs/contracts/process-management/contract.md`
+`codecraftai-sysman-common/specs/contracts/process-management/contract.md`
 for Ubuntu using `ps`, `kill`, `pkill`, `pgrep`, `renice`, and `setsid`.
 
 The process-management feature is implemented as a single module,
-`automojo.sysman.linux.ubuntu.processmanagement`, that exposes an
+`ccai.sysman.linux.ubuntu.processmanagement`, that exposes an
 `UbuntuProcessManager` class.  The coordinator instantiates
 `UbuntuProcessManager` and calls its read and write verbs to manage
 arbitrary user-space processes.  Every verb returns a typed `Ubuntu*`
@@ -40,7 +40,7 @@ configuration.
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │            UbuntuProcessManager                             │
-│  automojo.sysman.linux.ubuntu.processmanagement             │
+│  ccai.sysman.linux.ubuntu.processmanagement             │
 │                                                             │
 │  list_processes()        get_process()                      │
 │  find_processes_by_name() wait_for_process()                │
@@ -79,7 +79,7 @@ configuration.
 
 ### `UbuntuProcessManager`
 
-**Location:** `source/packages/automojo/sysman/linux/ubuntu/processmanagement.py`
+**Location:** `source/packages/ccai/sysman/linux/ubuntu/processmanagement.py`
 
 | Method | Returns | Description |
 |---|---|---|
@@ -168,7 +168,7 @@ class UbuntuProcessQueryError(Exception):
 
 ## Interfaces
 
-### `ICommandRunner` (from `automojo-interfaces`)
+### `ICommandRunner` (from `codecraftai-interfaces`)
 
 ```python
 class ICommandRunner(Protocol):
@@ -187,7 +187,7 @@ class ICommandRunner(Protocol):
     ) -> RunResult: ...
 ```
 
-### `RunResult` (from `automojo-interfaces`)
+### `RunResult` (from `codecraftai-interfaces`)
 
 ```python
 @dataclass
@@ -553,10 +553,10 @@ the injected runner and config.
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 └── processmanagement.py            ← manager + dataclasses + parsers + exception
 
-source/testroots/testbase/automojo/tests/sysman/linux/ubuntu/
+source/testroots/testbase/ccai/tests/sysman/linux/ubuntu/
 └── test_processmanagement.py       ← unit tests using a MockCommandRunner
 ```
 
@@ -567,10 +567,10 @@ source/testroots/testbase/automojo/tests/sysman/linux/ubuntu/
 ### Local execution
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import (
+from ccai.sysman.linux.ubuntu.runners import (
     LocalCommandRunner, LocalRunnerConfig,
 )
-from automojo.sysman.linux.ubuntu.processmanagement import (
+from ccai.sysman.linux.ubuntu.processmanagement import (
     UbuntuProcessManager,
     UbuntuProcessManagerConfig,
     UbuntuProcessSpec,
@@ -608,14 +608,14 @@ assert result.command == ["kill", "-TERM", "4242"]
 ### SSH execution with aspects
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import (
+from ccai.sysman.linux.ubuntu.runners import (
     SSHCommandRunner, SSHRunnerConfig,
 )
-from automojo.sysman.linux.ubuntu.aspects import (
+from ccai.sysman.linux.ubuntu.aspects import (
     PersistenceAspect, RetryAspect, TimeoutAspect,
     PersistenceAspectConfig, RetryAspectConfig, TimeoutAspectConfig,
 )
-from automojo.sysman.linux.ubuntu.storage import SQLiteStorage
+from ccai.sysman.linux.ubuntu.storage import SQLiteStorage
 
 runner = SSHCommandRunner(SSHRunnerConfig(host="remote", username="admin"))
 runner.add_aspect(PersistenceAspect(PersistenceAspectConfig(
@@ -653,7 +653,7 @@ proc.kill_process_tree(pid=4242, signal="KILL")
 
 ### Test File
 
-`source/testroots/testbase/automojo/tests/sysman/linux/ubuntu/test_processmanagement.py`
+`source/testroots/testbase/ccai/tests/sysman/linux/ubuntu/test_processmanagement.py`
 
 ### Tests Implemented
 

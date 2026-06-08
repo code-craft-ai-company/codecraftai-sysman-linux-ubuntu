@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The backup-restore feature provides the `automojo-sysman-linux-ubuntu` package with
+The backup-restore feature provides the `codecraftai-sysman-linux-ubuntu` package with
 the ability to define, persist, run, list, restore, and verify file-tree backup
 jobs on Ubuntu / Debian systems. Ubuntu has no first-party backup framework
 analogous to macOS Time Machine or Windows `wbadmin`; instead, the standard
@@ -15,7 +15,7 @@ A maintenance coordinator uses this feature to capture known-good snapshots of
 specified paths before destructive or risky changes, to restore from those
 snapshots on demand, and to verify that an archive is intact. All system
 commands (`rsync`, `restic`, `tar`, `tee`, `cat`, `ls`, `rm`) are executed
-through the `automojo-interfaces` command-runner abstraction so the manager
+through the `codecraftai-interfaces` command-runner abstraction so the manager
 works identically under local and SSH execution. All mutating operations
 respect dry-run mode.
 
@@ -41,10 +41,10 @@ backend tool without re-supplying its parameters.
 
 1. WHEN the coordinator supplies a `UbuntuBackupJobSpec` (or its `UbuntuBackupSpec`
    alias) THE SYSTEM SHALL serialise the spec to JSON and write it to
-   `/var/lib/automojo/backups/jobs/<job_id>.json` via `tee` with the JSON
+   `/var/lib/ccai/backups/jobs/<job_id>.json` via `tee` with the JSON
    payload supplied on stdin.
 2. THE SYSTEM SHALL pass `elevated=True` to the runner so that `tee` can write
-   under `/var/lib/automojo/backups/jobs/`, which is owned by `root`.
+   under `/var/lib/ccai/backups/jobs/`, which is owned by `root`.
 3. WHEN a job with the same `job_id` already exists on disk AND the persisted
    JSON is byte-equivalent to the proposed JSON, THE SYSTEM SHALL return
    `UbuntuBackupActionStatus.SKIPPED` without invoking `tee`.
@@ -65,7 +65,7 @@ backup job so that the host stops carrying its declarative footprint.
 #### Acceptance Criteria
 
 1. WHEN the coordinator supplies a `job_id` THE SYSTEM SHALL invoke
-   `rm -f /var/lib/automojo/backups/jobs/<job_id>.json` through the runner with
+   `rm -f /var/lib/ccai/backups/jobs/<job_id>.json` through the runner with
    `elevated=True`.
 2. WHEN the spec file does not exist on disk THE SYSTEM SHALL return
    `UbuntuBackupActionStatus.SKIPPED` without invoking `rm`.
@@ -85,7 +85,7 @@ change.
 #### Acceptance Criteria
 
 1. WHEN the coordinator supplies a `job_id` THE SYSTEM SHALL read the persisted
-   spec via `cat /var/lib/automojo/backups/jobs/<job_id>.json`, parse the JSON,
+   spec via `cat /var/lib/ccai/backups/jobs/<job_id>.json`, parse the JSON,
    and dispatch the backend command corresponding to the spec's `kind`:
    `RSYNC` → `rsync -aAXv --delete <sources> <destination>`,
    `RESTIC` → `restic backup <sources> --exclude <pat> ...`,
@@ -119,11 +119,11 @@ backup job so that audit reports can enumerate the host's backup footprint.
 #### Acceptance Criteria
 
 1. WHEN the coordinator requests the list THE SYSTEM SHALL invoke
-   `ls -1 /var/lib/automojo/backups/jobs` through the runner with
+   `ls -1 /var/lib/ccai/backups/jobs` through the runner with
    `elevated=False`.
 2. THE SYSTEM SHALL filter the directory listing to entries whose suffix is
    `.json`, derive each `job_id` by stripping the suffix, and read each spec
-   via `cat /var/lib/automojo/backups/jobs/<job_id>.json`.
+   via `cat /var/lib/ccai/backups/jobs/<job_id>.json`.
 3. THE SYSTEM SHALL parse each JSON spec and emit one `UbuntuBackupInfo` per
    spec, with `id`, `kind`, `created` (the on-disk file's mtime when
    available, otherwise `None`), `size_bytes` (`None` when not yet computed),
@@ -203,7 +203,7 @@ persistence stores.
 3. THE SYSTEM SHALL also exclude the passphrase from the recorded `command`
    field on every returned `UbuntuBackupActionResult`.
 4. THE SYSTEM SHALL exclude the passphrase from any persisted on-disk spec
-   under `/var/lib/automojo/backups/jobs/`. The serialised spec MUST replace
+   under `/var/lib/ccai/backups/jobs/`. The serialised spec MUST replace
    the passphrase with the sentinel string `"***REDACTED***"` before writing.
 
 ---

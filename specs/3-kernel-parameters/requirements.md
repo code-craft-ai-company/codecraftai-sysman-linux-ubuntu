@@ -2,10 +2,10 @@
 
 ## Introduction
 
-The kernel parameters feature provides the `automojo-sysman-linux-ubuntu` package with
+The kernel parameters feature provides the `codecraftai-sysman-linux-ubuntu` package with
 the ability to read, write, and persist `sysctl` kernel tunables on Ubuntu systems.
 This spec implements the kernel-parameters contract defined at
-`automojo-sysman-common/specs/contracts/kernel-parameters/contract.md` for Ubuntu
+`codecraftai-sysman-common/specs/contracts/kernel-parameters/contract.md` for Ubuntu
 using `sysctl` at runtime and drop-in files under `/etc/sysctl.d/` for persistence.
 It includes querying a single parameter, listing all parameters, writing parameters
 either at runtime, persistently, or both, reloading persisted parameters into the
@@ -15,8 +15,8 @@ A maintenance coordinator running in an external package drives all operations b
 calling into this feature's public interfaces.  The feature does not decide *which*
 parameters to apply — it provides the capability to *do it* reliably, idempotently,
 and with full auditability.  All system commands are executed exclusively through the
-`automojo-interfaces` command-runner abstraction and all drop-in file mutations are
-executed through the `automojo-interfaces` file-operator abstraction, enabling
+`codecraftai-interfaces` command-runner abstraction and all drop-in file mutations are
+executed through the `codecraftai-interfaces` file-operator abstraction, enabling
 dry-run simulation, auditing, and test mocking without requiring a live system.
 
 Ubuntu's kernel-parameter surface matches the RHEL reference almost exactly — both
@@ -195,7 +195,7 @@ tooling (`systemd-sysctl`) consumes them correctly on reboot.
 3. WHEN a drop-in file already contains the parameter the system SHALL rewrite
    the file preserving all other lines and comments.
 4. WHEN writing a new drop-in file the system SHALL prepend a header comment
-   line `# managed by automojo-sysman-linux-ubuntu` on its own line.
+   line `# managed by codecraftai-sysman-linux-ubuntu` on its own line.
 
 ---
 

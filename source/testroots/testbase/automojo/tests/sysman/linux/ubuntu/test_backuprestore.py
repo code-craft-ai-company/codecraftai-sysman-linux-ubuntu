@@ -10,11 +10,11 @@
 from dataclasses import dataclass, field
 from typing import Callable, Optional
 
-from automojo import testbase
+from ccai import testbase
 
-from automojo.interfaces.icommandrunner import RunResult
+from ccai.interfaces.icommandrunner import RunResult
 
-from automojo.sysman.linux.ubuntu.backuprestore import (
+from ccai.sysman.linux.ubuntu.backuprestore import (
     UbuntuBackupActionStatus,
     UbuntuBackupJobSpec,
     UbuntuBackupKind,
@@ -25,7 +25,7 @@ from automojo.sysman.linux.ubuntu.backuprestore import (
 )
 
 
-_DEFAULT_JOB_DIR = "/var/lib/automojo/backups/jobs"
+_DEFAULT_JOB_DIR = "/var/lib/ccai/backups/jobs"
 
 
 @dataclass

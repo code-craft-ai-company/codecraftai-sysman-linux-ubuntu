@@ -3,7 +3,7 @@
 ## Overview
 
 The Ubuntu samba-server-management feature is implemented as a single
-module, `automojo.sysman.linux.ubuntu.sambaservermanagement`, exposing
+module, `ccai.sysman.linux.ubuntu.sambaservermanagement`, exposing
 a `UbuntuSambaServerManager` class that wraps Ubuntu's stock
 `samba` package surface (`smbcontrol`, `smbpasswd`, `pdbedit`, the
 content of `/etc/samba/smb.conf`) through the `ICommandRunner`
@@ -13,7 +13,7 @@ Follows the standard manager pattern; delegates service lifecycle
 to `3-service-management`.
 
 **See Also:**
-- `automojo-sysman-common/specs/contracts/samba-server-management/contract.md`
+- `codecraftai-sysman-common/specs/contracts/samba-server-management/contract.md`
   — the cross-OS abstract contract.
 - `3-service-management` — `smbd.service` / `nmbd.service` lifecycle.
 - `3-firewall-management` — opening SMB ports 137/138/139/445.

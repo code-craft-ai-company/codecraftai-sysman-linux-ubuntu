@@ -3,7 +3,7 @@
 ## Introduction
 
 The filesystem-quotas feature provides the
-`automojo-sysman-linux-ubuntu` package with the ability to manage
+`codecraftai-sysman-linux-ubuntu` package with the ability to manage
 disk quotas on Ubuntu / Debian systems for ext-family filesystems
 through the standard Linux quota tooling: `quotacheck`,
 `quotaon`, `quotaoff`, `setquota`, `quota`, and `repquota`. It
@@ -17,7 +17,7 @@ report the current posture of that mountpoint, and to confirm
 whether quota enforcement is currently active. Every system
 command (`quotacheck`, `quotaon`, `quotaoff`, `setquota`,
 `quota`, `repquota`) is dispatched through the
-`automojo-interfaces` `ICommandRunner` abstraction so the manager
+`codecraftai-interfaces` `ICommandRunner` abstraction so the manager
 works identically under local and SSH execution. All mutating
 operations honour dry-run.
 
@@ -29,7 +29,7 @@ clean failure when they are not. Project quotas, XFS-specific
 tooling (`xfs_quota`), and grace-period configuration are out of
 scope for this Ubuntu pilot — the feature targets the most
 common ext4 deployment surface and refers callers needing those
-capabilities to the canonical `automojo-sysman-linux-redhat`
+capabilities to the canonical `codecraftai-sysman-linux-redhat`
 implementation.
 
 ---

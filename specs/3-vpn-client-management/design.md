@@ -3,9 +3,9 @@
 ## Overview
 
 The vpn-client-management feature is implemented as a single module,
-`automojo.sysman.linux.ubuntu.vpnclientmanagement`, that exposes a
+`ccai.sysman.linux.ubuntu.vpnclientmanagement`, that exposes a
 `UbuntuVPNClientManager` class subclassing `VPNClientManagementBase` from
-`automojo-sysman-common`. The manager installs and lifecycles **Tailscale**
+`codecraftai-sysman-common`. The manager installs and lifecycles **Tailscale**
 (`tailscaled`) via the official `pkgs.tailscale.com` apt repository, and the
 **Twingate Connector** via the `packages.twingate.com` apt repository.
 `systemctl` controls the daemons.
@@ -17,8 +17,8 @@ using here-documents piped through `tee`. No direct subprocess use, no direct
 filesystem writes.
 
 **See Also:**
-- [vpn-client-management contract](../../../automojo-sysman-common/specs/contracts/vpn-client-management/contract.md)
-- [vpn-client-management-base](../../../automojo-sysman-common/specs/vpn-client-management-base/design.md)
+- [vpn-client-management contract](../../../codecraftai-sysman-common/specs/contracts/vpn-client-management/contract.md)
+- [vpn-client-management-base](../../../codecraftai-sysman-common/specs/vpn-client-management-base/design.md)
 - [1-command-execution](../1-command-execution/design.md) — runner, aspects
 - [2-maintenance-reporting](../2-maintenance-reporting/design.md) — reporting
 - [3-package-management](../3-package-management/design.md) — apt primitives reused
@@ -40,7 +40,7 @@ filesystem writes.
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │            UbuntuVPNClientManager                           │
-│  automojo.sysman.linux.ubuntu.vpnclientmanagement           │
+│  ccai.sysman.linux.ubuntu.vpnclientmanagement           │
 │  inherits VPNClientManagementBase                           │
 │                                                             │
 │  install_tailscale()  install_twingate_connector()          │
@@ -76,7 +76,7 @@ filesystem writes.
 
 ### `UbuntuVPNClientManager`
 
-**Location:** `source/packages/automojo/sysman/linux/ubuntu/vpnclientmanagement.py`
+**Location:** `source/packages/ccai/sysman/linux/ubuntu/vpnclientmanagement.py`
 
 | Method | Signature | Description |
 |---|---|---|
@@ -107,7 +107,7 @@ Extends `VPNClientManagerConfig`:
 ## Data Models
 
 OS-prefixed aliases of the contract types. The shared definitions live in
-`automojo.sysman.common.vpnclientmanagementbase`; this module simply re-exports
+`ccai.sysman.common.vpnclientmanagementbase`; this module simply re-exports
 them under Ubuntu-prefixed names.
 
 ```python
@@ -210,12 +210,12 @@ The parser is pure Python on the decoded JSON.
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 ├── __init__.py
 └── vpnclientmanagement.py     ← UbuntuVPNClientManager, config, OS-prefixed aliases
 
 source/testroots/testbase/
-└── automojo/tests/sysman/linux/ubuntu/
+└── ccai/tests/sysman/linux/ubuntu/
     └── test_vpnclientmanagement.py
 ```
 
@@ -223,8 +223,8 @@ source/testroots/testbase/
 
 ## See Also
 
-- [vpn-client-management contract](../../../automojo-sysman-common/specs/contracts/vpn-client-management/contract.md)
-- [vpn-client-management-base](../../../automojo-sysman-common/specs/vpn-client-management-base/design.md)
+- [vpn-client-management contract](../../../codecraftai-sysman-common/specs/contracts/vpn-client-management/contract.md)
+- [vpn-client-management-base](../../../codecraftai-sysman-common/specs/vpn-client-management-base/design.md)
 - [3-firewall-management](../3-firewall-management/design.md) — sibling sysman feature pattern
 - [3-service-management](../3-service-management/design.md) — `systemctl` reused for Twingate
 - [3-package-management](../3-package-management/design.md) — apt primitives reused

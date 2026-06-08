@@ -5,7 +5,7 @@ items (`[ ]`) identify remaining work.
 
 ## Module and Models
 
-- [x] 1. Create the `automojo.sysman.linux.ubuntu.kernelparameters`
+- [x] 1. Create the `ccai.sysman.linux.ubuntu.kernelparameters`
   module
 
 - [x] 2. Define `UbuntuKernelParameterActionStatus` enum (SUCCESS /
@@ -15,7 +15,7 @@ items (`[ ]`) identify remaining work.
   (dry_run, elevated, persist_dir).  Implementation note: the
   drop-in directory is named `sysctl_d_path` and a new
   `default_basename` field selects the per-write filename
-  (default `99-automojo.conf`).  The 99-prefix is an intentional
+  (default `99-ccai.conf`).  The 99-prefix is an intentional
   deviation from the spec's `<name>.conf` convention so the
   drop-in applies last.
 
@@ -141,7 +141,7 @@ items (`[ ]`) identify remaining work.
 
 - [ ] 43. **Cross-OS contract conformance review**: verify that
   this implementation's data classes match the cross-OS contract
-  at `automojo-sysman-common/specs/contracts/kernel-parameters/contract.md`
+  at `codecraftai-sysman-common/specs/contracts/kernel-parameters/contract.md`
   exactly, including `requires_reboot=False` on every Ubuntu
   result.
 
@@ -151,7 +151,7 @@ items (`[ ]`) identify remaining work.
 
 - [ ] 45. **Empty-file cleanup for `remove_persisted_parameter`**:
   when the rewrite would leave only the
-  `# managed by automojo-sysman-linux-ubuntu` header, delete the
+  `# managed by codecraftai-sysman-linux-ubuntu` header, delete the
   drop-in entirely so the directory listing stays clean.
 
 - [ ] 46. **Unified-diff dry-run output**: populate the

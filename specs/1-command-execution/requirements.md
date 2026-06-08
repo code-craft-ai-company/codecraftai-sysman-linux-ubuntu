@@ -2,12 +2,12 @@
 
 ## Introduction
 
-The command-execution feature provides the `automojo-sysman-linux-ubuntu` package with the
+The command-execution feature provides the `codecraftai-sysman-linux-ubuntu` package with the
 ability to dispatch OS-level commands, ordered sequences, and short inline shell scripts
 through an `ICommandRunner` abstraction.  This spec implements the command-execution
-contract defined at `automojo-sysman-common/specs/contracts/command-execution/contract.md`
+contract defined at `codecraftai-sysman-common/specs/contracts/command-execution/contract.md`
 for Ubuntu using `subprocess.run` (wrapped by `UbuntuLocalCommandRunner`) and `paramiko`
-SSH (wrapped by `UbuntuSSHCommandRunner` in `automojo-protocol-ssh`).  It covers single
+SSH (wrapped by `UbuntuSSHCommandRunner` in `codecraftai-protocol-ssh`).  It covers single
 command execution, ordered command sequences with stop-on-failure policy, and temp-file
 backed script execution via `/bin/bash`.
 

@@ -2,10 +2,10 @@
 
 ## Introduction
 
-The user and group management feature provides the `automojo-sysman-linux-ubuntu`
+The user and group management feature provides the `codecraftai-sysman-linux-ubuntu`
 package with the ability to manage local users and local groups on Ubuntu systems.  This
 spec implements the user-group-management contract defined at
-`automojo-sysman-common/specs/contracts/user-group-management/contract.md` for Ubuntu
+`codecraftai-sysman-common/specs/contracts/user-group-management/contract.md` for Ubuntu
 using the shadow-utils tooling (`useradd`, `userdel`, `usermod`, `groupadd`, `groupdel`,
 `gpasswd`, `passwd`, `chpasswd`) and the name-service query tool `getent`.  It includes
 creating, deleting, modifying, and querying users and groups, managing group membership,
@@ -15,7 +15,7 @@ A maintenance coordinator running in an external package drives all operations b
 into this feature's public interfaces.  The feature does not decide *which* users or
 groups should exist — it provides the capability to *manipulate them* reliably,
 idempotently, and with full auditability.  All system commands are executed exclusively
-through the `automojo-interfaces` command-runner abstraction, enabling dry-run
+through the `codecraftai-interfaces` command-runner abstraction, enabling dry-run
 simulation, auditing, and test mocking without requiring a live system.  Passwords passed
 to `set_password` are forwarded to `chpasswd` via stdin and never appear in the argv
 captured on a `UbuntuUserGroupActionResult`.

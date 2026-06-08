@@ -6,7 +6,7 @@ items (`[ ]`) identify remaining work.
 ## Module and Models
 
 - [x] 1. Create the
-  `automojo.sysman.linux.ubuntu.containermanagement` module.
+  `ccai.sysman.linux.ubuntu.containermanagement` module.
 
 - [x] 2. Define `UbuntuContainerActionStatus` (aliased to the shared
   `featurebase.ActionStatus`).
@@ -152,10 +152,10 @@ items (`[ ]`) identify remaining work.
 - [ ] 56. **Cross-OS contract conformance review**: verify
   `UbuntuContainerActionResult` field shapes match the cross-OS
   contract at
-  `automojo-sysman-common/specs/contracts/container-management/contract.md`.
+  `codecraftai-sysman-common/specs/contracts/container-management/contract.md`.
 
-- [ ] 57. **automojo-* reuse check**: confirm that no other feature
-  in `automojo-sysman-linux-ubuntu` invokes `docker` or `podman`
+- [ ] 57. **codecraftai-* reuse check**: confirm that no other feature
+  in `codecraftai-sysman-linux-ubuntu` invokes `docker` or `podman`
   directly; all such calls should go through
   `UbuntuContainerManager`.
 

@@ -6,7 +6,7 @@ Unchecked items (`[ ]`) identify out-of-scope or follow-up work.
 ## Module and Models
 
 - [x] 1. Create the `certificatetrustmanagement` module under
-  `source/packages/automojo/sysman/linux/ubuntu/`.
+  `source/packages/ccai/sysman/linux/ubuntu/`.
 
 - [x] 2. Define `UbuntuCertTrustActionStatus` alias to the shared
   `ActionStatus` enum.
@@ -120,7 +120,7 @@ Unchecked items (`[ ]`) identify out-of-scope or follow-up work.
   to a future wave or document as a permanent gap.
 
 - [ ] 35. `verify_certificate` — overlaps with
-  `automojo-credentials`; defer behind the cross-package reuse
+  `codecraftai-credentials`; defer behind the cross-package reuse
   follow-up tracked in the RHEL spec's task 21.
 
 - [ ] 36. `TrustPurpose` enum — Ubuntu's bundle is

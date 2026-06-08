@@ -10,11 +10,11 @@ import json
 from dataclasses import dataclass, field
 from typing import Callable, Optional
 
-from automojo import testbase
+from ccai import testbase
 
-from automojo.interfaces.icommandrunner import RunResult
+from ccai.interfaces.icommandrunner import RunResult
 
-from automojo.sysman.linux.ubuntu.maintenancereporting import (
+from ccai.sysman.linux.ubuntu.maintenancereporting import (
     UbuntuActionRecord,
     UbuntuActionStatus,
     UbuntuMaintenanceReporter,
@@ -337,10 +337,10 @@ def test_default_session_path_uses_output_dir():
         directory with the session id.
     """
     reporter, _runner = _make_reporter(
-        config=UbuntuMaintenanceReporterConfig(output_dir="/var/log/automojo/maintenance"),
+        config=UbuntuMaintenanceReporterConfig(output_dir="/var/log/ccai/maintenance"),
     )
     path = reporter.default_session_path(session_id="ubuntu-013")
-    testbase.assert_equal(path, "/var/log/automojo/maintenance/ubuntu-013/")
+    testbase.assert_equal(path, "/var/log/ccai/maintenance/ubuntu-013/")
     return
 
 

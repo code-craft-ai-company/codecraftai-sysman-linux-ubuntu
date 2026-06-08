@@ -3,10 +3,10 @@
 ## Overview
 
 The filesystem management feature is implemented as a single module,
-`automojo.sysman.linux.ubuntu.filesystemmanagement`, that exposes a
+`ccai.sysman.linux.ubuntu.filesystemmanagement`, that exposes a
 `UbuntuFilesystemManager` class.  This spec implements the filesystem-management
 contract defined at
-`automojo-sysman-common/specs/contracts/filesystem-management/contract.md` for
+`codecraftai-sysman-common/specs/contracts/filesystem-management/contract.md` for
 Ubuntu using the POSIX toolchain (`mount`, `umount`, `findmnt`, `stat`, `df`, `mkdir`,
 `rm`, `ln`, `chmod`, `chown`) together with transactional edits to `/etc/fstab`
 through an `IFileOperator`.
@@ -41,7 +41,7 @@ for details on local/SSH execution, reliability tracking, and aspect configurati
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │            UbuntuFilesystemManager                          │
-│  automojo.sysman.linux.ubuntu.filesystemmanagement          │
+│  ccai.sysman.linux.ubuntu.filesystemmanagement          │
 │                                                             │
 │  mount()              unmount()                             │
 │  add_fstab_entry()    remove_fstab_entry()                  │
@@ -74,7 +74,7 @@ for details on local/SSH execution, reliability tracking, and aspect configurati
 
 ### `UbuntuFilesystemManager`
 
-**Location:** `source/packages/automojo/sysman/linux/ubuntu/filesystemmanagement.py`
+**Location:** `source/packages/ccai/sysman/linux/ubuntu/filesystemmanagement.py`
 
 | Method | Signature | Description |
 |---|---|---|
@@ -172,7 +172,7 @@ class UbuntuFilesystemQueryError(Exception):
 
 ## Interfaces
 
-### `ICommandRunner` (from `automojo-interfaces`)
+### `ICommandRunner` (from `codecraftai-interfaces`)
 
 ```python
 class ICommandRunner(Protocol):
@@ -184,7 +184,7 @@ class ICommandRunner(Protocol):
     ) -> RunResult: ...
 ```
 
-### `IFileOperator` (from `automojo-interfaces`)
+### `IFileOperator` (from `codecraftai-interfaces`)
 
 ```python
 class IFileOperator(Protocol):
@@ -289,7 +289,7 @@ trailing `%` from `pcent`, and builds a `UbuntuDiskUsageInfo`.
 
 ```
 UUID=abcd-1234  /mnt/data  ext4  defaults,noatime  0  2
-# managed by automojo
+# managed by ccai
 //server/share  /mnt/share  cifs  credentials=/etc/smbcred,_netdev  0  0
 ```
 
@@ -523,12 +523,12 @@ stdout, and stderr.  Writes never raise for routine I/O.
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 ├── __init__.py
 └── filesystemmanagement.py      ← UbuntuFilesystemManager, config, models, exceptions
 
 source/testroots/testbase/
-└── automojo/tests/sysman/linux/ubuntu/
+└── ccai/tests/sysman/linux/ubuntu/
     └── test_filesystemmanagement.py
 ```
 
@@ -539,9 +539,9 @@ source/testroots/testbase/
 ### Local Execution (Default)
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import LocalCommandRunner, LocalRunnerConfig
-from automojo.sysman.linux.ubuntu.fileoperators import LocalFileOperator
-from automojo.sysman.linux.ubuntu.filesystemmanagement import (
+from ccai.sysman.linux.ubuntu.runners import LocalCommandRunner, LocalRunnerConfig
+from ccai.sysman.linux.ubuntu.fileoperators import LocalFileOperator
+from ccai.sysman.linux.ubuntu.filesystemmanagement import (
     UbuntuFilesystemManager,
     UbuntuFilesystemManagerConfig,
     UbuntuFstabEntry,
@@ -591,14 +591,14 @@ print(f"disk {usage.use_percent}%")
 ### SSH Execution with Aspects
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import SSHCommandRunner, SSHRunnerConfig
-from automojo.sysman.linux.ubuntu.fileoperators import SSHFileOperator
-from automojo.sysman.linux.ubuntu.aspects import (
+from ccai.sysman.linux.ubuntu.runners import SSHCommandRunner, SSHRunnerConfig
+from ccai.sysman.linux.ubuntu.fileoperators import SSHFileOperator
+from ccai.sysman.linux.ubuntu.aspects import (
     PersistenceAspect, RetryAspect, TimeoutAspect,
     PersistenceAspectConfig, RetryAspectConfig, TimeoutAspectConfig,
 )
-from automojo.sysman.linux.ubuntu.storage import SQLiteStorage
-from automojo.sysman.linux.ubuntu.filesystemmanagement import (
+from ccai.sysman.linux.ubuntu.storage import SQLiteStorage
+from ccai.sysman.linux.ubuntu.filesystemmanagement import (
     UbuntuFilesystemManager, UbuntuFilesystemManagerConfig,
 )
 

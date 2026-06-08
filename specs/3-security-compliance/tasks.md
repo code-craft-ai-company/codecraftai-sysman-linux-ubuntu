@@ -5,7 +5,7 @@ items (`[ ]`) identify remaining work.
 
 ## Module and Models
 
-- [x] 1. Create the `automojo.sysman.linux.ubuntu.securitycompliance`
+- [x] 1. Create the `ccai.sysman.linux.ubuntu.securitycompliance`
   module
 
 - [x] 2. Define `UbuntuSecurityComplianceActionStatus` enum (SUCCESS /

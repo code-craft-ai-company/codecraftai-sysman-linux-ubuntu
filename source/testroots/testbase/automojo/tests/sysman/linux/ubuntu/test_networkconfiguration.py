@@ -13,11 +13,11 @@ import json
 from dataclasses import dataclass, field
 from typing import Callable, Optional
 
-from automojo import testbase
+from ccai import testbase
 
-from automojo.interfaces.icommandrunner import RunResult
+from ccai.interfaces.icommandrunner import RunResult
 
-from automojo.sysman.linux.ubuntu.networkconfiguration import (
+from ccai.sysman.linux.ubuntu.networkconfiguration import (
     UbuntuInterfaceInfo,
     UbuntuNetworkActionStatus,
     UbuntuNetworkConfigurationManager,
@@ -223,7 +223,7 @@ def test_configure_interface_writes_netplan_and_applies():
     runner = _MockCommandRunner(
         default_result=RunResult(exit_code=0, stdout="", stderr=""),
     )
-    runner.results[("cat", "/etc/netplan/99-automojo.yaml")] = RunResult(
+    runner.results[("cat", "/etc/netplan/99-ccai.yaml")] = RunResult(
         exit_code=1, stdout="", stderr="",
     )
 
@@ -242,7 +242,7 @@ def test_configure_interface_writes_netplan_and_applies():
     tee_calls = [c for c in runner.calls if c["args"][0] == "tee"]
     testbase.assert_equal(len(tee_calls), 1)
     testbase.assert_equal(
-        tee_calls[0]["args"], ["tee", "/etc/netplan/99-automojo.yaml"],
+        tee_calls[0]["args"], ["tee", "/etc/netplan/99-ccai.yaml"],
     )
     testbase.assert_equal(tee_calls[0]["stdin"], _expected_netplan_eth0())
     testbase.assert_equal(tee_calls[0]["elevated"], True)
@@ -259,7 +259,7 @@ def test_configure_interface_skipped_when_yaml_matches():
         already contains the rendered body.
     """
     runner = _MockCommandRunner()
-    runner.results[("cat", "/etc/netplan/99-automojo.yaml")] = RunResult(
+    runner.results[("cat", "/etc/netplan/99-ccai.yaml")] = RunResult(
         exit_code=0,
         stdout=_expected_netplan_eth0(),
         stderr="",
@@ -303,7 +303,7 @@ def test_configure_interface_dry_run_short_circuits():
     testbase.assert_equal(result.status, UbuntuNetworkActionStatus.DRY_RUN)
     testbase.assert_equal(len(runner.calls), 0)
     testbase.assert_equal(
-        result.command, ["tee", "/etc/netplan/99-automojo.yaml"],
+        result.command, ["tee", "/etc/netplan/99-ccai.yaml"],
     )
     return
 
@@ -316,7 +316,7 @@ def test_configure_interface_failed_when_apply_fails():
     runner = _MockCommandRunner(
         default_result=RunResult(exit_code=0, stdout="", stderr=""),
     )
-    runner.results[("cat", "/etc/netplan/99-automojo.yaml")] = RunResult(
+    runner.results[("cat", "/etc/netplan/99-ccai.yaml")] = RunResult(
         exit_code=1, stdout="", stderr="",
     )
     runner.results[("netplan", "apply")] = RunResult(
@@ -778,7 +778,7 @@ def test_writes_pass_elevated_true_when_configured():
     runner = _MockCommandRunner(
         default_result=RunResult(exit_code=0, stdout="", stderr=""),
     )
-    runner.results[("cat", "/etc/netplan/99-automojo.yaml")] = RunResult(
+    runner.results[("cat", "/etc/netplan/99-ccai.yaml")] = RunResult(
         exit_code=1, stdout="", stderr="",
     )
     runner.results[("ip", "-j", "link", "show", "eth0")] = RunResult(
@@ -834,7 +834,7 @@ def test_render_netplan_omits_gateway_when_none():
     runner = _MockCommandRunner(
         default_result=RunResult(exit_code=0, stdout="", stderr=""),
     )
-    runner.results[("cat", "/etc/netplan/99-automojo.yaml")] = RunResult(
+    runner.results[("cat", "/etc/netplan/99-ccai.yaml")] = RunResult(
         exit_code=1, stdout="", stderr="",
     )
 
@@ -862,7 +862,7 @@ def test_dotted_quad_netmask_is_converted_to_prefix():
     runner = _MockCommandRunner(
         default_result=RunResult(exit_code=0, stdout="", stderr=""),
     )
-    runner.results[("cat", "/etc/netplan/99-automojo.yaml")] = RunResult(
+    runner.results[("cat", "/etc/netplan/99-ccai.yaml")] = RunResult(
         exit_code=1, stdout="", stderr="",
     )
 

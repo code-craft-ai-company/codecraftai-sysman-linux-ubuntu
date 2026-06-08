@@ -6,7 +6,7 @@ items (`[ ]`) identify remaining work.
 ## Module and Models
 
 - [x] 1. Create the
-  `automojo.sysman.linux.ubuntu.encryptionmanagement` module.
+  `ccai.sysman.linux.ubuntu.encryptionmanagement` module.
 
 - [x] 2. Define `UbuntuEncryptionActionStatus` (aliased to the shared
   `featurebase.ActionStatus`).
@@ -146,10 +146,10 @@ items (`[ ]`) identify remaining work.
 - [ ] 53. **Cross-OS contract conformance review**: verify
   `UbuntuEncryptionActionResult` field shapes match the cross-OS
   contract at
-  `automojo-sysman-common/specs/contracts/encryption-management/contract.md`.
+  `codecraftai-sysman-common/specs/contracts/encryption-management/contract.md`.
 
-- [ ] 54. **automojo-* reuse check**: confirm that no other
-  feature in `automojo-sysman-linux-ubuntu` invokes `cryptsetup`
+- [ ] 54. **codecraftai-* reuse check**: confirm that no other
+  feature in `codecraftai-sysman-linux-ubuntu` invokes `cryptsetup`
   directly; all such calls should go through
   `UbuntuEncryptionManager`.
 

@@ -30,10 +30,10 @@ side-by-side.
 | Required runtime | libvirt + qemu-kvm + libvirt group membership or root | Homebrew libvirt + libvirtd | Hyper-V role | macOS 11+ |
 
 The Ubuntu implementation is the canonical libvirt branch; the macOS
-spec lives in `automojo-sysman-macos/specs/3-virtualization-management/`
+spec lives in `codecraftai-sysman-macos/specs/3-virtualization-management/`
 and reuses the same verbs through Homebrew-installed libvirt.  The
 Windows spec lives in
-`automojo-sysman-windows/specs/3-virtualization-management/` and
+`codecraftai-sysman-windows/specs/3-virtualization-management/` and
 re-targets the same verbs onto the Hyper-V PowerShell module.
 
 Apple's Virtualization framework is **explicitly out of scope** —
@@ -48,7 +48,7 @@ Swift-driven package.
 
 The virtualization-management feature is implemented as a single
 module,
-`automojo.sysman.linux.ubuntu.virtualizationmanagement`, that exposes
+`ccai.sysman.linux.ubuntu.virtualizationmanagement`, that exposes
 an `UbuntuVirtualizationManager` class.  The coordinator instantiates
 `UbuntuVirtualizationManager` and calls its methods to perform
 discrete VM-lifecycle, disk, and snapshot actions.
@@ -93,7 +93,7 @@ configuration.
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │        UbuntuVirtualizationManager                          │
-│  automojo.sysman.linux.ubuntu.virtualizationmanagement      │
+│  ccai.sysman.linux.ubuntu.virtualizationmanagement      │
 │                                                             │
 │  list_vms()              get_vm_info()                      │
 │  create_vm()             delete_vm()                        │
@@ -122,7 +122,7 @@ configuration.
 ### `UbuntuVirtualizationManager`
 
 **Location:**
-`source/packages/automojo/sysman/linux/ubuntu/virtualizationmanagement.py`
+`source/packages/ccai/sysman/linux/ubuntu/virtualizationmanagement.py`
 
 | Method | Signature | Description |
 |---|---|---|
@@ -407,5 +407,5 @@ with this one follow the same policy.
 - WSL2 distribution management.
 
 These extensions are tracked under
-`/Users/myron/repos/automojo/automojo-sysman-linux-ubuntu/specs/3-virtualization-management/tasks.md`
+`/Users/myron/repos/ccai/codecraftai-sysman-linux-ubuntu/specs/3-virtualization-management/tasks.md`
 follow-ups.

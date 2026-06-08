@@ -14,11 +14,11 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from typing import Callable, Optional
 
-from automojo import testbase
+from ccai import testbase
 
-from automojo.interfaces.icommandrunner import RunResult
+from ccai.interfaces.icommandrunner import RunResult
 
-from automojo.sysman.linux.ubuntu.certificateissuance import (
+from ccai.sysman.linux.ubuntu.certificateissuance import (
     UbuntuCertIssuanceActionStatus,
     UbuntuCertIssuanceManagerConfig,
     UbuntuCertIssuanceQueryError,

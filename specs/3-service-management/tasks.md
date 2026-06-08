@@ -6,7 +6,7 @@ yet been implemented; the specs precede the code.
 
 ## Module and Models
 
-- [x] 1. Create the `automojo.sysman.linux.ubuntu.servicemanagement` module
+- [x] 1. Create the `ccai.sysman.linux.ubuntu.servicemanagement` module
 
 - [x] 2. Define `UbuntuServiceActionStatus` and `UbuntuServiceScope` enums
 
@@ -102,7 +102,7 @@ yet been implemented; the specs precede the code.
 - [ ] 44. **Cross-OS contract conformance review**: verify that
   `UbuntuServiceActionResult`, `UbuntuServiceStatus`, and `UbuntuServiceInfo` field
   shapes match the cross-OS contract at
-  `automojo-sysman-common/specs/contracts/service-management/contract.md`
+  `codecraftai-sysman-common/specs/contracts/service-management/contract.md`
   exactly, and that the Ubuntu scope-mapping (`--user` for USER, no flag for
   SYSTEM) is documented in the contract's Ubuntu row.
 

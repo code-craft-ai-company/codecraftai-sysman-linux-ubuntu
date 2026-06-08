@@ -3,7 +3,7 @@
 ## Overview
 
 The kdump-management feature is implemented as a single module,
-`automojo.sysman.linux.ubuntu.kdumpmanagement`, that exposes an
+`ccai.sysman.linux.ubuntu.kdumpmanagement`, that exposes an
 `UbuntuKdumpManager` class. The coordinator instantiates
 `UbuntuKdumpManager` with a command runner and calls its methods to
 manage the kdump-tools subsystem: the `kdump-tools.service` lifecycle,
@@ -49,7 +49,7 @@ Comparison with sister implementations:
 | Windows | `HKLM:\...\CrashControl`         | (none — kernel-resident)   | YES                                |
 
 **See also:** the cross-OS contract at
-`automojo-sysman-common/specs/contracts/kdump-management/contract.md`.
+`codecraftai-sysman-common/specs/contracts/kdump-management/contract.md`.
 
 ---
 
@@ -66,7 +66,7 @@ Comparison with sister implementations:
                        v
 +-------------------------------------------------------------+
 |            UbuntuKdumpManager                               |
-|  automojo.sysman.linux.ubuntu.kdumpmanagement               |
+|  ccai.sysman.linux.ubuntu.kdumpmanagement               |
 |                                                             |
 |  enable_kdump()              disable_kdump()                |
 |  configure_kdump_target()    clear_old_dumps()              |
@@ -105,7 +105,7 @@ Comparison with sister implementations:
 ### `UbuntuKdumpManager`
 
 **Location:**
-`source/packages/automojo/sysman/linux/ubuntu/kdumpmanagement.py`
+`source/packages/ccai/sysman/linux/ubuntu/kdumpmanagement.py`
 
 The primary public class. Constructed with an `ICommandRunner` and a
 `UbuntuKdumpManagerConfig`.
@@ -422,12 +422,12 @@ Changing the `crashkernel=` reservation itself is delegated to the
 ## Module Layout
 
 ```
-source/packages/automojo/sysman/linux/ubuntu/
+source/packages/ccai/sysman/linux/ubuntu/
 +-- __init__.py
 +-- kdumpmanagement.py            <- UbuntuKdumpManager + models
 
 source/testroots/testbase/
-+-- automojo/tests/sysman/linux/ubuntu/
++-- ccai/tests/sysman/linux/ubuntu/
     +-- test_kdumpmanagement.py   <- unit tests using a MockCommandRunner
 ```
 
@@ -478,10 +478,10 @@ Total: 14 tests.
 ### Local Execution (Default)
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import (
+from ccai.sysman.linux.ubuntu.runners import (
     LocalCommandRunner, LocalRunnerConfig,
 )
-from automojo.sysman.linux.ubuntu.kdumpmanagement import (
+from ccai.sysman.linux.ubuntu.kdumpmanagement import (
     UbuntuKdumpManager, UbuntuKdumpManagerConfig,
     UbuntuKdumpTargetKind, UbuntuKdumpTargetSpec,
 )
@@ -506,10 +506,10 @@ print(f"enable status: {enable_result.status}")
 ### SSH Execution with Reliability Tracking
 
 ```python
-from automojo.sysman.linux.ubuntu.runners import (
+from ccai.sysman.linux.ubuntu.runners import (
     SSHCommandRunner, SSHRunnerConfig,
 )
-from automojo.sysman.linux.ubuntu.kdumpmanagement import (
+from ccai.sysman.linux.ubuntu.kdumpmanagement import (
     UbuntuKdumpManager, UbuntuKdumpManagerConfig,
 )
 

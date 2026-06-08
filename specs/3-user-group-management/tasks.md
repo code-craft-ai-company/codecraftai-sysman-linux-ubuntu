@@ -5,7 +5,7 @@ items (`[ ]`) identify remaining work.
 
 ## Module and Models
 
-- [x] 1. Create the `automojo.sysman.linux.ubuntu.usergroupmanagement`
+- [x] 1. Create the `ccai.sysman.linux.ubuntu.usergroupmanagement`
   module
 
 - [x] 2. Define `UbuntuUserGroupActionStatus` enum (SUCCESS / FAILED /
@@ -174,10 +174,10 @@ items (`[ ]`) identify remaining work.
 - [ ] 50. **Cross-OS contract conformance review**: verify this
   implementation's `UbuntuUserGroupActionResult` field shapes match the
   cross-OS contract at
-  `automojo-sysman-common/specs/contracts/user-group-management/contract.md`.
+  `codecraftai-sysman-common/specs/contracts/user-group-management/contract.md`.
 
-- [ ] 51. **automojo-* reuse check**: confirm that no other feature in
-  `automojo-sysman-linux-ubuntu` invokes `useradd` / `usermod` /
+- [ ] 51. **codecraftai-* reuse check**: confirm that no other feature in
+  `codecraftai-sysman-linux-ubuntu` invokes `useradd` / `usermod` /
   `groupadd` directly; all such calls should go through
   `UbuntuUserGroupManager`.
 

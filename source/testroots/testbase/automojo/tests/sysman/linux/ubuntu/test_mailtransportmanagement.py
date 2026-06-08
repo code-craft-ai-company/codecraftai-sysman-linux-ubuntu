@@ -12,11 +12,11 @@
 from dataclasses import dataclass, field
 from typing import Callable, Optional
 
-from automojo import testbase
+from ccai import testbase
 
-from automojo.interfaces.icommandrunner import RunResult
+from ccai.interfaces.icommandrunner import RunResult
 
-from automojo.sysman.linux.ubuntu.mailtransportmanagement import (
+from ccai.sysman.linux.ubuntu.mailtransportmanagement import (
     UbuntuMailTransportManager,
     UbuntuMtaActionStatus,
     UbuntuMtaAliasInfo,

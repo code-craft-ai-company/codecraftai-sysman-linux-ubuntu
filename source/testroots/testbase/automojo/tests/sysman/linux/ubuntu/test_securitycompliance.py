@@ -11,11 +11,11 @@ import json
 from dataclasses import dataclass, field
 from typing import Callable, Optional
 
-from automojo import testbase
+from ccai import testbase
 
-from automojo.interfaces.icommandrunner import RunResult
+from ccai.interfaces.icommandrunner import RunResult
 
-from automojo.sysman.linux.ubuntu.securitycompliance import (
+from ccai.sysman.linux.ubuntu.securitycompliance import (
     UbuntuBaselineInfo,
     UbuntuComplianceFinding,
     UbuntuComplianceProfile,
@@ -88,7 +88,7 @@ def _make_config(
         dry_run=dry_run,
         elevated=elevated,
         datastream_path=_DATASTREAM_PATH,
-        output_dir="/var/lib/automojo/compliance",
+        output_dir="/var/lib/ccai/compliance",
     )
     return rtnval
 
@@ -498,7 +498,7 @@ def test_get_baseline_returns_none_when_file_missing():
     """
     runner = _MockCommandRunner()
     runner.results[(
-        "cat", "/var/lib/automojo/compliance/current_baseline.json",
+        "cat", "/var/lib/ccai/compliance/current_baseline.json",
     )] = RunResult(exit_code=1, stdout="", stderr="")
     manager = UbuntuSecurityComplianceManager(
         runner=runner, config=_make_config(),
@@ -519,7 +519,7 @@ def test_get_baseline_decodes_json_payload():
         "datastream_path": _DATASTREAM_PATH,
     })
     runner.results[(
-        "cat", "/var/lib/automojo/compliance/current_baseline.json",
+        "cat", "/var/lib/ccai/compliance/current_baseline.json",
     )] = RunResult(exit_code=0, stdout=payload, stderr="")
     manager = UbuntuSecurityComplianceManager(
         runner=runner, config=_make_config(),
@@ -538,7 +538,7 @@ def test_set_baseline_writes_json_via_tee():
     """
     runner = _MockCommandRunner()
     runner.results[(
-        "cat", "/var/lib/automojo/compliance/current_baseline.json",
+        "cat", "/var/lib/ccai/compliance/current_baseline.json",
     )] = RunResult(exit_code=1, stdout="", stderr="")
     runner.default_result = RunResult(exit_code=0, stdout="", stderr="")
     manager = UbuntuSecurityComplianceManager(
@@ -559,7 +559,7 @@ def test_set_baseline_writes_json_via_tee():
     testbase.assert_equal(len(write_calls), 1)
     testbase.assert_equal(
         write_calls[0]["args"],
-        ["tee", "/var/lib/automojo/compliance/current_baseline.json"],
+        ["tee", "/var/lib/ccai/compliance/current_baseline.json"],
     )
     body = write_calls[0]["stdin"]
     decoded = json.loads(body)
@@ -593,7 +593,7 @@ def test_set_baseline_skipped_when_content_matches():
         + "\n"
     )
     runner.results[(
-        "cat", "/var/lib/automojo/compliance/current_baseline.json",
+        "cat", "/var/lib/ccai/compliance/current_baseline.json",
     )] = RunResult(exit_code=0, stdout=expected_body, stderr="")
     manager = UbuntuSecurityComplianceManager(
         runner=runner, config=_make_config(),

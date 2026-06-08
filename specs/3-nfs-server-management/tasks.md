@@ -4,7 +4,7 @@ All tasks are unchecked — new feature.
 
 ## Module and Models
 
-- [ ] 1. Create `source/packages/automojo/sysman/linux/ubuntu/nfsservermanagement.py`
+- [ ] 1. Create `source/packages/ccai/sysman/linux/ubuntu/nfsservermanagement.py`
 - [ ] 2. Define module-level constants (`_CAT`, `_TEE`, `_EXPORTFS`,
   default exports path, default service name, default options).
 - [ ] 3. Define `UbuntuNfsActionStatus` alias of `ActionStatus`.
@@ -84,7 +84,7 @@ All tasks are unchecked — new feature.
 ## Tests
 
 - [ ] 28. Create
-  `source/testroots/testbase/automojo/tests/sysman/linux/ubuntu/test_nfsservermanagement.py`
+  `source/testroots/testbase/ccai/tests/sysman/linux/ubuntu/test_nfsservermanagement.py`
   with `_MockCommandRunner` + `_seed_cat` helpers.
 - [ ] 29. Add `test_add_export_invokes_exportfs` exercising tee +
   reload.

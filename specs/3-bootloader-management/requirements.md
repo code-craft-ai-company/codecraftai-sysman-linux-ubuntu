@@ -3,15 +3,15 @@
 ## Introduction
 
 The bootloader-management feature provides the
-`automojo-sysman-linux-ubuntu` package with the ability to manage the
+`codecraftai-sysman-linux-ubuntu` package with the ability to manage the
 **OS-level bootloader configuration layer** on Ubuntu / Debian-family
 hosts.  It implements the cross-OS contract defined at
-`automojo-sysman-common/specs/contracts/bootloader-management/contract.md`.
+`codecraftai-sysman-common/specs/contracts/bootloader-management/contract.md`.
 
 ### What this feature is NOT
 
 This feature is **distinct from `boot-management`** (the UEFI
-firmware boot-entry feature in `automojo-sysman-uefi`).  The two
+firmware boot-entry feature in `codecraftai-sysman-uefi`).  The two
 operate on different layers:
 
 | Feature | Layer | Tools |
@@ -48,7 +48,7 @@ boot entry as its default — it provides the capability to *do it*
 reliably, idempotently, and with full auditability.  All system
 commands (`update-grub`, `grub-mkconfig`, `bootctl`, `cat`, `tee`,
 `rm`) and all reads / writes of GRUB config files flow through the
-`automojo-interfaces` command-runner abstraction.  All mutating
+`codecraftai-interfaces` command-runner abstraction.  All mutating
 operations respect dry-run mode.
 
 The kernel command-line modification verbs (`add_kernel_param`,
@@ -157,8 +157,8 @@ initramfs / cmdline at boot time.
    invoke `update-grub` with elevated privileges.
 2. THE SYSTEM SHALL bracket each appended block with comment
    sentinels of the form
-   `# automojo-bootloader-management:begin <id>` and
-   `# automojo-bootloader-management:end <id>` so that
+   `# codecraftai-bootloader-management:begin <id>` and
+   `# codecraftai-bootloader-management:end <id>` so that
    `remove_entry` can excise it without touching operator-authored
    blocks.
 3. WHEN `config.backend` is `SYSTEMD_BOOT` THE SYSTEM SHALL render a
@@ -311,7 +311,7 @@ maintenance plans can be reviewed before execution.
 **User Story:** As a maintenance coordinator, I want the
 bootloader-management feature to never accidentally touch the UEFI
 firmware NVRAM so that the firmware boot entries remain owned by
-`automojo-sysman-uefi`.
+`codecraftai-sysman-uefi`.
 
 #### Acceptance Criteria
 

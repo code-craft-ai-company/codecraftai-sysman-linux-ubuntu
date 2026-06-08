@@ -10,11 +10,11 @@
 from dataclasses import dataclass, field
 from typing import Callable, Optional
 
-from automojo import testbase
+from ccai import testbase
 
-from automojo.interfaces.icommandrunner import RunResult
+from ccai.interfaces.icommandrunner import RunResult
 
-from automojo.sysman.linux.ubuntu.remotelogforwarding import (
+from ccai.sysman.linux.ubuntu.remotelogforwarding import (
     UbuntuForwarderActionStatus,
     UbuntuForwarderInfo,
     UbuntuForwarderManagerConfig,
@@ -120,7 +120,7 @@ def _seed_cat(
 def test_add_forwarder_invokes_tee():
     """
         add_forwarder dispatches ``tee
-        /etc/rsyslog.d/automojo-fwd-<id>.conf`` with the rendered
+        /etc/rsyslog.d/codecraftai-fwd-<id>.conf`` with the rendered
         body on stdin and follows up with
         ``systemctl restart rsyslog``.
     """
@@ -151,7 +151,7 @@ def test_add_forwarder_invokes_tee():
         tee_calls[0]["args"],
         [
             "tee",
-            "/etc/rsyslog.d/automojo-fwd-collector1.conf",
+            "/etc/rsyslog.d/codecraftai-fwd-collector1.conf",
         ],
     )
     body = tee_calls[0]["stdin"]
@@ -180,7 +180,7 @@ def test_add_forwarder_skipped_when_present():
     )
     desired_body = _render_drop_in(spec=spec)
 
-    path = "/etc/rsyslog.d/automojo-fwd-collector1.conf"
+    path = "/etc/rsyslog.d/codecraftai-fwd-collector1.conf"
     _seed_cat(runner, path=path, body=desired_body)
 
     manager = UbuntuRemoteLogForwardingManager(
@@ -305,7 +305,7 @@ def test_remove_forwarder_invokes_rm():
         ``systemctl restart rsyslog``.
     """
     runner = _MockCommandRunner()
-    path = "/etc/rsyslog.d/automojo-fwd-collector1.conf"
+    path = "/etc/rsyslog.d/codecraftai-fwd-collector1.conf"
     disabled_path = path + ".disabled"
     _seed_test_dash_e(runner, path=path, exists=True)
     _seed_test_dash_e(runner, path=disabled_path, exists=False)
@@ -343,7 +343,7 @@ def test_remove_forwarder_skipped_when_absent():
         nor the disabled drop-in is present.
     """
     runner = _MockCommandRunner()
-    path = "/etc/rsyslog.d/automojo-fwd-ghost.conf"
+    path = "/etc/rsyslog.d/codecraftai-fwd-ghost.conf"
     disabled_path = path + ".disabled"
     _seed_test_dash_e(runner, path=path, exists=False)
     _seed_test_dash_e(runner, path=disabled_path, exists=False)
@@ -378,8 +378,8 @@ def test_list_forwarders_parses_ls_output():
     runner.results[("ls", "-1", rsyslog_d)] = RunResult(
         exit_code=0,
         stdout=(
-            "automojo-fwd-collector1.conf\n"
-            "automojo-fwd-collector2.conf.disabled\n"
+            "codecraftai-fwd-collector1.conf\n"
+            "codecraftai-fwd-collector2.conf.disabled\n"
             "50-default.conf\n"
         ),
         stderr="",
@@ -394,13 +394,13 @@ def test_list_forwarders_parses_ls_output():
     )
     _seed_cat(
         runner,
-        path="{}/automojo-fwd-collector1.conf".format(rsyslog_d),
+        path="{}/codecraftai-fwd-collector1.conf".format(rsyslog_d),
         body=_render_drop_in(spec=spec1),
     )
     _seed_cat(
         runner,
         path=(
-            "{}/automojo-fwd-collector2.conf.disabled".format(
+            "{}/codecraftai-fwd-collector2.conf.disabled".format(
                 rsyslog_d,
             )
         ),
@@ -470,7 +470,7 @@ def test_enable_forwarder_invokes_mv():
         ``systemctl restart rsyslog``.
     """
     runner = _MockCommandRunner()
-    active = "/etc/rsyslog.d/automojo-fwd-collector1.conf"
+    active = "/etc/rsyslog.d/codecraftai-fwd-collector1.conf"
     disabled = active + ".disabled"
     _seed_test_dash_e(runner, path=active, exists=False)
     _seed_test_dash_e(runner, path=disabled, exists=True)
@@ -503,7 +503,7 @@ def test_enable_forwarder_skipped_when_enabled():
         is absent.
     """
     runner = _MockCommandRunner()
-    active = "/etc/rsyslog.d/automojo-fwd-collector1.conf"
+    active = "/etc/rsyslog.d/codecraftai-fwd-collector1.conf"
     disabled = active + ".disabled"
     _seed_test_dash_e(runner, path=active, exists=True)
     _seed_test_dash_e(runner, path=disabled, exists=False)
@@ -529,7 +529,7 @@ def test_disable_forwarder_invokes_mv():
         ``systemctl restart rsyslog``.
     """
     runner = _MockCommandRunner()
-    active = "/etc/rsyslog.d/automojo-fwd-collector1.conf"
+    active = "/etc/rsyslog.d/codecraftai-fwd-collector1.conf"
     disabled = active + ".disabled"
     _seed_test_dash_e(runner, path=active, exists=True)
     _seed_test_dash_e(runner, path=disabled, exists=False)
@@ -561,7 +561,7 @@ def test_disable_forwarder_invokes_mv():
 
 def test_test_forwarder_invokes_logger():
     """
-        test_forwarder dispatches ``logger -t automojo-test
+        test_forwarder dispatches ``logger -t codecraftai-test
         <message>`` without elevation and never raises on
         runner failure.
     """
@@ -594,7 +594,7 @@ def test_test_forwarder_invokes_logger():
     testbase.assert_equal(len(logger_calls), 1)
     testbase.assert_equal(logger_calls[0]["args"][0], "logger")
     testbase.assert_equal(logger_calls[0]["args"][1], "-t")
-    testbase.assert_equal(logger_calls[0]["args"][2], "automojo-test")
+    testbase.assert_equal(logger_calls[0]["args"][2], "codecraftai-test")
     testbase.assert_equal(logger_calls[0]["elevated"], False)
     return
 
@@ -611,7 +611,7 @@ def test_get_forwarder_status_parses_output():
         only the ``.disabled`` shadow is present, and
         ``enabled=False`` when neither is present.
     """
-    active = "/etc/rsyslog.d/automojo-fwd-collector1.conf"
+    active = "/etc/rsyslog.d/codecraftai-fwd-collector1.conf"
     disabled = active + ".disabled"
 
     # Case 1: active present.
@@ -719,7 +719,7 @@ def test_failed_command_surfaces_stderr():
         without invoking ``systemctl``.
     """
     runner = _MockCommandRunner()
-    path = "/etc/rsyslog.d/automojo-fwd-collector1.conf"
+    path = "/etc/rsyslog.d/codecraftai-fwd-collector1.conf"
     runner.results[("tee", path)] = RunResult(
         exit_code=2, stdout="", stderr="permission denied",
     )
@@ -751,7 +751,7 @@ def test_reload_failure_surfaces_failed():
         restart's exit code.
     """
     runner = _MockCommandRunner()
-    path = "/etc/rsyslog.d/automojo-fwd-collector1.conf"
+    path = "/etc/rsyslog.d/codecraftai-fwd-collector1.conf"
     runner.results[("tee", path)] = RunResult(
         exit_code=0, stdout="", stderr="",
     )

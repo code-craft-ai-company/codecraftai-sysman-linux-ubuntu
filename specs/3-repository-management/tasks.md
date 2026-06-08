@@ -5,7 +5,7 @@ items (`[ ]`) identify remaining work.
 
 ## Module and Models
 
-- [x] 1. Create the `automojo.sysman.linux.ubuntu.repositorymanagement`
+- [x] 1. Create the `ccai.sysman.linux.ubuntu.repositorymanagement`
   module
 
 - [x] 2. Define `UbuntuRepositoryActionStatus` enum (SUCCESS / FAILED /

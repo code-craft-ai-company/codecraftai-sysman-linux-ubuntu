@@ -3,7 +3,7 @@
 ## Overview
 
 The filesystem-quotas feature is implemented as a single
-module, `automojo.sysman.linux.ubuntu.filesystemquotas`,
+module, `ccai.sysman.linux.ubuntu.filesystemquotas`,
 exposing a `UbuntuFilesystemQuotasManager` class that wraps the
 standard Linux quota family — `quotacheck`, `quotaon`,
 `quotaoff`, `setquota`, `quota`, and `repquota` — through the
@@ -14,7 +14,7 @@ any quota command is dispatched.
 Ubuntu's quota tooling targets ext-family filesystems via the
 shared `quota` package (`apt install quota`). XFS-specific
 tooling (`xfs_quota`) and project quotas remain in the
-canonical `automojo-sysman-linux-redhat` implementation; this
+canonical `codecraftai-sysman-linux-redhat` implementation; this
 Ubuntu pilot intentionally targets the most common ext4
 mountpoint surface, which covers the overwhelming majority of
 Ubuntu deployments.
@@ -36,9 +36,9 @@ OS contract:
 | `get_quota_status` | Read | `UbuntuQuotaStatus` |
 
 **See Also:**
-- `automojo-sysman-common/specs/contracts/filesystem-quotas/contract.md`
+- `codecraftai-sysman-common/specs/contracts/filesystem-quotas/contract.md`
   — cross-OS contract this implementation satisfies.
-- `automojo-sysman-linux-redhat/specs/3-filesystem-quotas/`
+- `codecraftai-sysman-linux-redhat/specs/3-filesystem-quotas/`
   — canonical reference; covers XFS / `xfs_quota` / project
   quotas / grace-period verbs that are intentionally out of
   scope for this Ubuntu pilot.
@@ -459,7 +459,7 @@ probe.
 | `(ext3, USER)` | Yes | Same tooling. |
 | `(ext3, GROUP)` | Yes | Same tooling. |
 | `(ext2, USER)` | Yes (legacy) | `vfsv0` accounting works on ext2; the modern `quotacheck` flag set still applies. |
-| `(xfs, *)` | No | XFS uses `xfs_quota`; out of scope for the Ubuntu pilot. Callers needing XFS should use `automojo-sysman-linux-redhat`. |
+| `(xfs, *)` | No | XFS uses `xfs_quota`; out of scope for the Ubuntu pilot. Callers needing XFS should use `codecraftai-sysman-linux-redhat`. |
 | `(btrfs, *)` | No | BTRFS quotas use `btrfs qgroup`; out of scope. |
 | `(zfs, *)` | No | ZFS quotas use `zfs set userquota`; out of scope. |
 | `(*, PROJECT)` | No | Project quotas are XFS-only on Linux; out of scope. |
@@ -505,7 +505,7 @@ point.
 | Mount options (`usrquota`, `grpquota`) | `3-filesystem-management` | Coordinator sets mount options there first; this feature assumes they are active. A missing option surfaces as `quotaon` exit-code failure. |
 | Target accounts / groups | `3-user-group-management` | Caller ensures names are valid; this feature does not verify principal existence. |
 | Reporting / auditing | `2-maintenance-reporting` (future) | Out of scope for this pilot; the standard `feature_name = "filesystem-quotas"` hook leaves the door open. |
-| XFS project quotas | `automojo-sysman-linux-redhat` | Canonical reference; not implemented in the Ubuntu pilot. |
+| XFS project quotas | `codecraftai-sysman-linux-redhat` | Canonical reference; not implemented in the Ubuntu pilot. |
 
 ---
 

@@ -3,7 +3,7 @@
 ## Introduction
 
 The remote-log-forwarding feature provides the
-`automojo-sysman-linux-ubuntu` package with the ability to ship
+`codecraftai-sysman-linux-ubuntu` package with the ability to ship
 syslog traffic off-host through `rsyslog` forward drop-ins under
 `/etc/rsyslog.d/`.  It is the cross-OS counterpart to the local
 log-shaping surface owned by `3-log-management` and the
@@ -19,7 +19,7 @@ captured in `tasks.md` as a follow-up.
 
 All system commands (`systemctl restart rsyslog`, `logger`, `tee`,
 `rm`, `mv`, `ls`, `cat`, `test -e`) are dispatched through the
-`automojo-interfaces` `ICommandRunner` abstraction.  Config reads
+`codecraftai-interfaces` `ICommandRunner` abstraction.  Config reads
 and writes route through the runner (`cat`, `tee`).  All mutating
 operations honour dry-run mode and config-driven elevation.
 
@@ -30,7 +30,7 @@ material surfaces.
 
 The reference implementation for shape, idempotency, dry-run, and
 result mapping lives in
-`automojo-sysman-linux-redhat/specs/3-remote-log-forwarding/`.
+`codecraftai-sysman-linux-redhat/specs/3-remote-log-forwarding/`.
 
 ---
 
@@ -47,7 +47,7 @@ remote collector.
 1. WHEN the coordinator calls `add_forwarder(spec)` THE SYSTEM
    SHALL render the canonical rsyslog forward stanza for
    `(host, port, protocol, selector)` and write it to
-   `/etc/rsyslog.d/automojo-fwd-<id>.conf` via `tee` over stdin.
+   `/etc/rsyslog.d/codecraftai-fwd-<id>.conf` via `tee` over stdin.
 2. WHEN `protocol` is `tcp` THE SYSTEM SHALL emit the
    double-`@` action (`<selector> @@<host>:<port>`).
 3. WHEN `protocol` is `udp` THE SYSTEM SHALL emit the single-`@`
@@ -78,7 +78,7 @@ shipping off-host.
 #### Acceptance Criteria
 
 1. WHEN the coordinator calls `remove_forwarder(id)` THE SYSTEM
-   SHALL dispatch `rm /etc/rsyslog.d/automojo-fwd-<id>.conf`
+   SHALL dispatch `rm /etc/rsyslog.d/codecraftai-fwd-<id>.conf`
    through the runner.
 2. WHEN the drop-in is absent THE SYSTEM SHALL return `SKIPPED`
    without invoking `rm`.
@@ -102,7 +102,7 @@ the forwarders this manager owns so that I can audit drift.
    SHALL dispatch `ls -1 /etc/rsyslog.d` through the runner
    without elevation.
 2. WHEN parsing the listing THE SYSTEM SHALL include only files
-   whose basename starts with the `automojo-fwd-` prefix so that
+   whose basename starts with the `codecraftai-fwd-` prefix so that
    third-party drop-ins are not falsely claimed.
 3. WHEN reading each managed drop-in THE SYSTEM SHALL parse
    `host`, `port`, `protocol`, `enabled`, and `selector_or_query`
@@ -121,8 +121,8 @@ and resume an existing forwarder without rewriting its body.
 #### Acceptance Criteria
 
 1. WHEN the coordinator calls `disable_forwarder(id)` THE SYSTEM
-   SHALL `mv /etc/rsyslog.d/automojo-fwd-<id>.conf
-   /etc/rsyslog.d/automojo-fwd-<id>.conf.disabled` so that
+   SHALL `mv /etc/rsyslog.d/codecraftai-fwd-<id>.conf
+   /etc/rsyslog.d/codecraftai-fwd-<id>.conf.disabled` so that
    rsyslog ignores the drop-in on the next restart.
 2. WHEN the coordinator calls `enable_forwarder(id)` THE SYSTEM
    SHALL `mv` the `.disabled` file back to `.conf`.
@@ -145,7 +145,7 @@ configured forwarder can be observed end-to-end on the collector.
 
 1. WHEN the coordinator calls `test_forwarder(id)` THE SYSTEM
    SHALL dispatch
-   `logger -t automojo-test 'forwarder-test-<timestamp>'`
+   `logger -t codecraftai-test 'forwarder-test-<timestamp>'`
    through the runner.
 2. THE SYSTEM SHALL return an `UbuntuForwarderTestResult` with
    `forwarder_id` populated and `test_message_id` set to the

@@ -3,12 +3,12 @@
 ## Introduction
 
 The mail-transport-management feature provides the
-`automojo-sysman-linux-ubuntu` package with the ability to manage the
+`codecraftai-sysman-linux-ubuntu` package with the ability to manage the
 local mail transport agent (MTA) on Ubuntu hosts.  Ubuntu's default
 MTA is **Postfix**, installed by the `postfix` package and exposed
 under systemd as `postfix.service`.  This spec implements the
 mail-transport-management contract defined at
-`automojo-sysman-common/specs/contracts/mail-transport-management/contract.md`
+`codecraftai-sysman-common/specs/contracts/mail-transport-management/contract.md`
 for Ubuntu, scoped to the Postfix daemon exclusively.
 
 A maintenance coordinator running in an external package drives all
@@ -17,7 +17,7 @@ feature does not decide *what* mail policy the server enforces — it
 provides the capability to *apply* policy reliably, idempotently, and
 with full auditability.  All system commands (`postconf`, `postqueue`,
 `mailq`, `newaliases`, `sendmail`, `cat`, `tee`, `systemctl`) are
-executed exclusively through the `automojo-interfaces` command-runner
+executed exclusively through the `codecraftai-interfaces` command-runner
 abstraction.  No `subprocess`, no direct `open`, and no direct
 `pathlib` calls are made inside this module.
 

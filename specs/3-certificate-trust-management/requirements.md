@@ -3,14 +3,14 @@
 ## Introduction
 
 The certificate-trust-management feature provides the
-`automojo-sysman-linux-ubuntu` package with the ability to manage the
+`codecraftai-sysman-linux-ubuntu` package with the ability to manage the
 host's CA trust posture on Ubuntu systems: installing and removing
 trust anchors, listing the current trust set, retrieving structured
 metadata for an individual certificate by SHA-256 fingerprint, and
 refreshing the consolidated trust bundle so changes take effect for
 TLS clients on the host.  This spec implements the
 certificate-trust-management contract defined at
-`automojo-sysman-common/specs/contracts/certificate-trust-management/contract.md`
+`codecraftai-sysman-common/specs/contracts/certificate-trust-management/contract.md`
 for Ubuntu.
 
 A maintenance coordinator drives all operations by calling into this
@@ -19,7 +19,7 @@ posture the host enforces — it provides the capability to *apply*
 posture reliably, idempotently, and with full auditability.  All
 system commands (`update-ca-certificates`, `openssl`, `cat`, `tee`,
 `ls`, `rm`) are executed exclusively through the
-`automojo-interfaces` command-runner abstraction.  No `subprocess`,
+`codecraftai-interfaces` command-runner abstraction.  No `subprocess`,
 no direct `open`, and no direct `pathlib` calls are made inside this
 module.
 
