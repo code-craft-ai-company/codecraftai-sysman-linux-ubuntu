@@ -12,7 +12,8 @@ import json
 from dataclasses import dataclass, field
 from typing import Callable, Optional
 
-from hypothesis import HealthCheck, given, settings, strategies as st
+from ccai.testbase.properties import given
+from ccai.testbase.properties import strategies as st
 
 from ccai.aspects.aspects import Aspects
 from ccai.interfaces.icommandrunner import RunResult
@@ -708,12 +709,8 @@ def _make_stateful_runner(*, pkg: str) -> _MockCommandRunner:
     return runner
 
 
-@settings(
-    max_examples=30,
-    deadline=None,
-    suppress_health_check=[HealthCheck.function_scoped_fixture],
-)
 @given(
+    constraints={"max_examples": 30},
     channel=st.sampled_from(["stable", "unstable"]),
     version=st.one_of(st.none(), st.just("1.62.1"), st.just("1.70.0")),
 )
@@ -733,12 +730,8 @@ def test_property_install_tailscale_idempotent(channel, version):
     return
 
 
-@settings(
-    max_examples=20,
-    deadline=None,
-    suppress_health_check=[HealthCheck.function_scoped_fixture],
-)
 @given(
+    constraints={"max_examples": 20},
     provider=st.sampled_from([VPNProvider.TAILSCALE, VPNProvider.TWINGATE]),
     purge=st.booleans(),
 )
@@ -771,12 +764,8 @@ def test_property_uninstall_idempotent(provider, purge):
     return
 
 
-@settings(
-    max_examples=20,
-    deadline=None,
-    suppress_health_check=[HealthCheck.function_scoped_fixture],
-)
 @given(
+    constraints={"max_examples": 20},
     hostname=st.text(
         alphabet="abcdefghijklmnopqrstuvwxyz0123456789-",
         min_size=1,
@@ -814,12 +803,8 @@ def test_property_bring_up_idempotent_on_matching_state(hostname, exit_node):
     return
 
 
-@settings(
-    max_examples=20,
-    deadline=None,
-    suppress_health_check=[HealthCheck.function_scoped_fixture],
-)
 @given(
+    constraints={"max_examples": 20},
     provider=st.sampled_from([VPNProvider.TAILSCALE, VPNProvider.TWINGATE]),
     purge=st.booleans(),
 )
