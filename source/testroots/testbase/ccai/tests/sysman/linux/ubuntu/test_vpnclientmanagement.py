@@ -27,6 +27,8 @@ from ccai.sysman.linux.ubuntu.vpnclientmanagement import (
     VPNProvider,
 )
 
+from ccai import testbase
+
 
 @dataclass
 class _MockCommandRunner:
@@ -838,9 +840,6 @@ def test_property_dry_run_never_invokes_runner(provider, purge):
 # ----------------------------------------------------------------------
 
 
-import pytest
-
-
 def test_ensure_tailscale_repo_uses_no_shell():
     """
         C1 regression: the keyring step must never dispatch ``bash -c``;
@@ -875,7 +874,7 @@ def test_ensure_tailscale_repo_rejects_metacharacter_channel():
     manager = _make_manager(runner=runner)
 
     malicious = "stable; rm -rf / #"
-    with pytest.raises(ValueError):
+    with testbase.raises(ValueError):
         manager.install_tailscale(
             version=None, channel=malicious, aspects=_ASPECTS,
         )
@@ -898,7 +897,7 @@ def test_ensure_tailscale_repo_rejects_metacharacter_codename():
     )
     manager = UbuntuVPNClientManager(runner=runner, config=config)
 
-    with pytest.raises(ValueError):
+    with testbase.raises(ValueError):
         manager.install_tailscale(
             version=None, channel="stable", aspects=_ASPECTS,
         )
@@ -913,7 +912,7 @@ def test_install_tailscale_rejects_unsafe_version():
     _seed_dpkg_absent(runner=runner, pkg="tailscale")
     manager = _make_manager(runner=runner)
 
-    with pytest.raises(ValueError):
+    with testbase.raises(ValueError):
         manager.install_tailscale(
             version="1.0; reboot", channel="stable", aspects=_ASPECTS,
         )
