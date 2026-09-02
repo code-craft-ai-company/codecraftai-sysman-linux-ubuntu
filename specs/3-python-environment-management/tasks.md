@@ -27,3 +27,11 @@ Checked items (`[x]`) are implemented and covered by tests.
   `user-group-management` / `acl-management`), pending a contract extension
 - [ ] 15. Live-host verification on Ubuntu 22.04 / 24.04 images (stock image
   without `python3-venv`, then with)
+  *Partially done 2026-09-02 on Ubuntu 24.04.4 with `python3-venv` present,
+  unelevated, through the real `UbuntuLocalCommandRunner`: prerequisites
+  probe `SKIPPED` ×3 with no `apt-get` call; fresh `deploy` created the
+  venv, upgraded pip, installed `six==1.16.0` and `packaging>=23`; reads
+  returned 3.12.3 and the three distributions; a second `deploy` was
+  `SKIPPED` throughout; a changed pin dispatched; uninstall / remove and
+  their repeats behaved idempotently.  Still open: the stock image without
+  `python3-venv` (needs an elevated runner or a container host).*
