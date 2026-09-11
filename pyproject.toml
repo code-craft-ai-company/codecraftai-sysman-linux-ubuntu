@@ -1,6 +1,6 @@
 [project]
 name = "codecraftai-sysman-linux-ubuntu"
-version = "1.1.0"
+version = "1.1.1"
 description = "Code Craft AI - System Management Linux Ubuntu"
 readme = "README.rst"
 license = "LicenseRef-CodeCraftAI-Dual-License"

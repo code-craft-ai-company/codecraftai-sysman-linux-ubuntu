@@ -833,7 +833,7 @@ class UbuntuVPNClientManager(VPNClientManagementBase):
         sources_result: RunResult = self._runner.run(
             list(sources_command),
             elevated=run_elevated,
-            stdin=sources_line + os.linesep,
+            stdin=sources_line + "\n",
         )
         if sources_result.exit_code != 0:
             rtnval = UbuntuVPNActionResult(
@@ -939,7 +939,7 @@ class UbuntuVPNClientManager(VPNClientManagementBase):
         sources_result: RunResult = self._runner.run(
             list(sources_command),
             elevated=run_elevated,
-            stdin=sources_line + os.linesep,
+            stdin=sources_line + "\n",
         )
         if sources_result.exit_code != 0:
             rtnval = UbuntuVPNActionResult(
@@ -1136,7 +1136,7 @@ def _render_twingate_conf(*, settings: Dict[str, str]) -> str:
     for key in sorted(settings.keys()):
         value = settings[key]
         lines.append("{key}={value}".format(key=key, value=value))
-    rtnval = os.linesep.join(lines) + os.linesep
+    rtnval = "\n".join(lines) + "\n"
     return rtnval
 
 
