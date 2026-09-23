@@ -687,26 +687,21 @@ class UbuntuPackageManager(BaseFeatureManager):
                       fields are missing.
         """
         fields: dict = {}
-        last_key: Optional[str] = None
 
         for raw_line in stdout.splitlines():
             if len(raw_line) == 0:
-                last_key = None
                 continue
             # Continuation lines begin with whitespace; we keep only the
             # first line of each multi-line value (description, etc.) so the
             # info struct stays simple.
             if raw_line[0] == " " or raw_line[0] == "\t":
-                last_key = None
                 continue
             if ":" not in raw_line:
-                last_key = None
                 continue
             key, _, value = raw_line.partition(":")
             normalised_key = key.strip()
             normalised_value = value.strip()
             fields[normalised_key] = normalised_value
-            last_key = normalised_key
 
         package_name = fields.get("Package", "")
         version_value = fields.get("Version", "")

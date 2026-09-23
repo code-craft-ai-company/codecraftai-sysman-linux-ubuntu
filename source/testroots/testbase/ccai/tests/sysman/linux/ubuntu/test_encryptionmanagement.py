@@ -17,12 +17,10 @@ from ccai import testbase
 from ccai.interfaces.icommandrunner import RunResult
 
 from ccai.sysman.linux.ubuntu.encryptionmanagement import (
-    UbuntuEncryptedVolumeInfo,
     UbuntuEncryptionActionStatus,
     UbuntuEncryptionManager,
     UbuntuEncryptionManagerConfig,
     UbuntuEncryptionSpec,
-    UbuntuEncryptionStatus,
     _DESTRUCTIVE_GUARD_DETAIL,
     _parse_cryptsetup_status,
     _parse_lsblk_crypto_rows,

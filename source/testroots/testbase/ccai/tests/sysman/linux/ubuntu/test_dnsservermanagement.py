@@ -18,7 +18,6 @@ from ccai.sysman.linux.ubuntu.dnsservermanagement import (
     UbuntuDnsActionStatus,
     UbuntuDnsManagerConfig,
     UbuntuDnsQueryError,
-    UbuntuDnsRecordInfo,
     UbuntuDnsRecordSpec,
     UbuntuDnsServerManager,
     UbuntuDnsZoneInfo,

@@ -38,10 +38,6 @@ _SHOW_PROPERTIES = "LoadState,UnitFileState,MainPID,Description"
 _INACTIVE_ACTIVE_STATES = frozenset({"inactive", "failed"})
 _DISABLE_SKIP_STATES = frozenset({"disabled", "masked"})
 
-_INFORMATIONAL_ACTIVE_STATES = frozenset({
-    "active", "inactive", "failed", "activating", "deactivating", "reloading",
-})
-
 _KNOWN_ACTIVE_STATES = frozenset({
     "active", "inactive", "failed", "activating", "deactivating", "reloading",
     "not-found",

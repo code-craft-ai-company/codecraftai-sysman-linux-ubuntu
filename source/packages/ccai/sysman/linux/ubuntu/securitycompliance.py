@@ -38,7 +38,7 @@ import json
 import os
 import time
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Optional
 
 from ccai.sysman.common.featurebase import (

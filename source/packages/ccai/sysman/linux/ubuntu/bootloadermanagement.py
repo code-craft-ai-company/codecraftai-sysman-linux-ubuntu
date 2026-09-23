@@ -86,7 +86,6 @@ _TEE = "tee"
 _RM = "rm"
 _UPDATE_GRUB = "update-grub"
 _GRUB_MKCONFIG = "grub-mkconfig"
-_GRUB_SET_DEFAULT = "grub-set-default"
 _BOOTCTL = "bootctl"
 
 _DEFAULT_GRUB_DEFAULTS = "/etc/default/grub"

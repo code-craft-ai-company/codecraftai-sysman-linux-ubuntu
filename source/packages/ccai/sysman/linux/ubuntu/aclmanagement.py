@@ -69,12 +69,6 @@ from ccai.sysman.common.featurebase import (
 _GETFACL = "getfacl"
 _SETFACL = "setfacl"
 
-# ``getfacl`` flags.  ``--omit-header`` strips the three-line file-info
-# header (``# file:``, ``# owner:``, ``# group:``).  We dispatch a
-# *separate* ``getfacl`` (without ``--omit-header``) when we need owner
-# / group context.
-_GETFACL_OMIT_HEADER = "--omit-header"
-
 # ``setfacl`` flags.  ``-b`` removes all extended ACL entries while
 # preserving the standard owner/group/other entries; ``-m`` modifies
 # (or creates) ACL entries; ``-x`` removes named entries; ``--set-file``

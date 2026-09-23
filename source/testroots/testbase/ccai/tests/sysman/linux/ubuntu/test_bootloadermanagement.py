@@ -15,7 +15,6 @@ from ccai import testbase
 from ccai.interfaces.icommandrunner import RunResult
 
 from ccai.sysman.linux.ubuntu.bootloadermanagement import (
-    UbuntuBootEntryInfo,
     UbuntuBootEntrySpec,
     UbuntuBootloaderActionStatus,
     UbuntuBootloaderBackend,
@@ -182,16 +181,6 @@ linux: /boot/vmlinuz-6.8.0-31-generic
 initrd: /boot/initrd.img-6.8.0-31-generic
 options: single
 """
-
-_BOOTCTL_STATUS_SAMPLE = """\
-System:
-     Firmware: UEFI 2.70 (American Megatrends)
-  Secure Boot: enabled
-   Setup Mode: user
-
-Default Boot Loader Entry: ubuntu-6.8.0-31.conf
-"""
-
 
 # ----------------------------------------------------------------------
 # list_entries

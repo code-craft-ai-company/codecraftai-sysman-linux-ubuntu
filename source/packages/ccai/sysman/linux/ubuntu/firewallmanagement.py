@@ -49,7 +49,6 @@ _DEFAULT_ZONE = "default"
 
 _VALID_ACTION_VERBS = frozenset({"allow", "deny", "reject", "limit"})
 
-_PORT_PATTERN = re.compile(r"^\d+/(?:tcp|udp)(?:\s*\(v6\))?$")
 _NUMERIC_PORT_PATTERN = re.compile(r"^\d+(?:/(?:tcp|udp))?(?:\s*\(v6\))?$")
 
 

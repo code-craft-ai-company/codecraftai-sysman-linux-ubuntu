@@ -15,12 +15,10 @@ from ccai.interfaces.icommandrunner import RunResult
 
 from ccai.sysman.linux.ubuntu.servicemanagement import (
     UbuntuServiceActionStatus,
-    UbuntuServiceInfo,
     UbuntuServiceManager,
     UbuntuServiceManagerConfig,
     UbuntuServiceQueryError,
     UbuntuServiceScope,
-    UbuntuServiceStatus,
 )
 
 

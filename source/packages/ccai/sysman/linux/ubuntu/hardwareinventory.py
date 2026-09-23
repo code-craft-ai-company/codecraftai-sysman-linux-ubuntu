@@ -36,7 +36,6 @@ from typing import Optional
 from ccai.interfaces.icommandrunner import RunResult
 
 from ccai.sysman.common.featurebase import (
-    ActionStatus,
     BaseFeatureManager,
     FeatureConfig,
 )

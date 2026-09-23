@@ -16,19 +16,12 @@ from ccai.interfaces.icommandrunner import RunResult
 
 from ccai.sysman.linux.ubuntu.resourcecontrolmanagement import (
     UbuntuIoLimitSpec,
-    UbuntuResourceControlActionResult,
     UbuntuResourceControlActionStatus,
     UbuntuResourceControlManager,
     UbuntuResourceControlManagerConfig,
     UbuntuResourceControlQueryError,
-    UbuntuResourceGroupInfo,
     UbuntuResourceGroupSpec,
-    UbuntuResourceGroupUsage,
     _parse_cpu_quota,
-    _parse_cpu_stat,
-    _parse_io_stat,
-    _parse_memory_current,
-    _parse_memory_max,
     _parse_show_output,
     _render_slice_body,
 )

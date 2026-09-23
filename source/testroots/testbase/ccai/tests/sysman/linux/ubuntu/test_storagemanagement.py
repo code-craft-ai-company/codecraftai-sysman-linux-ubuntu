@@ -17,17 +17,12 @@ from ccai import testbase
 from ccai.interfaces.icommandrunner import RunResult
 
 from ccai.sysman.linux.ubuntu.storagemanagement import (
-    UbuntuDiskInfo,
     UbuntuPoolSpec,
     UbuntuStorageActionStatus,
     UbuntuStorageManager,
     UbuntuStorageManagerConfig,
-    UbuntuVolumeInfo,
     UbuntuVolumeSpec,
-    _parse_lsblk_disks,
-    _parse_lsblk_partitions,
     _parse_lvm_size,
-    _parse_lvs_output,
     _pv_disks_from_output,
     _pv_in_vg,
     _split_volume_id,

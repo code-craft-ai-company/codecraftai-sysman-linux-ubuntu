@@ -23,7 +23,6 @@ from ccai.sysman.linux.ubuntu.vpnclientmanagement import (
     UbuntuVPNClientManager,
     UbuntuVPNClientManagerConfig,
     UbuntuVPNClientQueryError,
-    UbuntuVPNClientStatus,
     VPNProvider,
 )
 
@@ -87,14 +86,6 @@ class _MockCommandRunner:
 
 
 _ASPECTS = Aspects()
-
-
-_DPKG_TAILSCALE = (
-    "dpkg-query", "-W", "-f=${Status} ${Version}", "tailscale",
-)
-_DPKG_TWINGATE = (
-    "dpkg-query", "-W", "-f=${Status} ${Version}", "twingate-connector",
-)
 
 
 def _seed_dpkg_absent(runner: _MockCommandRunner, *, pkg: str) -> None:
@@ -740,8 +731,11 @@ def test_property_install_tailscale_idempotent(channel, version):
 def test_property_uninstall_idempotent(provider, purge):
     pkg = "tailscale" if provider == VPNProvider.TAILSCALE else "twingate-connector"
     runner = _make_stateful_runner(pkg=pkg)
+    # Ensure the resolver-ref is present before seeding.
+    if runner.result_resolver is None:
+        errmsg = "The stateful runner was created without a 'result_resolver'."
+        raise AssertionError(errmsg)
     # Seed the package as installed.
-    runner.result_resolver  # ensure resolver-ref present
     # Drive the resolver into the installed=True state by issuing an
     # install through the API (so subsequent uninstall has work to do).
     manager = _make_manager(runner=runner)

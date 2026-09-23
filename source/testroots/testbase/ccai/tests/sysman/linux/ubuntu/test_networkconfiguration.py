@@ -18,12 +18,10 @@ from ccai import testbase
 from ccai.interfaces.icommandrunner import RunResult
 
 from ccai.sysman.linux.ubuntu.networkconfiguration import (
-    UbuntuInterfaceInfo,
     UbuntuNetworkActionStatus,
     UbuntuNetworkConfigurationManager,
     UbuntuNetworkConfigurationManagerConfig,
     UbuntuNetworkQueryError,
-    UbuntuRouteInfo,
 )
 
 

@@ -20,7 +20,6 @@ from ccai.sysman.linux.ubuntu.scheduledtasks import (
     UbuntuScheduledTaskQueryError,
     UbuntuScheduledTasksManager,
     UbuntuScheduledTasksManagerConfig,
-    UbuntuTaskInfo,
     UbuntuTaskOwner,
     UbuntuTaskSpec,
 )

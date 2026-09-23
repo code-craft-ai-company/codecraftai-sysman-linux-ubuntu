@@ -78,7 +78,6 @@ _VGREDUCE = "vgreduce"
 _VGREMOVE = "vgremove"
 _PVCREATE = "pvcreate"
 _PVREMOVE = "pvremove"
-_BLKID = "blkid"
 
 
 # Tolerance, in bytes, used by :meth:`UbuntuStorageManager.resize_volume`

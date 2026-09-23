@@ -16,12 +16,9 @@ from ccai.interfaces.icommandrunner import RunResult
 
 from ccai.sysman.linux.ubuntu.auditmanagement import (
     UbuntuAuditActionStatus,
-    UbuntuAuditEvent,
     UbuntuAuditEventQuery,
     UbuntuAuditManager,
     UbuntuAuditManagerConfig,
-    UbuntuAuditQueryError,
-    UbuntuAuditRuleInfo,
     UbuntuAuditRuleSpec,
     UbuntuAuditStatus,
     _parse_auditctl_list,

@@ -113,7 +113,6 @@ from ccai.sysman.common.featurebase import (
 _CAT = "cat"
 _TEE = "tee"
 _LS = "ls"
-_CMP = "cmp"
 _OPENSSL = "openssl"
 _CERTBOT = "certbot"
 
@@ -1481,7 +1480,10 @@ def _parse_openssl_x509_text(*, stdout: str) -> dict:
                 try:
                     parsed_length = int("".join(digits))
                     rtnval["key_length"] = parsed_length
-                except (ValueError, Exception):
+                except ValueError:
+                    # Unicode digit characters (e.g. superscripts) pass
+                    # isdigit() but not int(); the key length is optional
+                    # metadata, so leave it unset rather than fail the parse.
                     pass
             continue
 

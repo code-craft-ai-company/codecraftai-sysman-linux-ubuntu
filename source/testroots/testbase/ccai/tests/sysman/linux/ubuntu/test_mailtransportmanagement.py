@@ -19,11 +19,9 @@ from ccai.interfaces.icommandrunner import RunResult
 from ccai.sysman.linux.ubuntu.mailtransportmanagement import (
     UbuntuMailTransportManager,
     UbuntuMtaActionStatus,
-    UbuntuMtaAliasInfo,
     UbuntuMtaConfig,
     UbuntuMtaManagerConfig,
     UbuntuMtaQueryError,
-    UbuntuMtaQueueStatus,
     _parse_aliases_file,
     _parse_mailq_output,
     _parse_postconf_n_output,
