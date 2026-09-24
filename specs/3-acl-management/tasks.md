@@ -7,7 +7,7 @@
 - [x] Module docstring covering the verb catalogue, file-I/O policy,
       elevation policy, and idempotency policy.
 - [x] Module-level binary / flag constants (`_GETFACL`, `_SETFACL`,
-      `_GETFACL_OMIT_HEADER`, `_SETFACL_REMOVE_ALL`,
+      `_SETFACL_REMOVE_ALL`,
       `_SETFACL_MODIFY`, `_SETFACL_REMOVE`,
       `_SETFACL_SET_FILE`).
 - [x] Alias `UbuntuAclActionStatus` to the package-shared

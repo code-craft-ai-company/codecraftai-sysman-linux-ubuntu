@@ -15,7 +15,7 @@ feature's public interfaces.  The feature does not decide *which*
 certificates the host should hold — it provides the capability to
 *apply* a declared issuance posture reliably, idempotently, and with
 full auditability.  All system commands (`certbot`, `openssl`, `cat`,
-`tee`, `ls`, `cmp`) are executed exclusively through the
+`tee`, `ls`) are executed exclusively through the
 `codecraftai-interfaces` command-runner abstraction.  No `subprocess`,
 no direct `open`, and no direct `pathlib` calls are made inside this
 module.

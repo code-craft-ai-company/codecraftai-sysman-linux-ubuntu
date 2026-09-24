@@ -74,7 +74,8 @@ Unchecked items (`[ ]`) identify out-of-scope or follow-up work.
 
 - [x] 16. Implement `export_certificate(alias, path,
   include_private_key=False)`:
-  - Idempotency: `cmp -s` between source and destination.
+  - Idempotency: read the destination and compare it with the content
+    to write.
   - Concatenates key+cert when `include_private_key=True`.
   - `tee <dest>` write with bytes on stdin.
   - Dry-run + elevation honoured.

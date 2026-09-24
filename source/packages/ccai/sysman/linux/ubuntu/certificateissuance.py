@@ -74,8 +74,9 @@
           source PEM's SHA-256 fingerprint matches the already-stored
           certificate under the alias.
         - :meth:`export_certificate` returns ``SKIPPED`` when the
-          destination path's bytes already match what would be
-          written, compared via ``cmp -s``.
+          destination path's contents already match what would be
+          written; the destination is read with ``cat`` and compared
+          in-process.
 
     Elevation policy:
         Mutating verbs honour ``config.elevated`` and pass it

@@ -8,8 +8,8 @@
     ``subprocess`` and never touches the filesystem directly.
 
     Verb catalogue:
-        * ``get_acl(path)`` -> ``getfacl --omit-header <path>`` parsed
-          into a :class:`UbuntuAclInfo`.
+        * ``get_acl(path)`` -> ``getfacl <path>`` parsed into a
+          :class:`UbuntuAclInfo`; the header supplies the owner and group.
         * ``set_acl(path, acl_spec)`` -> ``setfacl -b <path>`` followed
           by ``setfacl -m <entries> <path>`` (replaces full ACL).
         * ``add_ace(path, principal, rights)`` -> ``setfacl -m

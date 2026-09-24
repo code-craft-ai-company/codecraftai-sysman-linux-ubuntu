@@ -18,7 +18,7 @@ for Ubuntu using two interchangeable backends:
 All system interaction is delegated to a command runner implementing
 the `ICommandRunner` interface.  No direct filesystem access or
 `subprocess` calls are made inside the module — file I/O routes
-through the runner via `cat` / `tee` / `ls` / `cmp`, and certificate
+through the runner via `cat` / `tee` / `ls`, and certificate
 metadata routes through `openssl x509 -text` invoked by the runner.
 
 The feature works identically whether commands execute locally (via
@@ -354,7 +354,7 @@ class RunResult:
 | Read source | `cat <path>` |
 | Enumerate dir | `ls -1 <dir>` |
 | Write | `tee <dest>` (content on stdin) |
-| Compare | `cmp -s <src> <dest>` |
+| Compare | `cat <dest>`, compared in-process with the content to write |
 
 ---
 
@@ -381,8 +381,8 @@ Before importing, the manager fingerprints the source PEM and
 compares against the pre-existing alias-to-fingerprint mapping.
 Match -> `SKIPPED`.
 
-Before exporting, the manager runs `cmp -s` between the source and
-destination paths.  Match -> `SKIPPED`.
+Before exporting, the manager reads the destination path and compares it
+with the content it would write.  Match -> `SKIPPED`.
 
 ---
 
