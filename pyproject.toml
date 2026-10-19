@@ -3,7 +3,7 @@ name = "codecraftai-sysman-linux-ubuntu"
 version = "1.2.0"
 description = "Code Craft AI - System Management Linux Ubuntu"
 readme = "README.rst"
-license = "LicenseRef-CodeCraftAI-Dual-License"
+license = "LicenseRef-CodeCraftAI-Source-Available"
 authors = [{name = "Myron Walker", email = "myron.walker@gmail.com"}]
 keywords = [
     "python"
